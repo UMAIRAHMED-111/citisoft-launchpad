@@ -5,49 +5,48 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 /* Citisoft Solutions Design System
-   Theme: White Primary, Black Secondary, Blue Gradient Accents
-   Light Blue: #288bcb | Medium Blue: #2972b9 | Dark Blue: #2b64af
+   Dark Enterprise Theme inspired by Systems Ltd
+   Primary: Blue Gradient | Background: Dark | Text: White
 */
 
 @layer base {
   :root {
-    /* Core Colors */
-    --background: 0 0% 100%;
-    --foreground: 220 15% 10%;
+    /* Dark Theme - Default */
+    --background: 220 20% 7%;
+    --foreground: 0 0% 98%;
     
-    /* Card & Surface */
-    --card: 0 0% 100%;
-    --card-foreground: 220 15% 10%;
+    --card: 220 20% 10%;
+    --card-foreground: 0 0% 98%;
     
-    --popover: 0 0% 100%;
-    --popover-foreground: 220 15% 10%;
+    --popover: 220 20% 10%;
+    --popover-foreground: 0 0% 98%;
     
     /* Primary Blue Palette */
     --primary: 202 68% 48%;
     --primary-foreground: 0 0% 100%;
     
     /* Secondary */
-    --secondary: 210 20% 96%;
-    --secondary-foreground: 220 15% 10%;
+    --secondary: 220 15% 15%;
+    --secondary-foreground: 0 0% 98%;
     
     /* Muted */
-    --muted: 210 20% 96%;
-    --muted-foreground: 220 10% 45%;
+    --muted: 220 15% 18%;
+    --muted-foreground: 220 10% 60%;
     
-    /* Accent - Light Blue */
-    --accent: 202 68% 95%;
-    --accent-foreground: 211 62% 43%;
+    /* Accent */
+    --accent: 202 68% 20%;
+    --accent-foreground: 202 68% 70%;
     
     /* Destructive */
-    --destructive: 0 84% 60%;
+    --destructive: 0 62% 40%;
     --destructive-foreground: 0 0% 100%;
     
     /* Borders & Inputs */
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
+    --border: 220 15% 20%;
+    --input: 220 15% 20%;
     --ring: 202 68% 48%;
     
-    --radius: 0.75rem;
+    --radius: 0.5rem;
     
     /* Citisoft Blue Gradient Colors (HSL) */
     --citisoft-light: 202 68% 48%;
@@ -55,45 +54,6 @@
     --citisoft-dark: 211 62% 43%;
     
     /* Sidebar */
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 220 15% 25%;
-    --sidebar-primary: 202 68% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 210 20% 96%;
-    --sidebar-accent-foreground: 220 15% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 202 68% 48%;
-  }
-
-  .dark {
-    --background: 220 20% 6%;
-    --foreground: 0 0% 98%;
-    
-    --card: 220 20% 8%;
-    --card-foreground: 0 0% 98%;
-    
-    --popover: 220 20% 8%;
-    --popover-foreground: 0 0% 98%;
-    
-    --primary: 202 68% 52%;
-    --primary-foreground: 0 0% 100%;
-    
-    --secondary: 220 15% 15%;
-    --secondary-foreground: 0 0% 98%;
-    
-    --muted: 220 15% 15%;
-    --muted-foreground: 220 10% 60%;
-    
-    --accent: 211 62% 20%;
-    --accent-foreground: 202 68% 70%;
-    
-    --destructive: 0 62% 40%;
-    --destructive-foreground: 0 0% 100%;
-    
-    --border: 220 15% 18%;
-    --input: 220 15% 18%;
-    --ring: 202 68% 52%;
-    
     --sidebar-background: 220 20% 8%;
     --sidebar-foreground: 0 0% 90%;
     --sidebar-primary: 202 68% 52%;
@@ -102,6 +62,37 @@
     --sidebar-accent-foreground: 0 0% 98%;
     --sidebar-border: 220 15% 18%;
     --sidebar-ring: 202 68% 52%;
+  }
+
+  /* Light mode override if needed */
+  .light {
+    --background: 0 0% 100%;
+    --foreground: 220 15% 10%;
+    
+    --card: 0 0% 100%;
+    --card-foreground: 220 15% 10%;
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 15% 10%;
+    
+    --primary: 202 68% 48%;
+    --primary-foreground: 0 0% 100%;
+    
+    --secondary: 210 20% 96%;
+    --secondary-foreground: 220 15% 10%;
+    
+    --muted: 210 20% 96%;
+    --muted-foreground: 220 10% 45%;
+    
+    --accent: 202 68% 95%;
+    --accent-foreground: 211 62% 43%;
+    
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 202 68% 48%;
   }
 }
 
@@ -134,12 +125,23 @@
   
   /* Subtle gradient for cards on hover */
   .bg-gradient-citisoft-subtle {
-    background: linear-gradient(135deg, hsl(var(--citisoft-light) / 0.05), hsl(var(--citisoft-dark) / 0.1));
+    background: linear-gradient(135deg, hsl(var(--citisoft-light) / 0.08), hsl(var(--citisoft-dark) / 0.15));
   }
   
-  /* Hero gradient overlay */
-  .bg-hero-gradient {
-    background: radial-gradient(ellipse 80% 50% at 50% -20%, hsl(var(--citisoft-light) / 0.15), transparent);
+  /* Hero overlay for text readability */
+  .bg-hero-overlay {
+    background: linear-gradient(
+      to right,
+      hsl(var(--background) / 0.9) 0%,
+      hsl(var(--background) / 0.7) 40%,
+      hsl(var(--background) / 0.3) 70%,
+      transparent 100%
+    );
+  }
+  
+  /* Bottom gradient for hero */
+  .bg-hero-bottom {
+    background: linear-gradient(to top, hsl(var(--background)) 0%, transparent 100%);
   }
   
   /* Animated gradient shimmer */
@@ -165,17 +167,57 @@
   
   /* Fade in up animation */
   .animate-fade-in-up {
-    animation: fade-in-up 0.6s ease-out forwards;
+    animation: fade-in-up 0.8s ease-out forwards;
+    opacity: 0;
   }
   
   @keyframes fade-in-up {
     from {
       opacity: 0;
-      transform: translateY(20px);
+      transform: translateY(30px);
     }
     to {
       opacity: 1;
       transform: translateY(0);
     }
+  }
+  
+  /* Fade in animation */
+  .animate-fade-in {
+    animation: fade-in 1s ease-out forwards;
+    opacity: 0;
+  }
+  
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  /* Slide in from left */
+  .animate-slide-in-left {
+    animation: slide-in-left 0.8s ease-out forwards;
+    opacity: 0;
+  }
+  
+  @keyframes slide-in-left {
+    from {
+      opacity: 0;
+      transform: translateX(-50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  /* Glow effect for buttons */
+  .glow-blue {
+    box-shadow: 0 0 20px hsl(var(--citisoft-light) / 0.3),
+                0 0 40px hsl(var(--citisoft-light) / 0.1);
+  }
+  
+  .glow-blue-hover:hover {
+    box-shadow: 0 0 30px hsl(var(--citisoft-light) / 0.4),
+                0 0 60px hsl(var(--citisoft-light) / 0.2);
   }
 }
