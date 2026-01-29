@@ -8,13 +8,13 @@ const stats = [
 
 const About = () => {
   return (
-    <section id="about" className="py-24 lg:py-32 bg-background">
+    <section id="about" className="py-24 lg:py-32 bg-card">
       <div className="container mx-auto px-6 lg:px-12">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           {/* Content */}
           <div>
             <p className="text-primary font-medium uppercase tracking-wider mb-4">About Us</p>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light mb-8 leading-tight">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-foreground mb-8 leading-tight">
               A technology partner that{" "}
               <span className="text-gradient font-normal">understands business</span>
             </h2>
@@ -42,8 +42,8 @@ const About = () => {
 
           {/* Stats Card */}
           <div className="relative">
-            <div className="bg-gradient-citisoft p-[1px] rounded-2xl">
-              <div className="bg-card rounded-2xl p-10 lg:p-14">
+            <div className="bg-gradient-citisoft p-[1px] rounded-2xl card-shadow">
+              <div className="bg-white rounded-2xl p-10 lg:p-14">
                 <div className="space-y-10">
                   {stats.map((stat, index) => (
                     <div key={stat.label}>
@@ -62,9 +62,9 @@ const About = () => {
               </div>
             </div>
 
-            {/* Decorative glow */}
-            <div className="absolute -top-8 -right-8 w-40 h-40 bg-gradient-citisoft opacity-20 rounded-full blur-3xl" />
-            <div className="absolute -bottom-8 -left-8 w-48 h-48 bg-gradient-citisoft opacity-10 rounded-full blur-3xl" />
+            {/* Decorative glow - subtle for light theme */}
+            <div className="absolute -top-8 -right-8 w-40 h-40 bg-gradient-citisoft opacity-10 rounded-full blur-3xl" />
+            <div className="absolute -bottom-8 -left-8 w-48 h-48 bg-gradient-citisoft opacity-5 rounded-full blur-3xl" />
           </div>
         </div>
       </div>

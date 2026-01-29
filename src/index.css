@@ -5,45 +5,45 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 /* Citisoft Solutions Design System
-   Dark Enterprise Theme inspired by Systems Ltd
-   Primary: Blue Gradient | Background: Dark | Text: White
+   Light Enterprise Theme with Dark Accents
+   Primary: Blue Gradient | Background: White | Text: Dark
 */
 
 @layer base {
   :root {
-    /* Dark Theme - Default */
-    --background: 220 20% 7%;
-    --foreground: 0 0% 98%;
+    /* Light Theme - Default */
+    --background: 0 0% 100%;
+    --foreground: 220 20% 15%;
     
-    --card: 220 20% 10%;
-    --card-foreground: 0 0% 98%;
+    --card: 210 20% 98%;
+    --card-foreground: 220 20% 15%;
     
-    --popover: 220 20% 10%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 20% 15%;
     
     /* Primary Blue Palette */
     --primary: 202 68% 48%;
     --primary-foreground: 0 0% 100%;
     
-    /* Secondary */
-    --secondary: 220 15% 15%;
-    --secondary-foreground: 0 0% 98%;
+    /* Secondary - Light gray for subtle backgrounds */
+    --secondary: 210 20% 96%;
+    --secondary-foreground: 220 20% 15%;
     
     /* Muted */
-    --muted: 220 15% 18%;
-    --muted-foreground: 220 10% 60%;
+    --muted: 210 20% 96%;
+    --muted-foreground: 220 10% 45%;
     
     /* Accent */
-    --accent: 202 68% 20%;
-    --accent-foreground: 202 68% 70%;
+    --accent: 202 68% 95%;
+    --accent-foreground: 211 62% 35%;
     
     /* Destructive */
-    --destructive: 0 62% 40%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
     
     /* Borders & Inputs */
-    --border: 220 15% 20%;
-    --input: 220 15% 20%;
+    --border: 220 13% 90%;
+    --input: 220 13% 90%;
     --ring: 202 68% 48%;
     
     --radius: 0.5rem;
@@ -51,48 +51,24 @@
     /* Citisoft Blue Gradient Colors (HSL) */
     --citisoft-light: 202 68% 48%;
     --citisoft-medium: 208 62% 45%;
-    --citisoft-dark: 211 62% 43%;
+    --citisoft-dark: 211 62% 38%;
+    
+    /* Dark Section Variables */
+    --dark-bg: 220 20% 10%;
+    --dark-card: 220 20% 14%;
+    --dark-foreground: 0 0% 98%;
+    --dark-muted: 220 10% 60%;
+    --dark-border: 220 15% 22%;
     
     /* Sidebar */
-    --sidebar-background: 220 20% 8%;
-    --sidebar-foreground: 0 0% 90%;
-    --sidebar-primary: 202 68% 52%;
+    --sidebar-background: 210 20% 98%;
+    --sidebar-foreground: 220 20% 15%;
+    --sidebar-primary: 202 68% 48%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 15% 15%;
-    --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 220 15% 18%;
-    --sidebar-ring: 202 68% 52%;
-  }
-
-  /* Light mode override if needed */
-  .light {
-    --background: 0 0% 100%;
-    --foreground: 220 15% 10%;
-    
-    --card: 0 0% 100%;
-    --card-foreground: 220 15% 10%;
-    
-    --popover: 0 0% 100%;
-    --popover-foreground: 220 15% 10%;
-    
-    --primary: 202 68% 48%;
-    --primary-foreground: 0 0% 100%;
-    
-    --secondary: 210 20% 96%;
-    --secondary-foreground: 220 15% 10%;
-    
-    --muted: 210 20% 96%;
-    --muted-foreground: 220 10% 45%;
-    
-    --accent: 202 68% 95%;
-    --accent-foreground: 211 62% 43%;
-    
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-    
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 202 68% 48%;
+    --sidebar-accent: 210 20% 94%;
+    --sidebar-accent-foreground: 220 20% 15%;
+    --sidebar-border: 220 13% 90%;
+    --sidebar-ring: 202 68% 48%;
   }
 }
 
@@ -123,25 +99,58 @@
     background: linear-gradient(135deg, hsl(var(--citisoft-light)), hsl(var(--citisoft-dark)));
   }
   
-  /* Subtle gradient for cards on hover */
+  /* Subtle gradient for cards on hover - adjusted for light theme */
   .bg-gradient-citisoft-subtle {
-    background: linear-gradient(135deg, hsl(var(--citisoft-light) / 0.08), hsl(var(--citisoft-dark) / 0.15));
+    background: linear-gradient(135deg, hsl(var(--citisoft-light) / 0.06), hsl(var(--citisoft-dark) / 0.1));
   }
   
-  /* Hero overlay for text readability */
+  /* Dark Section Utility - for sections that stay dark */
+  .section-dark {
+    background: hsl(var(--dark-bg));
+    color: hsl(var(--dark-foreground));
+  }
+  
+  .section-dark .text-foreground {
+    color: hsl(var(--dark-foreground));
+  }
+  
+  .section-dark .text-muted-foreground {
+    color: hsl(var(--dark-muted));
+  }
+  
+  .section-dark .bg-card {
+    background: hsl(var(--dark-card));
+  }
+  
+  .section-dark .border-border {
+    border-color: hsl(var(--dark-border));
+  }
+  
+  /* Hero overlay for text readability - optimized for dark hero */
   .bg-hero-overlay {
     background: linear-gradient(
       to right,
-      hsl(var(--background) / 0.9) 0%,
-      hsl(var(--background) / 0.7) 40%,
-      hsl(var(--background) / 0.3) 70%,
+      hsl(var(--dark-bg) / 0.92) 0%,
+      hsl(var(--dark-bg) / 0.75) 40%,
+      hsl(var(--dark-bg) / 0.4) 70%,
       transparent 100%
     );
   }
   
-  /* Bottom gradient for hero */
+  /* Bottom gradient for hero - transitions to white background */
   .bg-hero-bottom {
     background: linear-gradient(to top, hsl(var(--background)) 0%, transparent 100%);
+  }
+  
+  /* Light section card shadow */
+  .card-shadow {
+    box-shadow: 0 1px 3px hsl(220 20% 15% / 0.06), 
+                0 4px 12px hsl(220 20% 15% / 0.04);
+  }
+  
+  .card-shadow-hover:hover {
+    box-shadow: 0 4px 12px hsl(220 20% 15% / 0.1), 
+                0 8px 24px hsl(220 20% 15% / 0.06);
   }
   
   /* Animated gradient shimmer */
@@ -210,14 +219,14 @@
     }
   }
   
-  /* Glow effect for buttons */
+  /* Glow effect for buttons - subtle for light theme */
   .glow-blue {
-    box-shadow: 0 0 20px hsl(var(--citisoft-light) / 0.3),
-                0 0 40px hsl(var(--citisoft-light) / 0.1);
+    box-shadow: 0 0 15px hsl(var(--citisoft-light) / 0.25),
+                0 0 30px hsl(var(--citisoft-light) / 0.1);
   }
   
   .glow-blue-hover:hover {
-    box-shadow: 0 0 30px hsl(var(--citisoft-light) / 0.4),
-                0 0 60px hsl(var(--citisoft-light) / 0.2);
+    box-shadow: 0 0 20px hsl(var(--citisoft-light) / 0.35),
+                0 0 40px hsl(var(--citisoft-light) / 0.15);
   }
 }

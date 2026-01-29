@@ -26,7 +26,7 @@ const Navbar = () => {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled
-          ? "bg-background/95 backdrop-blur-md border-b border-border/50"
+          ? "bg-white/95 backdrop-blur-md border-b border-border/50 shadow-sm"
           : "bg-transparent"
       }`}
     >
@@ -47,7 +47,7 @@ const Navbar = () => {
               <a
                 key={link.href}
                 href={link.href}
-                className="group flex items-center gap-1 text-sm font-medium text-foreground/80 hover:text-foreground transition-colors"
+                className="group flex items-center gap-1 text-sm font-medium text-[hsl(220_15%_35%)] hover:text-primary transition-colors"
               >
                 {link.label}
                 {link.hasDropdown && (
@@ -59,7 +59,7 @@ const Navbar = () => {
 
           {/* Right Side */}
           <div className="hidden lg:flex items-center gap-6">
-            <Button variant="hero-outline" size="default">
+            <Button variant="outline" size="default">
               Get in Touch
             </Button>
           </div>
@@ -76,19 +76,19 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden py-6 border-t border-border/30 bg-background/98 backdrop-blur-md">
+          <div className="lg:hidden py-6 border-t border-border/30 bg-white/98 backdrop-blur-md rounded-b-xl">
             <div className="flex flex-col gap-4">
               {navLinks.map((link) => (
                 <a
                   key={link.href}
                   href={link.href}
-                  className="text-base font-medium text-foreground/80 hover:text-foreground transition-colors py-2"
+                  className="text-base font-medium text-[hsl(220_15%_35%)] hover:text-primary transition-colors py-2"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {link.label}
                 </a>
               ))}
-              <Button variant="hero-outline" size="default" className="mt-4 w-fit">
+              <Button variant="outline" size="default" className="mt-4 w-fit">
                 Get in Touch
               </Button>
             </div>
