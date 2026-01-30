@@ -78,7 +78,7 @@ const Hero = () => {
               {heroSlides[currentSlide].title.map((word, i) => (
                 <h1
                   key={`${currentSlide}-${i}`}
-                  className="text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[7rem] font-light text-white leading-[1.05] tracking-tight"
+                  className="text-5xl xs:text-6xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[7rem] font-medium sm:font-light text-white leading-[1.05] tracking-tight"
                   style={{
                     animation: `slideInUp 0.6s ease-out ${i * 0.1}s both`,
                   }}
