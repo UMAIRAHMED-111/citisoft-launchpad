@@ -4,6 +4,13 @@ import { useLocation } from "react-router-dom";
 const ScrollToTop = () => {
   const { pathname, hash } = useLocation();
 
+  // Disable browser's native scroll restoration
+  useEffect(() => {
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+  }, []);
+
   useEffect(() => {
     // If there's a hash, scroll to that element
     if (hash) {
