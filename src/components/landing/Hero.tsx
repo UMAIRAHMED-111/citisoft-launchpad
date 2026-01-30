@@ -3,13 +3,13 @@ import { Button } from "@/components/ui/button";
 
 const heroSlides = [
   {
-    title: ["We", "reimagine", "tomorrow"],
+    title: ["We", "reimagine", "tomorrow."],
     subtitle: "Driving growth and molding the future through transformative change.",
     video: "https://assets.mixkit.co/videos/30454/30454-720.mp4",
     poster: "https://assets.mixkit.co/videos/30454/30454-thumb-720-0.jpg",
   },
   {
-    title: ["Software", "that", "scales"],
+    title: ["Software", "that", "scales."],
     subtitle: "Custom solutions, AI-driven automation, and data that powers decisions.",
     video: "https://assets.mixkit.co/videos/28599/28599-720.mp4",
     poster: "https://assets.mixkit.co/videos/28599/28599-thumb-720-0.jpg",
