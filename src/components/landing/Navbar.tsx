@@ -1,101 +1,179 @@
 import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import citisoftLogo from "@/assets/citisoft-logo.png";
 
+const navLinks = [
+  { hash: "services", label: "Services" },
+  { hash: "products", label: "Products" },
+  { hash: "contact", label: "Contact" },
+];
+
 const Navbar = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
+  const { pathname } = useLocation();
+  const [scrollY, setScrollY] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  
+  const isHome = pathname === "/";
+  const isDetailPage = pathname.startsWith("/services/") || pathname.startsWith("/products/");
+  
+  // Pages that have a dark hero section
+  const hasDarkHero = isHome || isDetailPage;
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setScrollY(window.scrollY);
     };
+    
+    // Set initial value
+    setScrollY(window.scrollY);
+    
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const navLinks = [
-    { href: "#services", label: "Services", hasDropdown: true },
-    { href: "#about", label: "About", hasDropdown: true },
-    { href: "#insights", label: "Insights", hasDropdown: false },
-    { href: "#contact", label: "Contact", hasDropdown: false },
-  ];
+  // Reset scroll tracking on route change
+  useEffect(() => {
+    setScrollY(window.scrollY);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (isMobileMenuOpen) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMobileMenuOpen]);
+
+  // Show white navbar when scrolled, or transparent with white text at top of dark hero pages
+  const showWhiteNavbar = scrollY > 10 || !hasDarkHero;
+  const linkTo = (hash: string) => (isHome ? `#${hash}` : `/#${hash}`);
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled
-          ? "bg-white/95 backdrop-blur-md border-b border-border/50 shadow-sm"
-          : "bg-transparent"
-      }`}
+    <header
+      style={{
+        backgroundColor: showWhiteNavbar ? 'rgba(255, 255, 255, 0.98)' : 'transparent',
+        borderBottom: showWhiteNavbar ? '1px solid rgba(0, 0, 0, 0.1)' : 'none',
+        boxShadow: showWhiteNavbar ? '0 1px 3px rgba(0, 0, 0, 0.05)' : 'none',
+      }}
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
     >
-      <div className="container mx-auto px-6 lg:px-12">
-        <div className="flex items-center justify-between h-20">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="flex items-center justify-between h-16 lg:h-[4.25rem]">
           {/* Logo */}
-          <a href="#" className="flex items-center">
+          <Link to="/" className="flex items-center shrink-0" aria-label="Citisoft Solutions home">
             <img
               src={citisoftLogo}
               alt="Citisoft Solutions"
-              className="h-10 w-auto"
+              className="h-8 w-auto lg:h-9 transition-all duration-300"
+              style={{
+                filter: showWhiteNavbar ? 'none' : 'brightness(0) invert(1)',
+              }}
             />
-          </a>
+          </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-10">
+          {/* Desktop nav */}
+          <nav className="hidden lg:flex items-center gap-8 xl:gap-10">
             {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="group flex items-center gap-1 text-sm font-medium text-[hsl(220_15%_35%)] hover:text-primary transition-colors"
+              <Link
+                key={link.hash}
+                to={linkTo(link.hash)}
+                className="text-[15px] font-medium transition-colors"
+                style={{
+                  color: showWhiteNavbar ? 'hsl(222.2, 47.4%, 11.2%)' : 'rgba(255, 255, 255, 0.95)',
+                }}
               >
                 {link.label}
-                {link.hasDropdown && (
-                  <ChevronDown className="w-4 h-4 group-hover:rotate-180 transition-transform duration-300" />
-                )}
-              </a>
+              </Link>
             ))}
+          </nav>
+
+          {/* CTA */}
+          <div className="hidden lg:block shrink-0">
+            {showWhiteNavbar ? (
+              <Button asChild size="default" className="rounded-none px-6 font-semibold tracking-wide">
+                <Link to={linkTo("contact")}>Get in Touch</Link>
+              </Button>
+            ) : (
+              <Button
+                asChild
+                variant="outline"
+                size="default"
+                className="rounded-none px-6 font-semibold tracking-wide border-white/80 text-white hover:bg-white/10 hover:text-white hover:border-white"
+              >
+                <Link to={linkTo("contact")}>Get in Touch</Link>
+              </Button>
+            )}
           </div>
 
-          {/* Right Side */}
-          <div className="hidden lg:flex items-center gap-6">
-            <Button variant="outline" size="default">
-              Get in Touch
-            </Button>
-          </div>
-
-          {/* Mobile Menu Button */}
+          {/* Mobile menu button */}
           <button
-            className="lg:hidden p-2 text-foreground"
+            type="button"
+            className="lg:hidden p-2 -mr-2 transition-colors"
+            style={{
+              color: showWhiteNavbar ? 'hsl(222.2, 47.4%, 11.2%)' : 'white',
+            }}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle menu"
+            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isMobileMenuOpen}
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
-
-        {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div className="lg:hidden py-6 border-t border-border/30 bg-white/98 backdrop-blur-md rounded-b-xl">
-            <div className="flex flex-col gap-4">
-              {navLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  className="text-base font-medium text-[hsl(220_15%_35%)] hover:text-primary transition-colors py-2"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {link.label}
-                </a>
-              ))}
-              <Button variant="outline" size="default" className="mt-4 w-fit">
-                Get in Touch
-              </Button>
-            </div>
-          </div>
-        )}
       </div>
-    </nav>
+
+      {/* Mobile menu */}
+      {isMobileMenuOpen && (
+        <>
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 top-16 lg:hidden z-40 bg-black/60 backdrop-blur-sm"
+            onClick={() => setIsMobileMenuOpen(false)}
+            aria-hidden="true"
+          />
+          
+          {/* Menu panel */}
+          <div
+            className="fixed right-0 top-16 bottom-0 lg:hidden z-50 w-[85%] sm:w-80 bg-[hsl(var(--dark-bg))] shadow-2xl animate-slide-in-right"
+            aria-hidden="false"
+          >
+            <nav className="flex flex-col h-full px-6 py-8">
+              <div className="flex-1 space-y-1">
+                {navLinks.map((link, index) => (
+                  <Link
+                    key={link.hash}
+                    to={linkTo(link.hash)}
+                    className="group block py-4 px-4 text-white/90 hover:text-white hover:bg-white/5 rounded-lg transition-all duration-300 border-b border-white/5 last:border-0"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    style={{ animation: `slideInRight 0.3s ease-out ${index * 0.1}s both` }}
+                  >
+                    <span className="text-lg font-medium tracking-wide">{link.label}</span>
+                  </Link>
+                ))}
+              </div>
+
+              <div className="pt-6 border-t border-white/10">
+                <Button
+                  asChild
+                  variant="outline"
+                  size="lg"
+                  className="w-full rounded-none border-white/70 text-white hover:bg-white/10 hover:text-white hover:border-white font-semibold tracking-wide"
+                >
+                  <Link to={linkTo("contact")} onClick={() => setIsMobileMenuOpen(false)}>
+                    Get in Touch
+                  </Link>
+                </Button>
+                
+                <p className="text-center text-white/50 text-xs mt-6 tracking-wider">
+                  Software • Automation • Data • AI
+                </p>
+              </div>
+            </nav>
+          </div>
+        </>
+      )}
+    </header>
   );
 };
 

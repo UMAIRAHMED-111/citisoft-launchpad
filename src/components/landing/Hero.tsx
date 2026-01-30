@@ -1,133 +1,139 @@
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useState, useEffect } from "react";
 
-const slides = [
+const heroSlides = [
   {
-    title: ["Building", "scalable", "software"],
-    subtitle: "We help companies simplify operations, improve visibility, and scale through custom software, AI-driven automation, and data solutions.",
-    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=2000&q=80",
+    title: ["We", "reimagine", "tomorrow"],
+    subtitle: "Driving growth and molding the future through transformative change.",
+    video: "https://assets.mixkit.co/videos/30454/30454-720.mp4",
+    poster: "https://assets.mixkit.co/videos/30454/30454-thumb-720-0.jpg",
   },
   {
-    title: ["Automation", "&", "AI"],
-    subtitle: "Workflow automation, AI agents, and process optimization to reduce manual work and drive efficiency.",
-    image: "https://images.unsplash.com/photo-1554469384-e58fac16e23a?auto=format&fit=crop&w=2000&q=80",
-  },
-  {
-    title: ["Data", "driven", "decisions"],
-    subtitle: "Data pipelines, dashboards, and reporting systems for better decision-making across your organization.",
-    image: "https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=2000&q=80",
+    title: ["Software", "that", "scales"],
+    subtitle: "Custom solutions, AI-driven automation, and data that powers decisions.",
+    video: "https://assets.mixkit.co/videos/28599/28599-720.mp4",
+    poster: "https://assets.mixkit.co/videos/28599/28599-thumb-720-0.jpg",
   },
 ];
 
 const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 6000);
+      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+    }, 7000);
     return () => clearInterval(timer);
   }, []);
 
-  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
-  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+  // When slide changes, play the new video
+  useEffect(() => {
+    const currentVideo = videoRefs.current[currentSlide];
+    if (currentVideo) {
+      currentVideo.currentTime = 0;
+      currentVideo.play().catch(() => {});
+    }
+  }, [currentSlide]);
 
   return (
-    <section className="relative h-screen w-full overflow-hidden">
-      {/* Background Images with transitions */}
-      {slides.map((slide, index) => (
+    <section className="relative h-screen w-full overflow-hidden bg-[hsl(var(--dark-bg))]">
+      {/* Video backgrounds */}
+      {heroSlides.map((slide, index) => (
         <div
           key={index}
-          className={`absolute inset-0 transition-opacity duration-1000 ${
-            index === currentSlide ? "opacity-100" : "opacity-0"
+          className={`absolute inset-0 transition-opacity duration-700 ${
+            index === currentSlide ? "opacity-100 z-0" : "opacity-0 z-0"
           }`}
         >
-          <img
-            src={slide.image}
-            alt={`Slide ${index + 1}`}
-            className="w-full h-full object-cover object-center"
+          <video
+            ref={(el) => {
+              videoRefs.current[index] = el;
+            }}
+            src={slide.video}
+            poster={slide.poster}
+            className="w-full h-full object-cover"
+            muted
+            loop
+            playsInline
+            autoPlay={index === 0}
+            aria-hidden="true"
           />
         </div>
       ))}
-      
-      {/* Light overlay for text readability on bright images */}
-      <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-white/70 to-white/30" />
-      <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-white/60" />
+
+      {/* Overlay: dark gradient for readability, keeps theme with blue tint */}
+      <div
+        className="absolute inset-0 z-10 bg-gradient-to-r from-[hsl(var(--dark-bg))]/95 via-[hsl(var(--dark-bg))]/80 to-[hsl(var(--dark-bg))]/50"
+        aria-hidden="true"
+      />
+      <div className="absolute inset-0 z-10 bg-gradient-to-t from-[hsl(var(--dark-bg))]/60 via-transparent to-transparent" aria-hidden="true" />
 
       {/* Content */}
-      <div className="relative z-10 h-full flex items-center">
-        <div className="container mx-auto px-6 lg:px-12">
-          <div className="max-w-3xl">
-            {/* Animated Title */}
-            <div className="overflow-hidden mb-6">
-              {slides[currentSlide].title.map((word, index) => (
+      <div className="relative z-20 h-full flex flex-col justify-center pt-20 sm:pt-24 pb-24 sm:pb-16">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-10">
+          <div className="max-w-4xl">
+            {/* Split headline - one word per line */}
+            <div className="overflow-hidden mb-4 sm:mb-6">
+              {heroSlides[currentSlide].title.map((word, i) => (
                 <h1
-                  key={`${currentSlide}-${index}`}
-                  className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-light text-foreground leading-[1.1] animate-slide-in-left"
-                  style={{ animationDelay: `${index * 0.15}s` }}
+                  key={`${currentSlide}-${i}`}
+                  className="text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[7rem] font-light text-white leading-[1.05] tracking-tight"
+                  style={{
+                    animation: `slideInUp 0.6s ease-out ${i * 0.1}s both`,
+                  }}
                 >
                   {word}
                 </h1>
               ))}
             </div>
 
-            {/* Subtitle */}
-            <p 
-              className="text-lg sm:text-xl text-muted-foreground font-light italic mb-10 max-w-xl animate-fade-in"
-              style={{ animationDelay: "0.5s" }}
-              key={currentSlide}
+            <p
+              className="text-base sm:text-lg md:text-xl text-white/85 font-light max-w-xl mb-8 sm:mb-10"
+              style={{ animation: "fadeIn 0.8s ease-out 0.4s both" }}
             >
-              {slides[currentSlide].subtitle}
+              {heroSlides[currentSlide].subtitle}
             </p>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up" style={{ animationDelay: "0.7s" }}>
-              <Button variant="gradient" size="hero">
-                Let's Talk
-              </Button>
-              <Button variant="outline" size="hero" className="border-foreground/30 hover:bg-foreground/5">
-                View Our Approach
+            <div style={{ animation: "fadeIn 0.8s ease-out 0.6s both" }}>
+              <Button
+                asChild
+                variant="default"
+                size="lg"
+                className="rounded-none bg-white text-[hsl(var(--dark-bg))] hover:bg-white/90 font-semibold tracking-[0.15em] sm:tracking-[0.2em] uppercase px-8 sm:px-12 h-12 sm:h-14 text-xs sm:text-sm"
+              >
+                <a href="#contact">Get in Touch</a>
               </Button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Slide Navigation Arrows */}
-      <button
-        onClick={prevSlide}
-        className="absolute left-4 lg:left-8 top-1/2 -translate-y-1/2 z-20 p-2 text-foreground/50 hover:text-foreground transition-colors"
-        aria-label="Previous slide"
+      {/* Bottom: scroll hint */}
+      <div
+        className="hidden sm:flex absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex-col items-center gap-2 text-white/60 text-sm tracking-widest uppercase"
+        style={{ animation: "fadeIn 1s ease-out 1s both" }}
       >
-        <ChevronLeft className="w-10 h-10" strokeWidth={1} />
-      </button>
-      <button
-        onClick={nextSlide}
-        className="absolute right-4 lg:right-8 top-1/2 -translate-y-1/2 z-20 p-2 text-foreground/50 hover:text-foreground transition-colors"
-        aria-label="Next slide"
-      >
-        <ChevronRight className="w-10 h-10" strokeWidth={1} />
-      </button>
+        <span className="text-xs">Scroll to Explore</span>
+        <div className="w-px h-10 bg-white/40 rounded-full animate-pulse" />
+      </div>
 
-      {/* Slide Indicators */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-3">
-        {slides.map((_, index) => (
+      {/* Slide indicators - minimal dots */}
+      <div className="absolute bottom-6 sm:bottom-8 right-4 sm:right-8 lg:right-10 z-20 flex gap-2">
+        {heroSlides.map((_, index) => (
           <button
             key={index}
+            type="button"
             onClick={() => setCurrentSlide(index)}
-            className={`w-2 h-2 rounded-full transition-all duration-300 ${
+            className={`h-1 sm:h-1.5 rounded-full transition-all duration-300 ${
               index === currentSlide
-                ? "bg-primary w-8"
-                : "bg-foreground/30 hover:bg-foreground/50"
+                ? "w-8 sm:w-10 bg-white"
+                : "w-1 sm:w-1.5 bg-white/40 hover:bg-white/60"
             }`}
             aria-label={`Go to slide ${index + 1}`}
           />
         ))}
       </div>
-
-      {/* Bottom gradient to white */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent z-10" />
     </section>
   );
 };

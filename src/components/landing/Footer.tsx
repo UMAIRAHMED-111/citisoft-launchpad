@@ -11,10 +11,10 @@ const Footer = () => {
   return (
     <footer className="bg-[hsl(220_20%_10%)] text-white">
       {/* Main Footer Content */}
-      <div className="container mx-auto px-6 lg:px-12 py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8">
+      <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-12 py-12 sm:py-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-8">
           {/* Brand - Takes more space */}
-          <div className="lg:col-span-5">
+          <div className="sm:col-span-2 lg:col-span-5">
             <img
               src={citisoftLogo}
               alt="Citisoft Solutions"
@@ -40,8 +40,7 @@ const Footer = () => {
             <ul className="space-y-3">
               {[
                 { label: "Services", href: "#services" },
-                { label: "Our Approach", href: "#approach" },
-                { label: "Why Us", href: "#why-us" },
+                { label: "Products", href: "#products" },
                 { label: "Contact", href: "#contact" },
               ].map((item) => (
                 <li key={item.label}>

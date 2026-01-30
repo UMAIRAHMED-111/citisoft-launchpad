@@ -1,73 +1,221 @@
-import { Code2, Cpu, Database, Compass, ArrowRight } from "lucide-react";
+import { useRef, useEffect, useState, useCallback } from "react";
+import { ArrowRight, ChevronDown } from "lucide-react";
+import { Link } from "react-router-dom";
+import { services } from "@/lib/services-data";
 
-const services = [
-  {
-    icon: Code2,
-    title: "Custom Software Development",
-    description: "Internal tools, web platforms, and system integrations built for your operations.",
-  },
-  {
-    icon: Cpu,
-    title: "Automation & AI Solutions",
-    description: "Workflow automation, AI agents, and process optimization to reduce manual work.",
-  },
-  {
-    icon: Database,
-    title: "Data & Analytics",
-    description: "Data pipelines, dashboards, and reporting for better decision-making.",
-  },
-  {
-    icon: Compass,
-    title: "Technology Consulting",
-    description: "Architecture, process design, and delivery support from strategy to execution.",
-  },
-];
+const PIXELS_PER_FRAME = 0.5;
+const RESUME_AFTER_PAUSE_MS = 5000;
 
 const Services = () => {
-  return (
-    <section id="services" className="py-24 lg:py-32 bg-background">
-      <div className="container mx-auto px-6 lg:px-12">
-        {/* Section Header */}
-        <div className="max-w-3xl mb-16">
-          <p className="text-primary font-medium uppercase tracking-wider mb-4">What We Do</p>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-foreground mb-6">
-            Technology that{" "}
-            <span className="text-gradient font-normal">solves real problems</span>
-          </h2>
-          <p className="text-lg text-muted-foreground font-light">
-            We design and deliver technology that solves real business problems—without unnecessary complexity.
-          </p>
-        </div>
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const resumeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const rafRef = useRef<number | null>(null);
+  const isProgrammaticScrollRef = useRef(false);
+  const isTickerRunningRef = useRef(false);
+  const setCurrentIndexRef = useRef(setCurrentIndex);
+  setCurrentIndexRef.current = setCurrentIndex;
 
-        {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {services.map((service, index) => (
-            <div
-              key={service.title}
-              className="group bg-white rounded-xl p-8 lg:p-10 border border-border/60 card-shadow hover:card-shadow-hover hover:border-primary/20 transition-all duration-500 cursor-pointer"
+  const scrollToIndex = useCallback((index: number) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const slideWidth = el.scrollWidth / (services.length * 2);
+    if (slideWidth <= 0) return;
+    isProgrammaticScrollRef.current = true;
+    el.scrollTo({ left: index * slideWidth, behavior: "smooth" });
+    setCurrentIndex(index);
+    setTimeout(() => {
+      isProgrammaticScrollRef.current = false;
+    }, 600);
+  }, []);
+
+  // Continuous ticker
+  useEffect(() => {
+    if (isPaused) return;
+
+    const el = scrollRef.current;
+    if (!el) return;
+
+    isTickerRunningRef.current = true;
+    const lastTimeRef = { current: performance.now() };
+
+    const tick = (now: number) => {
+      const slideWidth = el.scrollWidth / (services.length * 2);
+      if (slideWidth <= 0) {
+        rafRef.current = requestAnimationFrame(tick);
+        return;
+      }
+      const delta = Math.min((now - lastTimeRef.current) / 16.67, 4);
+      lastTimeRef.current = now;
+      const newLeft = el.scrollLeft + PIXELS_PER_FRAME * delta;
+      const oneSetWidth = services.length * slideWidth;
+      if (newLeft >= oneSetWidth) {
+        el.scrollLeft = newLeft - oneSetWidth;
+      } else {
+        el.scrollLeft = newLeft;
+      }
+      rafRef.current = requestAnimationFrame(tick);
+    };
+
+    rafRef.current = requestAnimationFrame(tick);
+    return () => {
+      isTickerRunningRef.current = false;
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    };
+  }, [isPaused]);
+
+  const handleUserInteraction = useCallback(() => {
+    setIsPaused(true);
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
+    if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
+    resumeTimeoutRef.current = setTimeout(() => {
+      setIsPaused(false);
+      resumeTimeoutRef.current = null;
+    }, RESUME_AFTER_PAUSE_MS);
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
+    setIsPaused(false);
+  }, []);
+
+  return (
+    <section id="services" className="bg-background overflow-hidden">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-10 pt-20 sm:pt-24 lg:pt-32">
+        <div className="max-w-4xl">
+          <h2 className="text-3xl xs:text-4xl sm:text-5xl lg:text-6xl font-light text-foreground mb-4 sm:mb-5 tracking-tight">
+            Our Services
+          </h2>
+          <p className="text-lg sm:text-xl lg:text-2xl text-muted-foreground font-light mb-6 sm:mb-8">
+            Driving innovation and improving lives with AI-driven intelligence.
+          </p>
+          <div className="flex items-center gap-2 sm:gap-3">
+            <span className="text-[10px] xs:text-xs sm:text-sm text-muted-foreground uppercase tracking-[0.2em] sm:tracking-[0.25em]">
+              Scroll to Explore
+            </span>
+            <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground/70 animate-bounce" aria-hidden />
+          </div>
+        </div>
+      </div>
+
+      {/* Enhanced slider */}
+      <div className="mt-12 lg:mt-16 overflow-hidden">
+        <div
+          ref={scrollRef}
+          onMouseEnter={handleUserInteraction}
+          onMouseLeave={handleMouseLeave}
+          onMouseDown={handleUserInteraction}
+          onTouchStart={handleUserInteraction}
+          className="flex overflow-x-auto gap-4 sm:gap-6 pb-4 lg:pb-6 scrollbar-hide px-4 sm:px-6 lg:px-10"
+          style={{ scrollBehavior: "auto" }}
+        >
+          {[...services, ...services].map((service, i) => (
+            <Link
+              key={`${service.slug}-${i}`}
+              to={`/services/${service.slug}`}
+              className="group relative flex-[0_0_85vw] xs:flex-[0_0_80vw] sm:flex-[0_0_65vw] md:flex-[0_0_55vw] lg:flex-[0_0_45vw] xl:flex-[0_0_38vw] shrink-0 aspect-[4/3] sm:aspect-[16/10] overflow-hidden rounded-2xl"
             >
-              {/* Icon */}
-              <div className="w-12 h-12 rounded-lg bg-gradient-citisoft flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                <service.icon className="w-6 h-6 text-primary-foreground" />
+              {/* Image with zoom effect */}
+              <img
+                src={service.image}
+                alt={service.shortTitle}
+                className="absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110"
+              />
+              
+              {/* Gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10 group-hover:from-black/95 group-hover:via-black/50 transition-all duration-500" />
+              
+              {/* Shine effect on hover */}
+              <div className="absolute inset-0 overflow-hidden">
+                <div 
+                  className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"
+                  style={{
+                    background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)',
+                    transform: 'skewX(-15deg)',
+                  }}
+                />
+              </div>
+
+              {/* Border with glow */}
+              <div className="absolute inset-0 rounded-2xl border-2 border-white/0 group-hover:border-white/30 transition-all duration-500" />
+              
+              {/* Floating particles */}
+              <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <div 
+                  className="absolute w-1.5 h-1.5 bg-white/30 rounded-full animate-float"
+                  style={{ top: '25%', left: '20%', animationDelay: '0s' }}
+                />
+                <div 
+                  className="absolute w-1 h-1 bg-white/20 rounded-full animate-float"
+                  style={{ top: '45%', right: '15%', animationDelay: '0.5s' }}
+                />
+                <div 
+                  className="absolute w-1.5 h-1.5 bg-white/25 rounded-full animate-float"
+                  style={{ top: '70%', left: '75%', animationDelay: '1s' }}
+                />
               </div>
 
               {/* Content */}
-              <h3 className="text-xl font-medium mb-3 text-foreground group-hover:text-gradient transition-colors">
-                {service.title}
-              </h3>
-              <p className="text-muted-foreground font-light leading-relaxed mb-6">
-                {service.description}
-              </p>
+              <div className="absolute inset-0 flex flex-col justify-end p-5 xs:p-6 sm:p-8 lg:p-10">
+                {/* Service tag */}
+                <div className="mb-auto">
+                  <span className="inline-block px-3 py-1.5 text-[9px] sm:text-[10px] font-bold tracking-[0.2em] text-white/80 bg-white/10 backdrop-blur-sm border border-white/20 uppercase rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500 transform -translate-y-2 group-hover:translate-y-0">
+                    SERVICE
+                  </span>
+                </div>
 
-              {/* Learn More Link */}
-              <a
-                href="#"
-                className="inline-flex items-center gap-2 text-sm text-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-              >
-                Learn more
-                <ArrowRight className="w-4 h-4" />
-              </a>
-            </div>
+                {/* Title and CTA */}
+                <div className="transform group-hover:-translate-y-2 transition-all duration-500">
+                  <h3 className="text-xl xs:text-2xl sm:text-3xl lg:text-4xl font-light text-white mb-3 sm:mb-4 tracking-tight leading-tight">
+                    {service.shortTitle}
+                  </h3>
+                  
+                  {/* Description - reveals on hover */}
+                  <p className="text-white/0 group-hover:text-white/70 text-sm leading-relaxed font-light max-h-0 group-hover:max-h-20 overflow-hidden transition-all duration-500 ease-out mb-4">
+                    {service.description.slice(0, 100)}...
+                  </p>
+                  
+                  {/* CTA */}
+                  <div className="flex items-center gap-4">
+                    <span className="text-white/70 group-hover:text-white text-sm font-medium tracking-wide transition-colors duration-300">
+                      Explore
+                    </span>
+                    <div className="w-6 h-px bg-white/40 group-hover:w-10 group-hover:bg-white/70 transition-all duration-500" />
+                    <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/10 group-hover:bg-white/20 flex items-center justify-center transition-all duration-300 group-hover:scale-110">
+                      <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-white/70 group-hover:text-white group-hover:translate-x-0.5 transition-all duration-300" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Outer glow */}
+              <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-[hsl(var(--citisoft-light))]/0 to-[hsl(var(--citisoft-dark))]/0 group-hover:from-[hsl(var(--citisoft-light))]/20 group-hover:to-[hsl(var(--citisoft-dark))]/20 blur-xl transition-all duration-700 -z-10 opacity-0 group-hover:opacity-100" />
+            </Link>
+          ))}
+        </div>
+        
+        {/* Dots navigation */}
+        <div className="container mx-auto px-4 sm:px-6 lg:px-10 pt-4 sm:pt-6 pb-12 sm:pb-16 lg:pb-20 flex justify-center gap-2 sm:gap-3">
+          {services.map((_, index) => (
+            <button
+              key={index}
+              type="button"
+              onClick={() => {
+                handleUserInteraction();
+                scrollToIndex(index);
+              }}
+              className={`h-1.5 sm:h-2 rounded-full transition-all duration-500 ${
+                index === currentIndex
+                  ? "w-8 sm:w-10 bg-gradient-to-r from-[hsl(var(--citisoft-light))] to-[hsl(var(--citisoft-dark))]"
+                  : "w-1.5 sm:w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50"
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
           ))}
         </div>
       </div>
