@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 
 const ScrollToTop = () => {
   const { pathname, hash } = useLocation();
+  const isFirstRender = useRef(true);
 
   // Disable browser's native scroll restoration
   useEffect(() => {
@@ -12,7 +13,14 @@ const ScrollToTop = () => {
   }, []);
 
   useEffect(() => {
-    // If there's a hash, scroll to that element
+    // On first render (page load/refresh), always scroll to top
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      window.scrollTo(0, 0);
+      return;
+    }
+
+    // On subsequent navigations, handle hash
     if (hash) {
       // Small delay to ensure the page has rendered
       setTimeout(() => {

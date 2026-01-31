@@ -1,18 +1,18 @@
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
+import aerialVideo from "@/assets/mixkit-aerial-panorama-over-the-buildings-of-a-big-city-41541-hd-ready.mp4";
+import officeVideo from "@/assets/mixkit-busy-office-space-918-hd-ready.mp4";
 
 const heroSlides = [
   {
     title: ["We", "reimagine", "tomorrow."],
     subtitle: "Driving growth and molding the future through transformative change.",
-    video: "https://assets.mixkit.co/videos/30454/30454-720.mp4",
-    poster: "https://assets.mixkit.co/videos/30454/30454-thumb-720-0.jpg",
+    video: aerialVideo,
   },
   {
     title: ["Software", "that", "scales."],
     subtitle: "Custom solutions, AI-driven automation, and data that powers decisions.",
-    video: "https://assets.mixkit.co/videos/28599/28599-720.mp4",
-    poster: "https://assets.mixkit.co/videos/28599/28599-thumb-720-0.jpg",
+    video: officeVideo,
   },
 ];
 
@@ -51,7 +51,6 @@ const Hero = () => {
               videoRefs.current[index] = el;
             }}
             src={slide.video}
-            poster={slide.poster}
             className="w-full h-full object-cover"
             muted
             loop

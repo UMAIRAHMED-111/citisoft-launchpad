@@ -3,86 +3,78 @@ import { ArrowRight, ChevronDown } from "lucide-react";
 import { Link } from "react-router-dom";
 import { services } from "@/lib/services-data";
 
-const PIXELS_PER_FRAME = 0.5;
-const RESUME_AFTER_PAUSE_MS = 5000;
+const SPEED = 1.5; // pixels per frame
+const PAUSE_DELAY = 3000;
 
 const Services = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const resumeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const rafRef = useRef<number | null>(null);
-  const isProgrammaticScrollRef = useRef(false);
-  const isTickerRunningRef = useRef(false);
-  const setCurrentIndexRef = useRef(setCurrentIndex);
-  setCurrentIndexRef.current = setCurrentIndex;
+  const animationRef = useRef<number>();
 
   const scrollToIndex = useCallback((index: number) => {
     const el = scrollRef.current;
     if (!el) return;
     const slideWidth = el.scrollWidth / (services.length * 2);
     if (slideWidth <= 0) return;
-    isProgrammaticScrollRef.current = true;
     el.scrollTo({ left: index * slideWidth, behavior: "smooth" });
     setCurrentIndex(index);
-    setTimeout(() => {
-      isProgrammaticScrollRef.current = false;
-    }, 600);
   }, []);
 
-  // Continuous ticker
+  // Auto-scroll animation
   useEffect(() => {
-    if (isPaused) return;
-
     const el = scrollRef.current;
-    if (!el) return;
+    if (!el || isPaused) {
+      return;
+    }
 
-    isTickerRunningRef.current = true;
-    const lastTimeRef = { current: performance.now() };
+    let lastTime = performance.now();
 
-    const tick = (now: number) => {
-      const slideWidth = el.scrollWidth / (services.length * 2);
-      if (slideWidth <= 0) {
-        rafRef.current = requestAnimationFrame(tick);
-        return;
+    const animate = (currentTime: number) => {
+      const deltaTime = currentTime - lastTime;
+      lastTime = currentTime;
+
+      // Only scroll if we have valid dimensions
+      if (el && el.scrollWidth > 0) {
+        const oneSetWidth = el.scrollWidth / 2;
+        
+        // Move the scroll position
+        el.scrollLeft += SPEED * (deltaTime / 16);
+
+        // Reset to beginning when we've scrolled one full set
+        if (el.scrollLeft >= oneSetWidth) {
+          el.scrollLeft = 0;
+        }
       }
-      const delta = Math.min((now - lastTimeRef.current) / 16.67, 4);
-      lastTimeRef.current = now;
-      const newLeft = el.scrollLeft + PIXELS_PER_FRAME * delta;
-      const oneSetWidth = services.length * slideWidth;
-      if (newLeft >= oneSetWidth) {
-        el.scrollLeft = newLeft - oneSetWidth;
-      } else {
-        el.scrollLeft = newLeft;
-      }
-      rafRef.current = requestAnimationFrame(tick);
+
+      animationRef.current = requestAnimationFrame(animate);
     };
 
-    rafRef.current = requestAnimationFrame(tick);
+    // Start animation with a small delay
+    const timeout = setTimeout(() => {
+      animationRef.current = requestAnimationFrame(animate);
+    }, 200);
+
     return () => {
-      isTickerRunningRef.current = false;
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-      rafRef.current = null;
+      clearTimeout(timeout);
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
     };
   }, [isPaused]);
 
-  const handleUserInteraction = useCallback(() => {
+  const handleMouseEnter = () => {
     setIsPaused(true);
-    if (rafRef.current) {
-      cancelAnimationFrame(rafRef.current);
-      rafRef.current = null;
-    }
-    if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
-    resumeTimeoutRef.current = setTimeout(() => {
-      setIsPaused(false);
-      resumeTimeoutRef.current = null;
-    }, RESUME_AFTER_PAUSE_MS);
-  }, []);
+  };
 
-  const handleMouseLeave = useCallback(() => {
-    if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
+  const handleMouseLeave = () => {
     setIsPaused(false);
-  }, []);
+  };
+
+  const handleClick = () => {
+    setIsPaused(true);
+    setTimeout(() => setIsPaused(false), RESUME_DELAY);
+  };
 
   return (
     <section id="services" className="bg-background overflow-hidden">
@@ -107,10 +99,9 @@ const Services = () => {
       <div className="mt-12 lg:mt-16 overflow-hidden">
         <div
           ref={scrollRef}
-          onMouseEnter={handleUserInteraction}
+          onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
-          onMouseDown={handleUserInteraction}
-          onTouchStart={handleUserInteraction}
+          onTouchStart={handleClick}
           className="flex overflow-x-auto gap-4 sm:gap-6 pb-4 lg:pb-6 scrollbar-hide px-4 sm:px-6 lg:px-10"
           style={{ scrollBehavior: "auto" }}
         >
@@ -206,7 +197,7 @@ const Services = () => {
               key={index}
               type="button"
               onClick={() => {
-                handleUserInteraction();
+                handleClick();
                 scrollToIndex(index);
               }}
               className={`h-1.5 sm:h-2 rounded-full transition-all duration-500 ${
