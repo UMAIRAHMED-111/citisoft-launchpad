@@ -74,17 +74,23 @@ const Hero = () => {
           <div className="max-w-4xl">
             {/* Split headline - one word per line */}
             <div className="overflow-hidden mb-4 sm:mb-6">
-              {heroSlides[currentSlide].title.map((word, i) => (
-                <h1
-                  key={`${currentSlide}-${i}`}
-                  className="text-5xl xs:text-6xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[7rem] font-medium sm:font-light text-white leading-[1.05] tracking-tight"
-                  style={{
-                    animation: `slideInUp 0.6s ease-out ${i * 0.1}s both`,
-                  }}
-                >
-                  {word}
-                </h1>
-              ))}
+              {heroSlides[currentSlide].title.map((word, i) => {
+                // Bold the key impactful words
+                const isKeyword = word.toLowerCase() === 'tomorrow.' || word.toLowerCase() === 'scales.';
+                return (
+                  <h1
+                    key={`${currentSlide}-${i}`}
+                    className={`text-5xl xs:text-6xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[7rem] ${
+                      isKeyword ? 'font-bold' : 'font-medium sm:font-light'
+                    } text-white leading-[1.05] tracking-tight`}
+                    style={{
+                      animation: `slideInUp 0.6s ease-out ${i * 0.1}s both`,
+                    }}
+                  >
+                    {word}
+                  </h1>
+                );
+              })}
             </div>
 
             <p
