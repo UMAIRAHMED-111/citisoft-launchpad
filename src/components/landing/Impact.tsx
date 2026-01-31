@@ -11,7 +11,7 @@ const stats = [
 
 const technologies = [
   { name: "React", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
-  { name: "Node.js", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" },
+  { name: "Node.js", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original-wordmark.svg" },
   { name: "Python", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" },
   { name: "AWS", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg" },
   { name: "Azure", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg" },
@@ -149,30 +149,32 @@ const Impact = () => {
         
         {/* Technologies section */}
         <div className="text-center">
-          <p className="text-lg sm:text-xl lg:text-2xl text-foreground font-light mb-12 max-w-3xl mx-auto">
+          <p className="text-lg sm:text-xl lg:text-2xl text-foreground font-light mb-12 sm:mb-16 max-w-3xl mx-auto">
             Building with modern technologies to deliver{" "}
             <span className="text-[hsl(var(--citisoft-dark))] font-normal">scalable, future-proof solutions</span>
           </p>
           
-          {/* Tech logos */}
-          <div className="flex flex-wrap justify-center items-center gap-8 sm:gap-12 lg:gap-16">
-            {technologies.map((tech, index) => (
-              <div 
-                key={tech.name}
-                className="group relative"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <img 
-                  src={tech.logo} 
-                  alt={tech.name}
-                  className="h-10 sm:h-12 lg:h-14 w-auto grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500"
-                />
-                {/* Tooltip */}
-                <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-xs text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
-                  {tech.name}
-                </span>
-              </div>
-            ))}
+          {/* Tech logos - spanning 90% width */}
+          <div className="w-[90%] mx-auto">
+            <div className="flex justify-between items-center">
+              {technologies.map((tech, index) => (
+                <div 
+                  key={tech.name}
+                  className="group relative flex-1 flex justify-center"
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  <img 
+                    src={tech.logo} 
+                    alt={tech.name}
+                    className="h-12 sm:h-14 lg:h-16 xl:h-20 w-auto grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500"
+                  />
+                  {/* Tooltip */}
+                  <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-xs text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+                    {tech.name}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

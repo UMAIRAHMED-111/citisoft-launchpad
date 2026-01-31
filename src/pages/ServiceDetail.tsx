@@ -1,6 +1,7 @@
 import { useParams, Link, Navigate } from "react-router-dom";
+import { useEffect, useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight, Check, ArrowLeft } from "lucide-react";
 import Navbar from "@/components/landing/Navbar";
 import ScrollProgress from "@/components/landing/ScrollProgress";
 import Footer from "@/components/landing/Footer";
@@ -9,6 +10,12 @@ import { getServiceBySlug } from "@/lib/services-data";
 const ServiceDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const service = slug ? getServiceBySlug(slug) : undefined;
+  const [isVisible, setIsVisible] = useState(false);
+  const heroRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
 
   if (!service) {
     return <Navigate to="/" replace />;
@@ -20,46 +27,75 @@ const ServiceDetail = () => {
       <Navbar />
       
       {/* Hero Section - Dark with image */}
-      <section className="relative pt-24 xs:pt-28 lg:pt-32 pb-12 xs:pb-16 sm:pb-20 lg:pb-28 overflow-hidden bg-[hsl(var(--dark-bg))]">
+      <section ref={heroRef} className="relative pt-24 xs:pt-28 lg:pt-32 pb-16 xs:pb-20 sm:pb-24 lg:pb-32 overflow-hidden bg-[hsl(var(--dark-bg))]">
         <div className="absolute inset-0">
           <img
             src={service.image}
             alt=""
-            className="w-full h-full object-cover opacity-40"
+            className="w-full h-full object-cover opacity-30 scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-[hsl(var(--dark-bg))]/60 via-[hsl(var(--dark-bg))]/80 to-[hsl(var(--dark-bg))]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[hsl(var(--dark-bg))]/70 via-[hsl(var(--dark-bg))]/85 to-[hsl(var(--dark-bg))]" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[hsl(var(--dark-bg))]/90 to-transparent" />
         </div>
+        
+        {/* Decorative grid */}
+        <div 
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: `linear-gradient(to right, #fff 1px, transparent 1px), linear-gradient(to bottom, #fff 1px, transparent 1px)`,
+            backgroundSize: '60px 60px',
+          }}
+        />
         
         <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-10">
           <Link
             to="/#services"
-            className="inline-flex items-center gap-2 text-white/70 hover:text-white text-xs sm:text-sm font-medium mb-6 sm:mb-8 transition-colors"
+            className={`inline-flex items-center gap-2 text-white/70 hover:text-white text-xs sm:text-sm font-medium mb-8 sm:mb-10 transition-all duration-500 ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            }`}
           >
-            ← Back to Services
+            <ArrowLeft className="w-4 h-4" />
+            Back to Services
           </Link>
           
           <div className="max-w-4xl">
-            <span className="inline-block px-3 sm:px-4 py-1 sm:py-1.5 text-[10px] sm:text-xs font-semibold tracking-[0.15em] text-white/90 bg-white/10 backdrop-blur-sm border border-white/20 uppercase mb-4 sm:mb-6">
+            <span 
+              className={`inline-block px-4 py-1.5 text-[10px] sm:text-xs font-semibold tracking-[0.2em] text-white/90 bg-white/10 backdrop-blur-sm border border-white/20 uppercase mb-6 sm:mb-8 rounded-full transition-all duration-500 delay-100 ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
+            >
               SERVICE
             </span>
-            <h1 className="text-3xl xs:text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-light text-white tracking-tight mb-4 sm:mb-6">
+            <h1 
+              className={`text-4xl xs:text-5xl sm:text-6xl lg:text-7xl font-medium sm:font-light text-white tracking-tight mb-6 sm:mb-8 leading-[1.1] transition-all duration-700 delay-200 ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              }`}
+            >
               {service.title}
             </h1>
-            <p className="text-base xs:text-lg sm:text-xl lg:text-2xl text-white/80 font-light leading-relaxed">
+            <p 
+              className={`text-base xs:text-lg sm:text-xl lg:text-2xl text-white/70 font-light leading-relaxed max-w-2xl transition-all duration-700 delay-300 ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              }`}
+            >
               {service.tagline}
             </p>
           </div>
         </div>
+        
+        {/* Bottom fade */}
+        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-slate-50 to-transparent" />
       </section>
 
       {/* Overview Section */}
-      <section className="py-12 sm:py-16 lg:py-28 bg-slate-50">
+      <section className="py-16 sm:py-20 lg:py-28 bg-slate-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-16">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
             {/* Left column - label */}
             <div className="lg:col-span-4">
               <div className="lg:sticky lg:top-32">
-                <span className="text-xs sm:text-sm font-semibold text-[hsl(var(--citisoft-dark))] uppercase tracking-wider">
+                <div className="w-12 h-1 bg-gradient-to-r from-[hsl(var(--citisoft-light))] to-[hsl(var(--citisoft-dark))] mb-4" />
+                <span className="text-sm font-semibold text-[hsl(var(--citisoft-dark))] uppercase tracking-wider">
                   Overview
                 </span>
               </div>
@@ -67,7 +103,7 @@ const ServiceDetail = () => {
             
             {/* Right column - content */}
             <div className="lg:col-span-8">
-              <p className="text-base sm:text-lg lg:text-xl xl:text-2xl text-slate-700 font-normal leading-relaxed">
+              <p className="text-lg sm:text-xl lg:text-2xl text-slate-700 font-normal leading-relaxed">
                 {service.extendedDescription}
               </p>
             </div>
@@ -76,38 +112,69 @@ const ServiceDetail = () => {
       </section>
 
       {/* What We Offer Section */}
-      <section className="py-12 sm:py-16 lg:py-28 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-10">
+      <section className="py-16 sm:py-20 lg:py-28 bg-slate-50 relative overflow-hidden">
+        {/* Background decoration */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gradient-to-br from-[hsl(var(--citisoft-light))]/5 to-[hsl(var(--citisoft-dark))]/5 rounded-full blur-3xl -translate-y-1/2" />
+        
+        <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-10">
           {/* Section header */}
-          <div className="max-w-3xl mb-10 sm:mb-14 lg:mb-16">
-            <span className="text-xs sm:text-sm font-semibold text-[hsl(var(--citisoft-dark))] uppercase tracking-wider block mb-3">
+          <div className="text-center max-w-3xl mx-auto mb-12 lg:mb-20">
+            <span className="inline-block px-4 py-1.5 text-xs font-semibold text-[hsl(var(--citisoft-dark))] bg-[hsl(var(--citisoft-light))]/10 rounded-full uppercase tracking-wider mb-4">
               What We Offer
             </span>
-            <h2 className="text-2xl xs:text-3xl sm:text-4xl font-semibold text-slate-900 tracking-tight">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-slate-900 tracking-tight mb-4">
               Comprehensive {service.shortTitle} services
             </h2>
+            <p className="text-lg text-slate-500 font-light">
+              Expert solutions tailored to your unique business needs
+            </p>
           </div>
           
-          {/* Features grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+          {/* Features - Modern cards */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
             {service.keyFeatures.map((feature, index) => (
               <div 
                 key={index} 
-                className="group relative p-6 sm:p-8 rounded-2xl border border-slate-200 bg-slate-50/50 hover:bg-white hover:border-slate-300 hover:shadow-lg transition-all duration-300"
+                className="group relative"
               >
-                {/* Number badge */}
-                <div className="flex items-center gap-4 mb-4">
-                  <span className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-[hsl(var(--citisoft-light))] to-[hsl(var(--citisoft-dark))] flex items-center justify-center text-white text-sm font-semibold">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-                  <h3 className="text-lg sm:text-xl font-semibold text-slate-900">
-                    {feature.title}
-                  </h3>
+                {/* Card */}
+                <div className="relative bg-white rounded-2xl p-8 lg:p-10 h-full border border-slate-200/80 shadow-sm hover:shadow-2xl hover:shadow-slate-300/40 transition-all duration-500 overflow-hidden">
+                  {/* Background gradient on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-[hsl(var(--citisoft-light))]/0 via-transparent to-[hsl(var(--citisoft-dark))]/0 group-hover:from-[hsl(var(--citisoft-light))]/5 group-hover:to-[hsl(var(--citisoft-dark))]/5 transition-all duration-700" />
+                  
+                  {/* Decorative corner accent */}
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[hsl(var(--citisoft-light))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  
+                  {/* Content */}
+                  <div className="relative">
+                    {/* Number with line */}
+                    <div className="flex items-center gap-4 mb-6">
+                      <span className="text-5xl lg:text-6xl font-bold bg-gradient-to-br from-[hsl(var(--citisoft-light))] to-[hsl(var(--citisoft-dark))] bg-clip-text text-transparent">
+                        {String(index + 1).padStart(2, '0')}
+                      </span>
+                      <div className="flex-1 h-px bg-gradient-to-r from-slate-200 to-transparent" />
+                    </div>
+                    
+                    {/* Title */}
+                    <h3 className="text-xl lg:text-2xl font-semibold text-slate-900 mb-4 group-hover:text-[hsl(var(--citisoft-dark))] transition-colors duration-300">
+                      {feature.title}
+                    </h3>
+                    
+                    {/* Description */}
+                    <p className="text-slate-600 leading-relaxed mb-6">
+                      {feature.description}
+                    </p>
+                    
+                    {/* Learn more indicator */}
+                    <div className="flex items-center gap-2 text-[hsl(var(--citisoft-dark))] font-medium opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                      <span className="text-sm">Learn more</span>
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                    </div>
+                  </div>
+                  
+                  {/* Bottom accent line */}
+                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[hsl(var(--citisoft-light))] to-[hsl(var(--citisoft-dark))] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
                 </div>
-                
-                <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
-                  {feature.description}
-                </p>
               </div>
             ))}
           </div>
@@ -115,24 +182,29 @@ const ServiceDetail = () => {
       </section>
 
       {/* Benefits & Process Section */}
-      <section className="py-12 sm:py-16 lg:py-28 bg-slate-900">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-10 lg:gap-24">
+      <section className="py-16 sm:py-20 lg:py-28 bg-[hsl(var(--dark-bg))] relative overflow-hidden">
+        {/* Decorative elements */}
+        <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-gradient-to-bl from-[hsl(var(--citisoft-dark))]/10 to-transparent blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-gradient-to-tr from-[hsl(var(--citisoft-light))]/5 to-transparent blur-3xl" />
+        
+        <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
             {/* Benefits */}
             <div>
-              <span className="text-xs sm:text-sm font-semibold text-[hsl(var(--citisoft-light))] uppercase tracking-wider mb-4 sm:mb-6 block">
+              <div className="w-12 h-1 bg-gradient-to-r from-[hsl(var(--citisoft-light))] to-[hsl(var(--citisoft-dark))] mb-6" />
+              <span className="text-sm font-semibold text-[hsl(var(--citisoft-light))] uppercase tracking-wider mb-4 block">
                 Benefits
               </span>
-              <h3 className="text-xl xs:text-2xl sm:text-3xl font-semibold text-white mb-6 sm:mb-10 tracking-tight">
+              <h3 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-white mb-8 lg:mb-10 tracking-tight">
                 Why work with us
               </h3>
-              <ul className="space-y-4 sm:space-y-5">
+              <ul className="space-y-5">
                 {service.benefits.map((benefit, index) => (
-                  <li key={index} className="flex items-start gap-3 sm:gap-4">
-                    <span className="flex-shrink-0 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[hsl(var(--citisoft-light))] flex items-center justify-center mt-0.5">
-                      <Check className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
+                  <li key={index} className="flex items-start gap-4 group">
+                    <span className="flex-shrink-0 w-6 h-6 rounded-full bg-gradient-to-br from-[hsl(var(--citisoft-light))] to-[hsl(var(--citisoft-dark))] flex items-center justify-center mt-0.5 shadow-lg shadow-[hsl(var(--citisoft-dark))]/30">
+                      <Check className="w-3.5 h-3.5 text-white" />
                     </span>
-                    <span className="text-sm sm:text-base text-slate-300 leading-relaxed">{benefit}</span>
+                    <span className="text-white/80 leading-relaxed group-hover:text-white transition-colors">{benefit}</span>
                   </li>
                 ))}
               </ul>
@@ -140,19 +212,20 @@ const ServiceDetail = () => {
             
             {/* Process */}
             <div>
-              <span className="text-xs sm:text-sm font-semibold text-[hsl(var(--citisoft-light))] uppercase tracking-wider mb-4 sm:mb-6 block">
+              <div className="w-12 h-1 bg-gradient-to-r from-white/30 to-white/10 mb-6" />
+              <span className="text-sm font-semibold text-white/60 uppercase tracking-wider mb-4 block">
                 Our Process
               </span>
-              <h3 className="text-xl xs:text-2xl sm:text-3xl font-semibold text-white mb-6 sm:mb-10 tracking-tight">
+              <h3 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-white mb-8 lg:mb-10 tracking-tight">
                 How we work
               </h3>
-              <ul className="space-y-4 sm:space-y-5">
+              <ul className="space-y-5">
                 {service.process.map((step, index) => (
-                  <li key={index} className="flex items-start gap-3 sm:gap-4">
-                    <span className="flex-shrink-0 w-5 h-5 sm:w-6 sm:h-6 rounded-full border border-slate-600 flex items-center justify-center mt-0.5 text-xs font-medium text-slate-400">
+                  <li key={index} className="flex items-start gap-4 group">
+                    <span className="flex-shrink-0 w-6 h-6 rounded-full border-2 border-white/30 flex items-center justify-center mt-0.5 text-xs font-bold text-white/60 group-hover:border-white/50 group-hover:text-white/80 transition-colors">
                       {index + 1}
                     </span>
-                    <span className="text-sm sm:text-base text-slate-300 leading-relaxed">{step}</span>
+                    <span className="text-white/70 leading-relaxed group-hover:text-white/90 transition-colors">{step}</span>
                   </li>
                 ))}
               </ul>
@@ -162,30 +235,42 @@ const ServiceDetail = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-12 sm:py-16 lg:py-28 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-10">
+      <section className="py-16 sm:py-20 lg:py-28 bg-slate-50 relative overflow-hidden">
+        {/* Grid background */}
+        <div 
+          className="absolute inset-0 opacity-[0.08]"
+          style={{
+            backgroundImage: `linear-gradient(to right, #cbd5e1 1px, transparent 1px), linear-gradient(to bottom, #cbd5e1 1px, transparent 1px)`,
+            backgroundSize: '40px 40px',
+          }}
+        />
+        
+        <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-10">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-2xl xs:text-3xl sm:text-4xl lg:text-5xl font-semibold text-slate-900 mb-4 sm:mb-6 tracking-tight">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-slate-900 mb-6 tracking-tight">
               Ready to get started?
             </h2>
-            <p className="text-base sm:text-lg lg:text-xl text-slate-600 mb-8 sm:mb-10">
+            <p className="text-lg lg:text-xl text-slate-600 mb-10 max-w-xl mx-auto">
               Let's discuss how our {service.shortTitle} services can help transform your business.
             </p>
-            <div className="flex flex-col xs:flex-row flex-wrap justify-center gap-3 sm:gap-4">
+            <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4">
               <Button
                 asChild
                 size="lg"
-                className="rounded-full px-6 sm:px-10 font-medium w-full xs:w-auto"
+                className="group rounded-none px-10 font-semibold tracking-wide h-14"
               >
-                <Link to="/#contact">Schedule a Consultation</Link>
+                <Link to="/#contact">
+                  Schedule a Consultation
+                  <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
               </Button>
               <Button
                 asChild
                 variant="outline"
                 size="lg"
-                className="rounded-full px-6 sm:px-10 font-medium border-slate-300 hover:bg-slate-50 w-full xs:w-auto"
+                className="rounded-none px-10 font-semibold tracking-wide border-slate-300 hover:bg-slate-100 h-14"
               >
-                <Link to="/#services" className="inline-flex items-center justify-center gap-2">
+                <Link to="/#services">
                   View All Services
                 </Link>
               </Button>
