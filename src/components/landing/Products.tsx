@@ -109,7 +109,7 @@ const ProductCard = ({ product, index }: { product: typeof products[0]; index: n
         {/* Bottom content */}
         <div>
           {/* Tagline */}
-          <p className="text-white/50 text-xs uppercase tracking-wider font-medium mb-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+          <p className="text-white/50 text-xs uppercase tracking-wider font-medium mt-6 mb-8 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
             {product.tagline}
           </p>
           

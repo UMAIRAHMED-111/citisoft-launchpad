@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Mail, Phone, MapPin, Send, CheckCircle } from "lucide-react";
+import { Mail, Phone, MapPin, Send, CheckCircle, AlertCircle } from "lucide-react";
 
 const Contact = () => {
   const [formState, setFormState] = useState({
@@ -10,13 +10,52 @@ const Contact = () => {
     message: "",
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate form submission
-    setIsSubmitted(true);
-    setTimeout(() => setIsSubmitted(false), 3000);
-    setFormState({ name: "", email: "", company: "", message: "" });
+    setIsSubmitting(true);
+    setError(null);
+
+    try {
+      // Construct email body HTML
+      const emailBody = `
+        <h2>New Contact Form Submission</h2>
+        <p><strong>Name:</strong> ${formState.name}</p>
+        <p><strong>Email:</strong> ${formState.email}</p>
+        ${formState.company ? `<p><strong>Company:</strong> ${formState.company}</p>` : ''}
+        <p><strong>Message:</strong></p>
+        <p>${formState.message.replace(/\n/g, '<br>')}</p>
+      `;
+
+      const response = await fetch('https://email-service-steel-gamma.vercel.app/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          clientId: 'fbr_e_invoicing_demo',
+          emailBody: emailBody,
+          emailSubject: `New Contact Form Submission from ${formState.name}`,
+          recipientsTo: 'umairahmed805805@gmail.com',
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to send email');
+      }
+
+      // Success
+      setIsSubmitted(true);
+      setTimeout(() => setIsSubmitted(false), 5000);
+      setFormState({ name: "", email: "", company: "", message: "" });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to send message. Please try again.');
+      setTimeout(() => setError(null), 5000);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -76,7 +115,7 @@ const Contact = () => {
             {/* Contact info */}
             <div className="space-y-4 sm:space-y-5 mb-10">
               <a 
-                href="mailto:hello@citisoft.com" 
+                href="mailto:info@citisoftsolutions.com" 
                 className="group flex items-center gap-3 sm:gap-4 text-slate-700 hover:text-slate-900 transition-colors"
               >
                 <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-gradient-to-br from-white to-slate-50 border border-slate-200/80 shadow-lg shadow-slate-200/50 flex items-center justify-center group-hover:shadow-xl group-hover:border-[hsl(var(--citisoft-light))]/30 group-hover:scale-105 transition-all duration-300">
@@ -85,7 +124,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <p className="text-xs sm:text-sm text-slate-500 mb-0.5">Email us</p>
-                  <p className="text-sm sm:text-base font-medium">hello@citisoft.com</p>
+                  <p className="text-sm sm:text-base font-medium">info@citisoftsolutions.com</p>
                 </div>
               </a>
               
@@ -98,8 +137,8 @@ const Contact = () => {
                   <div className="absolute inset-0 rounded-xl sm:rounded-2xl bg-gradient-to-br from-[hsl(var(--citisoft-light))]/0 to-[hsl(var(--citisoft-dark))]/0 group-hover:from-[hsl(var(--citisoft-light))]/10 group-hover:to-[hsl(var(--citisoft-dark))]/5 transition-all duration-300" />
                 </div>
                 <div>
-                  <p className="text-xs sm:text-sm text-slate-500 mb-0.5">Call us</p>
-                  <p className="text-sm sm:text-base font-medium">+1 (234) 567-890</p>
+                  <p className="text-xs sm:text-sm text-slate-500 mb-0.5">Call or WhatsApp us</p>
+                  <p className="text-sm sm:text-base font-medium">+92 (317) 200-3570</p>
                 </div>
               </a>
               
@@ -109,7 +148,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <p className="text-xs sm:text-sm text-slate-500 mb-0.5">Visit us</p>
-                  <p className="text-sm sm:text-base font-medium">New York, NY</p>
+                  <p className="text-sm sm:text-base font-medium">Karachi, Pakistan</p>
                 </div>
               </div>
             </div>
@@ -126,16 +165,69 @@ const Contact = () => {
             <div className="relative bg-white/80 backdrop-blur-xl border border-slate-200/80 shadow-2xl shadow-slate-300/30 rounded-3xl p-6 sm:p-8 lg:p-10 ring-1 ring-white/50 ring-inset">
               {/* Success message */}
               {isSubmitted && (
-                <div className="absolute inset-0 bg-white/98 backdrop-blur-md rounded-3xl flex items-center justify-center z-10">
-                  <div className="text-center">
-                    <div className="relative w-20 h-20 mx-auto mb-6">
-                      <div className="absolute inset-0 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 opacity-20 animate-ping" />
-                      <div className="relative w-full h-full rounded-full bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center shadow-lg shadow-green-500/30">
-                        <CheckCircle className="w-10 h-10 text-white" />
+                <div className="absolute inset-0 bg-gradient-to-br from-slate-50 to-white backdrop-blur-xl rounded-3xl flex items-center justify-center z-10 p-8">
+                  <div className="text-center max-w-md">
+                    {/* Success icon with elegant animation */}
+                    <div className="relative w-24 h-24 mx-auto mb-8">
+                      {/* Outer rings */}
+                      <div className="absolute inset-0 rounded-full border-2 border-[hsl(var(--citisoft-light))]/30 animate-ping" />
+                      <div className="absolute inset-2 rounded-full border-2 border-[hsl(var(--citisoft-dark))]/20 animate-pulse" style={{ animationDelay: '0.2s' }} />
+                      
+                      {/* Icon container */}
+                      <div className="relative w-full h-full rounded-full bg-gradient-to-br from-[hsl(var(--citisoft-light))] to-[hsl(var(--citisoft-dark))] flex items-center justify-center shadow-2xl shadow-[hsl(var(--citisoft-dark))]/30">
+                        <CheckCircle className="w-12 h-12 text-white" strokeWidth={2} />
                       </div>
                     </div>
-                    <h3 className="text-2xl font-semibold text-slate-900 mb-2">Message Sent!</h3>
-                    <p className="text-slate-500">We'll get back to you soon.</p>
+                    
+                    {/* Title */}
+                    <h3 className="text-2xl sm:text-3xl font-semibold text-slate-900 mb-3 tracking-tight">
+                      Thank You!
+                    </h3>
+                    
+                    {/* Main message */}
+                    <p className="text-base sm:text-lg text-slate-600 mb-6 leading-relaxed">
+                      Your message has been successfully delivered.
+                    </p>
+                    
+                    {/* What's next section */}
+                    <div className="bg-white/80 border border-slate-200/60 rounded-2xl p-6 mb-6">
+                      <p className="text-sm font-medium text-slate-700 mb-3">What happens next?</p>
+                      <ul className="space-y-2 text-left text-sm text-slate-600">
+                        <li className="flex items-start gap-2">
+                          <div className="w-1.5 h-1.5 rounded-full bg-[hsl(var(--citisoft-dark))] mt-1.5 flex-shrink-0" />
+                          <span>Our team will review your inquiry within 24 hours</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <div className="w-1.5 h-1.5 rounded-full bg-[hsl(var(--citisoft-dark))] mt-1.5 flex-shrink-0" />
+                          <span>You'll receive a personalized response via email</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <div className="w-1.5 h-1.5 rounded-full bg-[hsl(var(--citisoft-dark))] mt-1.5 flex-shrink-0" />
+                          <span>We'll schedule a consultation to discuss your needs</span>
+                        </li>
+                      </ul>
+                    </div>
+                    
+                    {/* Contact details */}
+                    <p className="text-xs text-slate-500">
+                      Urgent inquiry? Call us at <span className="font-medium text-slate-700">+92 (317) 200-3570</span>
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {/* Error message */}
+              {error && (
+                <div className="absolute inset-0 bg-white/98 backdrop-blur-md rounded-3xl flex items-center justify-center z-10">
+                  <div className="text-center px-6">
+                    <div className="relative w-20 h-20 mx-auto mb-6">
+                      <div className="absolute inset-0 rounded-full bg-gradient-to-br from-red-400 to-rose-500 opacity-20 animate-ping" />
+                      <div className="relative w-full h-full rounded-full bg-gradient-to-br from-red-400 to-rose-500 flex items-center justify-center shadow-lg shadow-red-500/30">
+                        <AlertCircle className="w-10 h-10 text-white" />
+                      </div>
+                    </div>
+                    <h3 className="text-2xl font-semibold text-slate-900 mb-2">Oops!</h3>
+                    <p className="text-slate-500">{error}</p>
                   </div>
                 </div>
               )}
@@ -214,11 +306,21 @@ const Contact = () => {
                 <Button
                   type="submit"
                   size="lg"
-                  className="group relative w-full rounded-xl bg-gradient-to-r from-[hsl(var(--citisoft-light))] to-[hsl(var(--citisoft-dark))] text-white font-medium h-14 overflow-hidden shadow-lg shadow-[hsl(var(--citisoft-dark))]/20 hover:shadow-xl hover:shadow-[hsl(var(--citisoft-dark))]/30 transition-all duration-300"
+                  disabled={isSubmitting}
+                  className="group relative w-full rounded-xl bg-gradient-to-r from-[hsl(var(--citisoft-light))] to-[hsl(var(--citisoft-dark))] text-white font-medium h-14 overflow-hidden shadow-lg shadow-[hsl(var(--citisoft-dark))]/20 hover:shadow-xl hover:shadow-[hsl(var(--citisoft-dark))]/30 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <span className="relative z-10 flex items-center justify-center gap-2">
-                    Send Message
-                    <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                    {isSubmitting ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        Send Message
+                        <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                      </>
+                    )}
                   </span>
                   <div className="absolute inset-0 bg-gradient-to-r from-[hsl(var(--citisoft-dark))] to-[hsl(var(--citisoft-light))] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </Button>
