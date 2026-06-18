@@ -4,9 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import citisoftLogo from "@/assets/citisoft-logo.png";
 
-const navLinks = [
+const navLinks: { label: string; hash?: string; path?: string }[] = [
   { hash: "services", label: "Services" },
   { hash: "products", label: "Products" },
+  { hash: "insights", label: "Insights" },
+  { path: "/team", label: "Team" },
   { hash: "contact", label: "Contact" },
 ];
 
@@ -49,6 +51,8 @@ const Navbar = () => {
   // Show white navbar when scrolled, or transparent with white text at top of dark hero pages
   const showWhiteNavbar = scrollY > 10 || !hasDarkHero;
   const linkTo = (hash: string) => (isHome ? `#${hash}` : `/#${hash}`);
+  const destFor = (link: { hash?: string; path?: string }) =>
+    link.path ?? linkTo(link.hash as string);
 
   return (
     <header
@@ -77,8 +81,8 @@ const Navbar = () => {
           <nav className="hidden lg:flex items-center gap-8 xl:gap-10">
             {navLinks.map((link) => (
               <Link
-                key={link.hash}
-                to={linkTo(link.hash)}
+                key={link.label}
+                to={destFor(link)}
                 className="text-[15px] font-medium transition-colors"
                 style={{
                   color: showWhiteNavbar ? 'hsl(222.2, 47.4%, 11.2%)' : 'rgba(255, 255, 255, 0.95)',
@@ -142,8 +146,8 @@ const Navbar = () => {
               <div className="flex-1 space-y-1">
                 {navLinks.map((link, index) => (
                   <Link
-                    key={link.hash}
-                    to={linkTo(link.hash)}
+                    key={link.label}
+                    to={destFor(link)}
                     className="group block py-4 px-4 text-white/90 hover:text-white hover:bg-white/5 rounded-lg transition-all duration-300 border-b border-white/5 last:border-0"
                     onClick={() => setIsMobileMenuOpen(false)}
                     style={{ animation: `slideInRight 0.3s ease-out ${index * 0.1}s both` }}

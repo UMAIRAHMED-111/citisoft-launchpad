@@ -5,6 +5,7 @@ import Services from "@/components/landing/Services";
 import Products from "@/components/landing/Products";
 import Impact from "@/components/landing/Impact";
 import VideoCTA from "@/components/landing/VideoCTA";
+import Insights from "@/components/landing/Insights";
 import Contact from "@/components/landing/Contact";
 import Footer from "@/components/landing/Footer";
 
@@ -18,6 +19,7 @@ const Index = () => {
       <Products />
       <Impact />
       <VideoCTA />
+      <Insights />
       <Contact />
       <Footer />
     </main>

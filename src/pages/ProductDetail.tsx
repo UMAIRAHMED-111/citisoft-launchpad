@@ -1,11 +1,14 @@
 import { useParams, Link, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Check, ArrowLeft } from "lucide-react";
+import { ArrowRight, Check, ArrowLeft, ArrowUpRight } from "lucide-react";
 import Navbar from "@/components/landing/Navbar";
 import ScrollProgress from "@/components/landing/ScrollProgress";
 import Footer from "@/components/landing/Footer";
+import SuretyEmbed, { SURETYOS_URL } from "@/components/landing/SuretyEmbed";
 import { getProductBySlug } from "@/lib/products-data";
+
+const SURETYOS_SLUG = "digital-insurance-surety-platform";
 
 const ProductDetail = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -64,12 +67,13 @@ const ProductDetail = () => {
           </Link>
           
           <div className="max-w-4xl">
-            <span 
-              className={`inline-block px-4 py-1.5 text-[10px] sm:text-xs font-semibold tracking-[0.2em] text-white/90 bg-white/10 backdrop-blur-sm border border-white/20 uppercase mb-6 sm:mb-8 rounded-full transition-all duration-500 delay-100 ${
+            <span
+              className={`inline-flex items-center gap-2 px-4 py-1.5 text-[10px] sm:text-xs font-semibold tracking-[0.15em] text-white/90 bg-white/10 backdrop-blur-sm border border-white/20 uppercase mb-6 sm:mb-8 rounded-full transition-all duration-500 delay-100 ${
                 isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
             >
-              PRODUCT
+              <product.icon className="w-4 h-4 shrink-0" strokeWidth={2.25} />
+              {product.shortTitle}
             </span>
             <h1 
               className={`text-4xl xs:text-5xl sm:text-6xl lg:text-7xl font-medium sm:font-light text-white tracking-tight mb-6 sm:mb-8 leading-[1.1] transition-all duration-700 delay-200 ${
@@ -131,6 +135,49 @@ const ProductDetail = () => {
           </div>
         </div>
       </section>
+
+      {/* Live Preview Section - SuretyOS only */}
+      {product.slug === SURETYOS_SLUG && (
+        <section className="py-16 sm:py-20 lg:py-28 bg-[hsl(var(--dark-bg))] relative overflow-hidden">
+          {/* Decorative gradient using product gradient */}
+          <div
+            className="absolute top-0 right-0 w-1/2 h-full opacity-10 blur-3xl"
+            style={{ background: product.gradient }}
+          />
+
+          <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-10">
+            {/* Section header */}
+            <div className="text-center max-w-3xl mx-auto mb-12 lg:mb-16">
+              <span className="inline-block px-4 py-1.5 text-xs font-semibold text-[hsl(var(--citisoft-light))] bg-white/5 border border-white/10 rounded-full uppercase tracking-wider mb-4">
+                Live Preview
+              </span>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-white tracking-tight mb-4">
+                See SuretyOS in action
+              </h2>
+              <p className="text-lg text-white/60 font-light">
+                Explore the live platform right here, then dive in for the full experience.
+              </p>
+            </div>
+
+            {/* Embed */}
+            <div className="max-w-5xl mx-auto">
+              <SuretyEmbed />
+
+              <div className="flex justify-center mt-8">
+                <a
+                  href={SURETYOS_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-[hsl(220_25%_10%)] font-medium text-sm hover:bg-white/90 transition-all"
+                >
+                  Visit SuretyOS
+                  <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Key Features Section */}
       <section className="py-16 sm:py-20 lg:py-28 bg-slate-50 relative overflow-hidden">

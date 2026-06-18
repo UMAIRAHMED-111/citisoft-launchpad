@@ -1,7 +1,18 @@
+import {
+  ShieldCheck,
+  Bot,
+  ReceiptText,
+  Wallet,
+  FileSignature,
+  BarChart3,
+  type LucideIcon,
+} from "lucide-react";
+
 export type Product = {
   slug: string;
   title: string;
   shortTitle: string;
+  icon: LucideIcon;
   tagline: string;
   description: string;
   gradient: string;
@@ -21,6 +32,7 @@ export const products: Product[] = [
     slug: "digital-insurance-surety-platform",
     title: "Digital Insurance & Surety Operations Platform",
     shortTitle: "Insurance Platform",
+    icon: ShieldCheck,
     tagline: "Enterprise-grade insurance workflow automation",
     description: "A robust enterprise platform designed to manage complex, regulated insurance workflows end to end.",
     gradient: "linear-gradient(135deg, #1e3a5f 0%, #2d4a6f 50%, #3d5a7f 100%)",
@@ -72,6 +84,7 @@ export const products: Product[] = [
     slug: "ai-conversational-automation-platform",
     title: "AI-Powered Conversational Automation Platform",
     shortTitle: "AI Automation",
+    icon: Bot,
     tagline: "Intelligent automation for customer engagement",
     description: "An intelligent automation platform enabling businesses to deploy AI-driven conversational experiences across customer engagement channels.",
     gradient: "linear-gradient(135deg, #2d1b4e 0%, #4a2c6e 50%, #6b3d8e 100%)",
@@ -123,6 +136,7 @@ export const products: Product[] = [
     slug: "digital-tax-einvoicing-platform",
     title: "Digital Tax & e-Invoicing Compliance Platform",
     shortTitle: "Tax Compliance",
+    icon: ReceiptText,
     tagline: "Compliance-grade digital invoicing automation",
     description: "A compliance-grade platform built to support mandatory digital invoicing and regulatory submission workflows.",
     gradient: "linear-gradient(135deg, #1e4a3d 0%, #2d5a4d 50%, #3d6a5d 100%)",
@@ -174,6 +188,7 @@ export const products: Product[] = [
     slug: "financial-operations-ap-platform",
     title: "Financial Operations & Accounts Payable Automation Platform",
     shortTitle: "AP Automation",
+    icon: Wallet,
     tagline: "Enterprise financial operations at scale",
     description: "An enterprise financial operations platform streamlining invoice processing, approvals, and reconciliation.",
     gradient: "linear-gradient(135deg, #1e2a4e 0%, #2d3a6e 50%, #3d4a8e 100%)",
@@ -225,6 +240,7 @@ export const products: Product[] = [
     slug: "sales-proposal-rfq-platform",
     title: "Automated Sales Proposal & RFQ Processing Platform",
     shortTitle: "Sales Automation",
+    icon: FileSignature,
     tagline: "Transform sales operations with intelligent automation",
     description: "An end-to-end automation platform transforming how organizations manage high-volume sales inquiries and proposal workflows.",
     gradient: "linear-gradient(135deg, #4a1e3d 0%, #6a2e4d 50%, #8a3e5d 100%)",
@@ -276,6 +292,7 @@ export const products: Product[] = [
     slug: "enterprise-fb-analytics-platform",
     title: "Enterprise Food & Beverage Analytics Platform",
     shortTitle: "F&B Analytics",
+    icon: BarChart3,
     tagline: "Data-driven insights for F&B operations",
     description: "A data-driven analytics platform providing leadership with unified visibility into operational consumption, compliance, and performance.",
     gradient: "linear-gradient(135deg, #3d2e1e 0%, #5d4e2e 50%, #7d6e3e 100%)",

@@ -41,6 +41,7 @@ const Footer = () => {
               {[
                 { label: "Services", href: "#services" },
                 { label: "Products", href: "#products" },
+                { label: "Insights", href: "#insights" },
                 { label: "Contact", href: "#contact" },
               ].map((item) => (
                 <li key={item.label}>
@@ -76,7 +77,9 @@ const Footer = () => {
           <div className="lg:col-span-1">
             <h4 className="font-medium text-white mb-5">Connect</h4>
             <a
-              href="#"
+              href="https://www.linkedin.com/company/citisoft-solutions/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="w-10 h-10 rounded-lg border border-[hsl(220_15%_25%)] flex items-center justify-center text-[hsl(220_10%_70%)] hover:text-white hover:border-white transition-colors"
               aria-label="LinkedIn"
             >

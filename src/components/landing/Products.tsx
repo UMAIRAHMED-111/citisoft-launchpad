@@ -87,10 +87,11 @@ const ProductCard = ({ product, index }: { product: typeof products[0]; index: n
       <div className="relative h-full p-8 lg:p-10 flex flex-col justify-between z-10">
         {/* Top content */}
         <div>
-          {/* Tag with shimmer */}
+          {/* Product name tag with logo + shimmer */}
           <div className="relative inline-block mb-8 overflow-hidden">
-            <span className="relative z-10 inline-block px-4 py-2 text-[10px] font-bold tracking-[0.2em] text-white bg-white/10 backdrop-blur-md border border-white/20 uppercase rounded-full">
-              PRODUCT
+            <span className="relative z-10 inline-flex items-center gap-2 px-4 py-2 text-[10px] font-bold tracking-[0.15em] text-white bg-white/10 backdrop-blur-md border border-white/20 uppercase rounded-full">
+              <product.icon className="w-3.5 h-3.5 shrink-0" strokeWidth={2.25} />
+              {product.shortTitle}
             </span>
             <div className="absolute inset-0 animate-shimmer rounded-full" />
           </div>

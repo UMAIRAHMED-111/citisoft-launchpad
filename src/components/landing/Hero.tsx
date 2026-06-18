@@ -1,7 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
+import { useIsMobile } from "@/hooks/use-mobile";
 import aerialVideo from "@/assets/mixkit-aerial-panorama-over-the-buildings-of-a-big-city-41541-hd-ready.mp4";
 import officeVideo from "@/assets/mixkit-busy-office-space-918-hd-ready.mp4";
+import cityscapeImage from "@/assets/hero-cityscape.jpg";
 
 const heroSlides = [
   {
@@ -19,6 +21,7 @@ const heroSlides = [
 const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -38,28 +41,37 @@ const Hero = () => {
 
   return (
     <section className="relative h-screen w-full overflow-hidden bg-[hsl(var(--dark-bg))]">
-      {/* Video backgrounds */}
-      {heroSlides.map((slide, index) => (
-        <div
-          key={index}
-          className={`absolute inset-0 transition-opacity duration-700 ${
-            index === currentSlide ? "opacity-100 z-0" : "opacity-0 z-0"
-          }`}
-        >
-          <video
-            ref={(el) => {
-              videoRefs.current[index] = el;
-            }}
-            src={slide.video}
-            className="w-full h-full object-cover"
-            muted
-            loop
-            playsInline
-            autoPlay={index === 0}
-            aria-hidden="true"
-          />
-        </div>
-      ))}
+      {/* Base layer: grayscale cityscape image (shown on phones; videos skipped there) */}
+      <img
+        src={cityscapeImage}
+        alt=""
+        aria-hidden="true"
+        className="absolute inset-0 w-full h-full object-cover grayscale z-0"
+      />
+
+      {/* Video backgrounds (desktop/tablet only — phones use the static image above) */}
+      {!isMobile &&
+        heroSlides.map((slide, index) => (
+          <div
+            key={index}
+            className={`absolute inset-0 transition-opacity duration-700 ${
+              index === currentSlide ? "opacity-100 z-0" : "opacity-0 z-0"
+            }`}
+          >
+            <video
+              ref={(el) => {
+                videoRefs.current[index] = el;
+              }}
+              src={slide.video}
+              className="w-full h-full object-cover grayscale"
+              muted
+              loop
+              playsInline
+              autoPlay={index === 0}
+              aria-hidden="true"
+            />
+          </div>
+        ))}
 
       {/* Overlay: dark gradient for readability, keeps theme with blue tint */}
       <div
