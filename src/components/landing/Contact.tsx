@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Mail, Phone, MapPin, Send, CheckCircle, AlertCircle } from "lucide-react";
+import { Mail, MapPin, Send, CheckCircle, AlertCircle } from "lucide-react";
 
 const Contact = () => {
   const [formState, setFormState] = useState({
@@ -128,27 +128,13 @@ const Contact = () => {
                 </div>
               </a>
               
-              <a 
-                href="tel:+1234567890" 
-                className="group flex items-center gap-3 sm:gap-4 text-slate-700 hover:text-slate-900 transition-colors"
-              >
-                <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-gradient-to-br from-white to-slate-50 border border-slate-200/80 shadow-lg shadow-slate-200/50 flex items-center justify-center group-hover:shadow-xl group-hover:border-[hsl(var(--citisoft-light))]/30 group-hover:scale-105 transition-all duration-300">
-                  <Phone className="w-4 h-4 sm:w-5 sm:h-5 text-[hsl(var(--citisoft-dark))]" />
-                  <div className="absolute inset-0 rounded-xl sm:rounded-2xl bg-gradient-to-br from-[hsl(var(--citisoft-light))]/0 to-[hsl(var(--citisoft-dark))]/0 group-hover:from-[hsl(var(--citisoft-light))]/10 group-hover:to-[hsl(var(--citisoft-dark))]/5 transition-all duration-300" />
-                </div>
-                <div>
-                  <p className="text-xs sm:text-sm text-slate-500 mb-0.5">Call or WhatsApp us</p>
-                  <p className="text-sm sm:text-base font-medium">+92 (317) 200-3570</p>
-                </div>
-              </a>
-              
               <div className="group flex items-center gap-3 sm:gap-4 text-slate-700">
                 <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-gradient-to-br from-white to-slate-50 border border-slate-200/80 shadow-lg shadow-slate-200/50 flex items-center justify-center">
                   <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-[hsl(var(--citisoft-dark))]" />
                 </div>
                 <div>
                   <p className="text-xs sm:text-sm text-slate-500 mb-0.5">Visit us</p>
-                  <p className="text-sm sm:text-base font-medium">Karachi, Pakistan</p>
+                  <p className="text-sm sm:text-base font-medium">Houston, Texas</p>
                 </div>
               </div>
             </div>
@@ -207,11 +193,6 @@ const Contact = () => {
                         </li>
                       </ul>
                     </div>
-                    
-                    {/* Contact details */}
-                    <p className="text-xs text-slate-500">
-                      Urgent inquiry? Call us at <span className="font-medium text-slate-700">+92 (317) 200-3570</span>
-                    </p>
                   </div>
                 </div>
               )}
