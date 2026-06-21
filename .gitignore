@@ -23,3 +23,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Confidential ICP source doc (kept local, not tracked)
+docs/*.docx

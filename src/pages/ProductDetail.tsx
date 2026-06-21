@@ -6,9 +6,11 @@ import Navbar from "@/components/landing/Navbar";
 import ScrollProgress from "@/components/landing/ScrollProgress";
 import Footer from "@/components/landing/Footer";
 import SuretyEmbed, { SURETYOS_URL } from "@/components/landing/SuretyEmbed";
+import RfqIndustrialLanding from "@/pages/RfqIndustrialLanding";
 import { getProductBySlug } from "@/lib/products-data";
 
 const SURETYOS_SLUG = "digital-insurance-surety-platform";
+const RFQ_INDUSTRIAL_SLUG = "sales-proposal-rfq-platform";
 
 const ProductDetail = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -18,6 +20,11 @@ const ProductDetail = () => {
   useEffect(() => {
     setIsVisible(true);
   }, []);
+
+  // This product has a dedicated, ICP-specific landing page.
+  if (slug === RFQ_INDUSTRIAL_SLUG) {
+    return <RfqIndustrialLanding />;
+  }
 
   if (!product) {
     return <Navigate to="/" replace />;

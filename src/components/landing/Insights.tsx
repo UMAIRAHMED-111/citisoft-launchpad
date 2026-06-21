@@ -78,9 +78,11 @@ const SuretyShowcase = () => {
 const InsightCard = ({
   insight,
   index,
+  featured = false,
 }: {
   insight: typeof insights[0];
   index: number;
+  featured?: boolean;
 }) => {
   const cardRef = useRef<HTMLAnchorElement>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -104,7 +106,11 @@ const InsightCard = ({
     <Link
       ref={cardRef}
       to={`/insights/${insight.slug}`}
-      className={`group relative flex flex-col overflow-hidden rounded-2xl bg-[hsl(220_22%_11%)] border border-white/5 hover:border-white/20 transition-all duration-700 ease-out hover:-translate-y-1.5 ${
+      className={`group relative flex flex-col overflow-hidden rounded-2xl bg-[hsl(220_22%_11%)] transition-all duration-700 ease-out hover:-translate-y-1.5 ${
+        featured
+          ? "border border-[hsl(var(--citisoft-light))]/50 ring-1 ring-[hsl(var(--citisoft-light))]/30 shadow-lg shadow-[hsl(var(--citisoft-dark))]/20"
+          : "border border-white/5 hover:border-white/20"
+      } ${
         isVisible
           ? "opacity-100 translate-y-0 scale-100"
           : "opacity-0 translate-y-16 scale-95"
@@ -123,6 +129,12 @@ const InsightCard = ({
         <span className="absolute top-4 left-4 px-3 py-1.5 text-[10px] font-bold tracking-[0.15em] text-white bg-black/40 backdrop-blur-md border border-white/20 uppercase rounded-full">
           {insight.category}
         </span>
+        {/* Featured / New marker */}
+        {featured && (
+          <span className="absolute top-4 right-4 px-3 py-1.5 text-[10px] font-bold tracking-[0.15em] text-white bg-gradient-to-r from-[hsl(var(--citisoft-light))] to-[hsl(var(--citisoft-dark))] uppercase rounded-full shadow-md">
+            New
+          </span>
+        )}
       </div>
 
       {/* Body */}
@@ -181,7 +193,12 @@ const Insights = () => {
         {/* Insights grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {insights.map((insight, index) => (
-            <InsightCard key={insight.title} insight={insight} index={index} />
+            <InsightCard
+              key={insight.title}
+              insight={insight}
+              index={index}
+              featured={index === 0 && insight.category === "Announcement"}
+            />
           ))}
         </div>
       </div>

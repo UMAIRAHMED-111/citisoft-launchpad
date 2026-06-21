@@ -132,15 +132,25 @@ const InsightDetail = () => {
                 <p className="text-white/60 font-light mb-8 max-w-md mx-auto">
                   See how it works in practice and experience the product firsthand.
                 </p>
-                <a
-                  href={insight.cta.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-[hsl(220_25%_10%)] font-medium text-sm hover:bg-white/90 transition-all"
-                >
-                  {insight.cta.label}
-                  <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                </a>
+                {insight.cta.href.startsWith("/") ? (
+                  <Link
+                    to={insight.cta.href}
+                    className="group inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-[hsl(220_25%_10%)] font-medium text-sm hover:bg-white/90 transition-all"
+                  >
+                    {insight.cta.label}
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                ) : (
+                  <a
+                    href={insight.cta.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-[hsl(220_25%_10%)] font-medium text-sm hover:bg-white/90 transition-all"
+                  >
+                    {insight.cta.label}
+                    <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  </a>
+                )}
               </div>
             )}
           </div>

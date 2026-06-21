@@ -24,6 +24,45 @@ const SURETYOS_CTA = { label: "Visit SuretyOS", href: SURETYOS_URL };
 
 export const insights: Insight[] = [
   {
+    slug: "citisoft-launches-rfq-automation-for-industrial-manufacturers",
+    title:
+      "Announcing AI Quoting & RFQ Automation for Niche Industrial Manufacturers",
+    excerpt:
+      "CitiSoft is bringing custom AI agents to engineered- and configure-to-order manufacturers — turning hand-built quotes into a minutes-long, review-ready workflow. Here's who it's for and how the land-and-expand model works.",
+    category: "Announcement",
+    date: "Jun 20, 2026",
+    readTime: "4 min read",
+    author: "Citisoft Solutions",
+    image:
+      "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1600&auto=format&fit=crop",
+    cta: {
+      label: "Explore the platform",
+      href: "/products/sales-proposal-rfq-platform",
+    },
+    content: [
+      {
+        body: [
+          "Niche industrial manufacturers — the specialized firms that design, build and service sealing systems, valves, pumps, springs, power transmission and precision components — run on something no software has captured: the judgment of a few experienced engineers. Their sales are technical and quote-driven, their systems are legacy ERP, spreadsheets and email, and every inbound RFQ is interpreted by hand. Today we're announcing a focused offering built specifically for them.",
+          "CitiSoft now delivers custom AI agents and workflow automation for engineered- and configure-to-order manufacturers, starting with the workflow where the return is fastest and easiest to measure: RFQ-to-Quote automation.",
+        ],
+      },
+      {
+        heading: "The problem we set out to solve",
+        body: [
+          "Inbound RFQs arrive as unstructured emails, spec sheets and drawings. An engineer or inside-sales rep manually interprets each one — checking dimensions, materials, operating conditions and compatibility — before pulling pricing and drafting a quote. That consumes anywhere from thirty minutes to several hours per quote and creates a persistent backlog.",
+          "In technical B2B, the first credible quote often wins the order. Slow turnaround means deals go cold or move to faster competitors, while expensive engineering time is spent on repetitive work instead of complex, high-margin jobs.",
+        ],
+      },
+      {
+        heading: "An AI quoting agent, then the whole value chain",
+        body: [
+          "Our quoting agent ingests an RFQ in any format, extracts the requirements, cross-references the client's own catalog and pricing rules, flags missing or ambiguous information, and produces a review-ready quote for an engineer to approve and send — compressing turnaround from days to minutes.",
+          "From there the same engine — document understanding, retrieval over the client's catalog and history, and workflow automation — extends into technical knowledge support, order processing, and aftermarket failure intelligence. We start with a fixed-scope, 30-day paid pilot on a single product line, prove the ROI, and expand as trust compounds.",
+        ],
+      },
+    ],
+  },
+  {
     slug: "introducing-suretyos-operating-system-for-digital-surety",
     title: "Introducing SuretyOS: The Operating System for Digital Surety",
     excerpt:
