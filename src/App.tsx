@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import ServiceDetail from "./pages/ServiceDetail";
 import ProductDetail from "./pages/ProductDetail";
 import InsightDetail from "./pages/InsightDetail";
+import TalosLanding from "./pages/TalosLanding";
 import Team from "./pages/Team";
 import NotFound from "./pages/NotFound";
 
@@ -25,6 +26,7 @@ const App = () => (
           <Route path="/services/:slug" element={<ServiceDetail />} />
           <Route path="/products/:slug" element={<ProductDetail />} />
           <Route path="/insights/:slug" element={<InsightDetail />} />
+          <Route path="/talos" element={<TalosLanding />} />
           <Route path="/team" element={<Team />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
