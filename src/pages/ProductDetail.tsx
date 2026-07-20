@@ -7,12 +7,10 @@ import ScrollProgress from "@/components/landing/ScrollProgress";
 import Footer from "@/components/landing/Footer";
 import SuretyEmbed, { SURETYOS_URL } from "@/components/landing/SuretyEmbed";
 import RfqIndustrialLanding from "@/pages/RfqIndustrialLanding";
-import TalosLanding from "@/pages/TalosLanding";
 import { getProductBySlug } from "@/lib/products-data";
 
 const SURETYOS_SLUG = "digital-insurance-surety-platform";
 const RFQ_INDUSTRIAL_SLUG = "sales-proposal-rfq-platform";
-const TALOS_SLUG = "talos-restaurant-data-layer";
 
 const ProductDetail = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -23,12 +21,9 @@ const ProductDetail = () => {
     setIsVisible(true);
   }, []);
 
-  // These products have dedicated, bespoke landing pages.
+  // This product has a dedicated, ICP-specific landing page.
   if (slug === RFQ_INDUSTRIAL_SLUG) {
     return <RfqIndustrialLanding />;
-  }
-  if (slug === TALOS_SLUG) {
-    return <TalosLanding />;
   }
 
   if (!product) {

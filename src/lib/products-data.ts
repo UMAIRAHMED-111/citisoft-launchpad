@@ -4,7 +4,6 @@ import {
   ReceiptText,
   Wallet,
   FileSignature,
-  Layers,
   type LucideIcon,
 } from "lucide-react";
 
@@ -286,58 +285,6 @@ export const products: Product[] = [
       "AI-assisted intake",
       "Cross-team coordination",
       "Operational visibility",
-    ],
-  },
-  {
-    slug: "talos-restaurant-data-layer",
-    title: "Talos — One Data Layer for Your Entire Restaurant",
-    shortTitle: "Talos",
-    icon: Layers,
-    tagline: "One data layer for your whole restaurant. Just ask.",
-    description: "Talos connects every system you already run into a single data layer — then lets you ask questions in plain English, right inside the tools your team already uses.",
-    gradient: "linear-gradient(135deg, #0e3a3a 0%, #11605a 50%, #14807a 100%)",
-    image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200&auto=format&fit=crop",
-    extendedDescription: "Running a restaurant means juggling a dozen tools that don't talk to each other — POS, delivery apps, scheduling, reviews, catering, team chats. Talos unifies all of them into a single data layer for your business, then lets you just ask, in plain English, inside Slack, WhatsApp, Teams and more. Real answers in seconds, across every tool and every location — no new dashboards, no software to replace, live in about 30 days.",
-    keyFeatures: [
-      {
-        title: "Unified Data Layer",
-        description: "Talos connects every system you already run — POS, delivery apps, scheduling, reviews, catering, team chats — into one single source of truth for your whole business.",
-      },
-      {
-        title: "Ask in Plain English",
-        description: "No queries, no dashboards. Just ask questions like 'How did we do this weekend?' or 'Which delivery app is costing us the most?' and get real answers in seconds.",
-      },
-      {
-        title: "Lives Where Your Team Works",
-        description: "Talos sits inside the tools your team already uses — Slack, WhatsApp, Teams and more — so there's nothing new to learn and nothing to log into.",
-      },
-      {
-        title: "Sits On Top of Everything",
-        description: "No software to replace and no rip-and-replace migration. Talos layers on top of your existing stack and goes live in about 30 days.",
-      },
-    ],
-    benefits: [
-      "Stop being the glue between disconnected tools",
-      "Catch problems in seconds instead of days too late",
-      "See which channels and locations are actually profitable",
-      "Answers across every tool and every location, instantly",
-      "No new dashboards and no software to replace",
-      "Live in about 30 days, on top of what you already use",
-    ],
-    useCases: [
-      "Multi-unit restaurant operations",
-      "Weekend and daily performance check-ins",
-      "Delivery-channel profitability analysis",
-      "Staffing and scheduling gaps",
-      "Catering and review monitoring",
-      "Cross-location reporting in plain English",
-    ],
-    capabilities: [
-      "Data unification",
-      "Conversational analytics",
-      "POS & delivery integrations",
-      "Slack / WhatsApp / Teams",
-      "Multi-location operations",
     ],
   },
 ];

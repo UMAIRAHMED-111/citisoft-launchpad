@@ -24,43 +24,6 @@ const SURETYOS_CTA = { label: "Visit SuretyOS", href: SURETYOS_URL };
 
 export const insights: Insight[] = [
   {
-    slug: "introducing-talos-one-data-layer-for-your-restaurant",
-    title: "Introducing Talos: One Data Layer for Your Entire Restaurant",
-    excerpt:
-      "Restaurants run on a dozen tools that don't talk to each other. Talos connects every system you already use into a single data layer — then lets you just ask, in plain English, right inside Slack, WhatsApp and Teams.",
-    category: "Announcement",
-    date: "Jun 24, 2026",
-    readTime: "4 min read",
-    author: "Citisoft Solutions",
-    image: "https://i.ytimg.com/vi/YppdfHvaDOA/maxresdefault.jpg",
-    cta: {
-      label: "Explore Talos",
-      href: "/talos",
-    },
-    content: [
-      {
-        body: [
-          "Running a restaurant means juggling a dozen tools that don't talk to each other — POS, delivery apps, scheduling, reviews, catering, team chats. So you become the glue: pulling numbers by hand, stitching together spreadsheets, and catching problems days too late. Today we're introducing Talos to change that.",
-          "Talos connects every system you already run into a single data layer for your business — then lets you just ask, in plain English, right inside the tools your team already uses: Slack, WhatsApp, Teams and more.",
-        ],
-      },
-      {
-        heading: "Just ask — across every tool and every location",
-        body: [
-          "\"How did we do this weekend?\" \"Which channel is actually most profitable?\" \"Is anyone short-staffed tomorrow?\" \"Which delivery app is costing us the most?\" Talos gives real answers, in seconds, across every tool and every location — no queries and no new dashboards to learn.",
-          "Because the answers come from a unified data layer rather than a single connected app, they reflect your whole operation at once instead of one silo at a time.",
-        ],
-      },
-      {
-        heading: "No rip-and-replace, live in about 30 days",
-        body: [
-          "Talos sits on top of everything you already use — there are no new dashboards, no software to replace, and no painful migration. It layers onto your existing stack and goes live in about 30 days.",
-          "Once your data is unified, what you can build on top of it is limitless. Talos — one data layer for your whole restaurant. Just ask.",
-        ],
-      },
-    ],
-  },
-  {
     slug: "citisoft-launches-rfq-automation-for-industrial-manufacturers",
     title:
       "Announcing AI Quoting & RFQ Automation for Niche Industrial Manufacturers",
