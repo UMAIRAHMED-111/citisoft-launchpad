@@ -16,7 +16,9 @@ dist-ssr
 .vscode/*
 !.vscode/extensions.json
 .idea
-.claude/
+.claude/*
+# share team skills; local settings and caches stay ignored
+!.claude/skills/
 .DS_Store
 *.suo
 *.ntvs*
