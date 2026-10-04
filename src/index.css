@@ -1,74 +1,65 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* Citisoft Solutions Design System
-   Light Enterprise Theme with Dark Accents
-   Primary: Blue Gradient | Background: White | Text: Dark
+   Consulting Theme — restrained blue, quiet authority
+   Primary: Citisoft Blue | Background: Cool off-white | Text: Deep ink
 */
 
 @layer base {
   :root {
-    /* Light Theme - Default */
-    --background: 0 0% 100%;
-    --foreground: 220 20% 15%;
+    --background: 210 25% 98%;
+    --foreground: 220 28% 12%;
     
-    --card: 210 20% 98%;
-    --card-foreground: 220 20% 15%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 28% 12%;
     
     --popover: 0 0% 100%;
-    --popover-foreground: 220 20% 15%;
+    --popover-foreground: 220 28% 12%;
     
     /* Primary Blue Palette */
-    --primary: 202 68% 48%;
+    --primary: 211 62% 38%;
     --primary-foreground: 0 0% 100%;
     
-    /* Secondary - Light gray for subtle backgrounds */
-    --secondary: 210 20% 96%;
-    --secondary-foreground: 220 20% 15%;
+    --secondary: 210 22% 95%;
+    --secondary-foreground: 220 28% 12%;
     
-    /* Muted */
-    --muted: 210 20% 96%;
-    --muted-foreground: 220 10% 45%;
+    --muted: 210 18% 94%;
+    --muted-foreground: 220 12% 38%;
     
-    /* Accent */
-    --accent: 202 68% 95%;
-    --accent-foreground: 211 62% 35%;
+    --accent: 211 45% 94%;
+    --accent-foreground: 211 62% 32%;
     
-    /* Destructive */
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
     
-    /* Borders & Inputs */
-    --border: 220 13% 90%;
-    --input: 220 13% 90%;
-    --ring: 202 68% 48%;
+    --border: 215 18% 88%;
+    --input: 215 18% 88%;
+    --ring: 211 62% 38%;
     
-    --radius: 0.5rem;
+    --radius: 0.25rem;
     
-    /* Citisoft Blue Gradient Colors (HSL) */
     --citisoft-light: 202 68% 48%;
-    --citisoft-medium: 208 62% 45%;
-    --citisoft-dark: 211 62% 38%;
+    --citisoft-medium: 208 62% 42%;
+    --citisoft-dark: 211 62% 32%;
     
-    /* Dark Section Variables */
-    --dark-bg: 220 20% 10%;
-    --dark-card: 220 20% 14%;
+    --dark-bg: 220 28% 10%;
+    --dark-card: 220 24% 14%;
     --dark-foreground: 0 0% 98%;
-    --dark-muted: 220 10% 60%;
-    --dark-border: 220 15% 22%;
+    --dark-muted: 220 12% 62%;
+    --dark-border: 220 16% 22%;
     
-    /* Sidebar */
-    --sidebar-background: 210 20% 98%;
-    --sidebar-foreground: 220 20% 15%;
-    --sidebar-primary: 202 68% 48%;
+    --sidebar-background: 210 22% 98%;
+    --sidebar-foreground: 220 28% 12%;
+    --sidebar-primary: 211 62% 38%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 210 20% 94%;
-    --sidebar-accent-foreground: 220 20% 15%;
-    --sidebar-border: 220 13% 90%;
-    --sidebar-ring: 202 68% 48%;
+    --sidebar-accent: 210 18% 94%;
+    --sidebar-accent-foreground: 220 28% 12%;
+    --sidebar-border: 215 18% 88%;
+    --sidebar-ring: 211 62% 38%;
   }
 }
 
@@ -82,29 +73,47 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased;
-    font-family: 'Inter', system-ui, sans-serif;
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Source Sans 3', system-ui, sans-serif;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Sora', 'Source Sans 3', system-ui, sans-serif;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
 @layer utilities {
-  /* Citisoft Gradient Text */
-  .text-gradient {
-    @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(var(--citisoft-light)), hsl(var(--citisoft-dark)));
+  .font-display {
+    font-family: 'Sora', 'Source Sans 3', system-ui, sans-serif;
   }
-  
-  /* Citisoft Gradient Background */
+
   .bg-gradient-citisoft {
-    background: linear-gradient(135deg, hsl(var(--citisoft-light)), hsl(var(--citisoft-dark)));
+    background: linear-gradient(135deg, hsl(var(--citisoft-medium)), hsl(var(--citisoft-dark)));
   }
   
-  /* Subtle gradient for cards on hover - adjusted for light theme */
   .bg-gradient-citisoft-subtle {
     background: linear-gradient(135deg, hsl(var(--citisoft-light) / 0.06), hsl(var(--citisoft-dark) / 0.1));
   }
   
-  /* Dark Section Utility - for sections that stay dark */
   .section-dark {
     background: hsl(var(--dark-bg));
     color: hsl(var(--dark-foreground));
@@ -126,130 +135,76 @@
     border-color: hsl(var(--dark-border));
   }
   
-  /* Hero overlay for text readability - optimized for dark hero */
-  .bg-hero-overlay {
-    background: linear-gradient(
-      to right,
-      hsl(var(--dark-bg) / 0.92) 0%,
-      hsl(var(--dark-bg) / 0.75) 40%,
-      hsl(var(--dark-bg) / 0.4) 70%,
-      transparent 100%
-    );
-  }
-  
-  /* Bottom gradient for hero - transitions to white background */
-  .bg-hero-bottom {
-    background: linear-gradient(to top, hsl(var(--background)) 0%, transparent 100%);
-  }
-  
-  /* Light section card shadow */
   .card-shadow {
-    box-shadow: 0 1px 3px hsl(220 20% 15% / 0.06), 
-                0 4px 12px hsl(220 20% 15% / 0.04);
+    box-shadow: 0 1px 2px hsl(220 28% 12% / 0.04), 
+                0 8px 24px hsl(220 28% 12% / 0.04);
   }
   
   .card-shadow-hover:hover {
-    box-shadow: 0 4px 12px hsl(220 20% 15% / 0.1), 
-                0 8px 24px hsl(220 20% 15% / 0.06);
+    box-shadow: 0 2px 8px hsl(220 28% 12% / 0.08), 
+                0 12px 32px hsl(220 28% 12% / 0.06);
   }
-  
-  /* Animated gradient shimmer */
-  .animate-gradient {
-    background-size: 200% 200%;
-    animation: gradient-shift 8s ease infinite;
-  }
-  
-  @keyframes gradient-shift {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-  }
-  
-  /* Float animation */
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
-  }
-  
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-  }
-  
-  /* Fade in up animation */
-  .animate-fade-in-up {
-    animation: fade-in-up 0.8s ease-out forwards;
-    opacity: 0;
-  }
-  
+
   @keyframes fade-in-up {
     from {
       opacity: 0;
-      transform: translateY(30px);
+      transform: translateY(20px);
     }
     to {
       opacity: 1;
       transform: translateY(0);
     }
   }
-  
-  /* Fade in animation */
-  .animate-fade-in {
-    animation: fade-in 1s ease-out forwards;
-    opacity: 0;
-  }
-  
+
   @keyframes fade-in {
     from { opacity: 0; }
     to { opacity: 1; }
   }
-  
-  /* Slide in from left */
-  .animate-slide-in-left {
-    animation: slide-in-left 0.8s ease-out forwards;
-    opacity: 0;
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
-  
-  @keyframes slide-in-left {
+
+  .animate-fade-in {
+    animation: fade-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @keyframes heroKen {
     from {
-      opacity: 0;
-      transform: translateX(-50px);
+      transform: scale(1.05) translate3d(0, 0, 0);
     }
     to {
-      opacity: 1;
-      transform: translateX(0);
+      transform: scale(1.12) translate3d(-1.5%, -1%, 0);
     }
   }
 
-  /* Hero video section - split headline animations */
-  @keyframes slideInUp {
-    from {
-      opacity: 0;
-      transform: translateY(40px);
+  .hero-ken {
+    transform: scale(1.05);
+    animation: heroKen 32s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+
+  .reveal-motion {
+    transition-property: opacity, transform;
+    transition-duration: 700ms;
+    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-ken {
+      animation: none;
+      transform: scale(1.05);
     }
-    to {
-      opacity: 1;
-      transform: translateY(0);
+
+    .reveal-motion {
+      transition: none;
     }
   }
 
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-
-  /* Hide scrollbar but keep scroll - for horizontal carousels */
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
-
-  /* Slide in from right - for mobile menu */
   @keyframes slideInRight {
     from {
       opacity: 0;
-      transform: translateX(20px);
+      transform: translateX(16px);
     }
     to {
       opacity: 1;
@@ -258,78 +213,6 @@
   }
 
   .animate-slide-in-right {
-    animation: slideInRight 0.4s ease-out forwards;
-  }
-
-  /* Fade in up animation for product features */
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  /* Shine animation for cards */
-  @keyframes shine {
-    0% {
-      transform: translateX(-100%) skewX(-15deg);
-    }
-    100% {
-      transform: translateX(200%) skewX(-15deg);
-    }
-  }
-
-  .animate-shine {
-    animation: shine 2s ease-in-out infinite;
-  }
-
-  /* Shimmer effect */
-  @keyframes shimmer {
-    0% {
-      background-position: -200% 0;
-    }
-    100% {
-      background-position: 200% 0;
-    }
-  }
-
-  .animate-shimmer {
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(255, 255, 255, 0.1) 50%,
-      transparent 100%
-    );
-    background-size: 200% 100%;
-    animation: shimmer 3s ease-in-out infinite;
-  }
-
-  /* Float animation */
-  @keyframes float {
-    0%, 100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-10px);
-    }
-  }
-
-  .animate-float {
-    animation: float 4s ease-in-out infinite;
-  }
-
-  /* Glow effect for buttons - subtle for light theme */
-  .glow-blue {
-    box-shadow: 0 0 15px hsl(var(--citisoft-light) / 0.25),
-                0 0 30px hsl(var(--citisoft-light) / 0.1);
-  }
-  
-  .glow-blue-hover:hover {
-    box-shadow: 0 0 20px hsl(var(--citisoft-light) / 0.35),
-                0 0 40px hsl(var(--citisoft-light) / 0.15);
+    animation: slideInRight 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 }

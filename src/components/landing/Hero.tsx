@@ -1,155 +1,132 @@
-import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { useIsMobile } from "@/hooks/use-mobile";
-import aerialVideo from "@/assets/mixkit-aerial-panorama-over-the-buildings-of-a-big-city-41541-hd-ready.mp4";
-import officeVideo from "@/assets/mixkit-busy-office-space-918-hd-ready.mp4";
 import cityscapeImage from "@/assets/hero-cityscape.jpg";
+import aerialVideo from "@/assets/mixkit-aerial-panorama-over-the-buildings-of-a-big-city-41541-hd-ready.mp4";
+import VideoBackdrop from "@/components/landing/VideoBackdrop";
+import AnimatedStat from "@/components/landing/AnimatedStat";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
-const heroSlides = [
-  {
-    title: ["We", "reimagine", "tomorrow."],
-    subtitle: "Driving growth and molding the future through transformative change.",
-    video: aerialVideo,
-  },
-  {
-    title: ["Software", "that", "scales."],
-    subtitle: "Custom solutions, AI-driven automation, and data that powers decisions.",
-    video: officeVideo,
-  },
+const stats = [
+  { value: "400+", label: "Hotel properties automated", shortLabel: "Hotel properties" },
+  { value: "80+", label: "Restaurant locations unified", shortLabel: "Restaurant locations" },
+  { value: "10K+", label: "Surety transactions / day", shortLabel: "Surety txns / day" },
+  { value: "110", label: "Manual CRM tasks eliminated / day", shortLabel: "CRM tasks cut / day" },
 ];
 
 const Hero = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const isMobile = useIsMobile();
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
-    }, 7000);
-    return () => clearInterval(timer);
-  }, []);
-
-  // When slide changes, play the new video
-  useEffect(() => {
-    const currentVideo = videoRefs.current[currentSlide];
-    if (currentVideo) {
-      currentVideo.currentTime = 0;
-      currentVideo.play().catch(() => {});
-    }
-  }, [currentSlide]);
+  const reduced = useReducedMotion();
+  const showVideo = isMobile === false && !reduced;
+  const enableKen = isMobile === false && !reduced && !showVideo;
 
   return (
-    <section className="relative h-screen w-full overflow-hidden bg-[hsl(var(--dark-bg))]">
-      {/* Base layer: grayscale cityscape image (shown on phones; videos skipped there) */}
+    <section className="relative min-h-[100svh] w-full overflow-hidden bg-[hsl(var(--dark-bg))]">
       <img
         src={cityscapeImage}
         alt=""
         aria-hidden="true"
-        className="absolute inset-0 w-full h-full object-cover grayscale z-0"
+        className={`absolute inset-0 h-full w-full object-cover object-center grayscale contrast-[1.15] brightness-[0.85] ${
+          enableKen ? "hero-ken" : ""
+        }`}
       />
 
-      {/* Video backgrounds (desktop/tablet only — phones use the static image above) */}
-      {!isMobile &&
-        heroSlides.map((slide, index) => (
-          <div
-            key={index}
-            className={`absolute inset-0 transition-opacity duration-700 ${
-              index === currentSlide ? "opacity-100 z-0" : "opacity-0 z-0"
-            }`}
-          >
-            <video
-              ref={(el) => {
-                videoRefs.current[index] = el;
-              }}
-              src={slide.video}
-              className="w-full h-full object-cover grayscale"
-              muted
-              loop
-              playsInline
-              autoPlay={index === 0}
-              aria-hidden="true"
-            />
-          </div>
-        ))}
+      {showVideo && (
+        <VideoBackdrop
+          src={aerialVideo}
+          poster={cityscapeImage}
+          treatment="hero"
+          className="z-[1]"
+        />
+      )}
 
-      {/* Overlay: dark gradient for readability, keeps theme with blue tint */}
       <div
-        className="absolute inset-0 z-10 bg-gradient-to-r from-[hsl(var(--dark-bg))]/95 via-[hsl(var(--dark-bg))]/80 to-[hsl(var(--dark-bg))]/50"
+        className="absolute inset-0 z-10 bg-gradient-to-b from-[hsl(var(--dark-bg))]/70 via-[hsl(var(--dark-bg))]/55 to-[hsl(var(--dark-bg))]/90 sm:bg-gradient-to-r sm:from-[hsl(var(--dark-bg))] sm:via-[hsl(var(--dark-bg))]/88 sm:to-[hsl(var(--dark-bg))]/35"
         aria-hidden="true"
       />
-      <div className="absolute inset-0 z-10 bg-gradient-to-t from-[hsl(var(--dark-bg))]/60 via-transparent to-transparent" aria-hidden="true" />
+      <div
+        className="absolute inset-0 z-10 hidden bg-gradient-to-t from-[hsl(var(--dark-bg))] via-transparent to-[hsl(var(--dark-bg))]/40 sm:block"
+        aria-hidden="true"
+      />
 
-      {/* Content */}
-      <div className="relative z-20 h-full flex flex-col justify-center pt-20 sm:pt-24 pb-24 sm:pb-16">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-10">
-          <div className="max-w-4xl">
-            {/* Split headline - one word per line */}
-            <div className="overflow-hidden mb-4 sm:mb-6">
-              {heroSlides[currentSlide].title.map((word, i) => {
-                // Bold the key impactful words
-                const isKeyword = word.toLowerCase() === 'tomorrow.' || word.toLowerCase() === 'scales.';
-                return (
-                  <h1
-                    key={`${currentSlide}-${i}`}
-                    className={`text-5xl xs:text-6xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[7rem] ${
-                      isKeyword ? 'font-bold' : 'font-medium sm:font-light'
-                    } text-white leading-[1.05] tracking-tight`}
-                    style={{
-                      animation: `slideInUp 0.6s ease-out ${i * 0.1}s both`,
-                    }}
-                  >
-                    {word}
-                  </h1>
-                );
-              })}
-            </div>
+      {/* Film grain — desktop only */}
+      {isMobile === false && (
+        <div
+          className="pointer-events-none absolute inset-0 z-[11] opacity-[0.07] mix-blend-overlay"
+          style={{
+            backgroundImage:
+              "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
+          }}
+          aria-hidden="true"
+        />
+      )}
 
-            <p
-              className="text-base sm:text-lg md:text-xl text-white/85 font-light max-w-xl mb-8 sm:mb-10"
-              style={{ animation: "fadeIn 0.8s ease-out 0.4s both" }}
-            >
-              {heroSlides[currentSlide].subtitle}
-            </p>
+      <div className="relative z-20 flex min-h-[100svh] flex-col">
+        <div className="flex flex-1 flex-col justify-center px-0 pt-24 pb-10 sm:pt-32 sm:pb-16 lg:pb-20">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-10">
+            <div className="max-w-5xl">
+              <p className="font-display mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-white/75 animate-fade-in sm:mb-8 sm:text-sm sm:tracking-[0.18em] md:text-base">
+                Citisoft Solutions
+              </p>
 
-            <div style={{ animation: "fadeIn 0.8s ease-out 0.6s both" }}>
-              <Button
-                asChild
-                variant="default"
-                size="lg"
-                className="rounded-none bg-white text-[hsl(var(--dark-bg))] hover:bg-white/90 font-semibold tracking-[0.15em] sm:tracking-[0.2em] uppercase px-8 sm:px-12 h-12 sm:h-14 text-xs sm:text-sm"
+              <h1 className="font-display text-[clamp(2.35rem,9vw,6rem)] font-semibold leading-[1.02] tracking-[-0.03em] text-white sm:leading-[0.98] sm:tracking-[-0.035em]">
+                <span className="block animate-fade-in-up">Systems that run</span>
+                <span
+                  className="block animate-fade-in-up"
+                  style={{ animationDelay: "0.1s" }}
+                >
+                  the operation.
+                </span>
+              </h1>
+
+              <p
+                className="mt-5 max-w-2xl text-base font-light leading-relaxed text-white/80 animate-fade-in sm:mt-9 sm:text-xl lg:text-2xl"
+                style={{ animationDelay: "0.2s" }}
               >
-                <a href="#contact">Get in Touch</a>
-              </Button>
+                Technology consulting for hospitality, restaurants, insurance,
+                and finance ops — where precision, compliance, and daily
+                throughput are non-negotiable.
+              </p>
+
+              <div
+                className="mt-8 flex w-full flex-col gap-3 animate-fade-in xs:flex-row xs:flex-wrap sm:mt-12 sm:gap-4"
+                style={{ animationDelay: "0.3s" }}
+              >
+                <Button
+                  asChild
+                  size="lg"
+                  className="h-12 w-full rounded-sm bg-white px-8 text-sm font-semibold tracking-wide text-[hsl(var(--dark-bg))] hover:bg-white/90 xs:w-auto sm:h-14 sm:px-12 sm:text-base"
+                >
+                  <a href="#contact">Talk to our team</a>
+                </Button>
+                <Button
+                  asChild
+                  variant="outline"
+                  size="lg"
+                  className="h-12 w-full rounded-sm border-white/55 bg-transparent px-8 text-sm font-semibold tracking-wide text-white hover:bg-white/10 hover:text-white xs:w-auto sm:h-14 sm:px-12 sm:text-base"
+                >
+                  <a href="#case-studies">See the work</a>
+                </Button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Bottom: scroll hint */}
-      <div
-        className="hidden sm:flex absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex-col items-center gap-2 text-white/60 text-sm tracking-widest uppercase"
-        style={{ animation: "fadeIn 1s ease-out 1s both" }}
-      >
-        <span className="text-xs">Scroll to Explore</span>
-        <div className="w-px h-10 bg-white/40 rounded-full animate-pulse" />
-      </div>
-
-      {/* Slide indicators - minimal dots */}
-      <div className="absolute bottom-6 sm:bottom-8 right-4 sm:right-8 lg:right-10 z-20 flex gap-2">
-        {heroSlides.map((_, index) => (
-          <button
-            key={index}
-            type="button"
-            onClick={() => setCurrentSlide(index)}
-            className={`h-1 sm:h-1.5 rounded-full transition-all duration-300 ${
-              index === currentSlide
-                ? "w-8 sm:w-10 bg-white"
-                : "w-1 sm:w-1.5 bg-white/40 hover:bg-white/60"
-            }`}
-            aria-label={`Go to slide ${index + 1}`}
-          />
-        ))}
+        <div
+          className="border-t border-white/10 bg-[hsl(var(--dark-bg))]/75 animate-fade-in sm:bg-[hsl(var(--dark-bg))]/60"
+          style={{ animationDelay: "0.4s" }}
+        >
+          <div className="container mx-auto grid grid-cols-2 gap-x-4 gap-y-6 px-4 py-6 sm:gap-8 sm:px-6 sm:py-9 lg:grid-cols-4 lg:px-10">
+            {stats.map((stat, i) => (
+              <AnimatedStat
+                key={stat.label}
+                value={stat.value}
+                label={stat.label}
+                shortLabel={stat.shortLabel}
+                delay={i * 80}
+              />
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );

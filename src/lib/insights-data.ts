@@ -19,26 +19,22 @@ export type Insight = {
   };
 };
 
-const SURETYOS_URL = "https://suretyos.citisoftsolutions.com/";
-const SURETYOS_CTA = { label: "Visit SuretyOS", href: SURETYOS_URL };
+const CONTACT_CTA = { label: "Talk to our team", href: "/#contact" };
 
 export const insights: Insight[] = [
   {
     slug: "citisoft-launches-rfq-automation-for-industrial-manufacturers",
     title:
-      "Announcing AI Quoting & RFQ Automation for Niche Industrial Manufacturers",
+      "AI Quoting & RFQ Automation for Niche Industrial Manufacturers",
     excerpt:
-      "CitiSoft is bringing custom AI agents to engineered- and configure-to-order manufacturers — turning hand-built quotes into a minutes-long, review-ready workflow. Here's who it's for and how the land-and-expand model works.",
-    category: "Announcement",
+      "How custom AI agents help engineered- and configure-to-order manufacturers turn hand-built quotes into a minutes-long, review-ready workflow — and where a land-and-expand delivery model fits.",
+    category: "Industrial",
     date: "Jun 20, 2026",
     readTime: "4 min read",
     author: "Citisoft Solutions",
     image:
       "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1600&auto=format&fit=crop",
-    cta: {
-      label: "Explore the platform",
-      href: "/products/sales-proposal-rfq-platform",
-    },
+    cta: CONTACT_CTA,
     content: [
       {
         body: [
@@ -64,16 +60,16 @@ export const insights: Insight[] = [
   },
   {
     slug: "introducing-suretyos-operating-system-for-digital-surety",
-    title: "Introducing SuretyOS: The Operating System for Digital Surety",
+    title: "What an Operating System for Digital Surety Looks Like",
     excerpt:
-      "From bond intake to issuance, SuretyOS unifies the entire surety lifecycle on a single platform — automating underwriting workflows, approvals, and compliance so teams move faster without sacrificing control.",
-    category: "Product",
+      "From bond intake to issuance, modern surety operations need a unified lifecycle — underwriting workflows, approvals, and compliance that move faster without sacrificing control.",
+    category: "Surety",
     date: "Jun 12, 2026",
     readTime: "5 min read",
     author: "Citisoft Solutions",
     image:
       "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1600&auto=format&fit=crop",
-    cta: SURETYOS_CTA,
+    cta: CONTACT_CTA,
     content: [
       {
         body: [
@@ -101,14 +97,14 @@ export const insights: Insight[] = [
     slug: "automating-bond-issuance-days-to-minutes",
     title: "Automating Bond Issuance: Cutting Turnaround from Days to Minutes",
     excerpt:
-      "Manual surety processing is slow and error-prone. We break down how configurable rules and workflow orchestration in SuretyOS compress issuance timelines while keeping every decision fully auditable.",
+      "Manual surety processing is slow and error-prone. We break down how configurable rules and workflow orchestration compress issuance timelines while keeping every decision fully auditable.",
     category: "Surety",
     date: "Jun 5, 2026",
     readTime: "6 min read",
     author: "Citisoft Solutions",
     image:
       "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1600&auto=format&fit=crop",
-    cta: SURETYOS_CTA,
+    cta: CONTACT_CTA,
     content: [
       {
         body: [
@@ -136,14 +132,14 @@ export const insights: Insight[] = [
     slug: "compliance-by-design-audit-trails-in-every-workflow",
     title: "Compliance by Design: Audit Trails Built Into Every Workflow",
     excerpt:
-      "In regulated surety operations, traceability isn't optional. See how SuretyOS embeds compliance controls and complete audit trails directly into policy and bond lifecycle events.",
+      "In regulated surety operations, traceability isn't optional. See how compliance controls and complete audit trails can be embedded directly into policy and bond lifecycle events.",
     category: "Compliance",
     date: "May 28, 2026",
     readTime: "4 min read",
     author: "Citisoft Solutions",
     image:
       "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1600&auto=format&fit=crop",
-    cta: SURETYOS_CTA,
+    cta: CONTACT_CTA,
     content: [
       {
         body: [
@@ -171,14 +167,14 @@ export const insights: Insight[] = [
     slug: "scaling-surety-operations-without-scaling-headcount",
     title: "Scaling Surety Operations Without Scaling Headcount",
     excerpt:
-      "Growth shouldn't mean linear hiring. We explore how API-driven automation in SuretyOS lets carriers and agencies handle higher bond volumes with the same lean teams.",
+      "Growth shouldn't mean linear hiring. We explore how API-driven automation lets carriers and agencies handle higher bond volumes with the same lean teams.",
     category: "Surety",
     date: "May 20, 2026",
     readTime: "5 min read",
     author: "Citisoft Solutions",
     image:
       "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&auto=format&fit=crop",
-    cta: SURETYOS_CTA,
+    cta: CONTACT_CTA,
     content: [
       {
         body: [

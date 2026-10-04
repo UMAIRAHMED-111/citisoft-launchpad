@@ -2,13 +2,12 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 import Index from "./pages/Index";
 import ServiceDetail from "./pages/ServiceDetail";
-import ProductDetail from "./pages/ProductDetail";
 import InsightDetail from "./pages/InsightDetail";
-import TalosLanding from "./pages/TalosLanding";
+import CaseStudyDetail from "./pages/CaseStudyDetail";
 import Team from "./pages/Team";
 import NotFound from "./pages/NotFound";
 
@@ -24,11 +23,12 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/services/:slug" element={<ServiceDetail />} />
-          <Route path="/products/:slug" element={<ProductDetail />} />
           <Route path="/insights/:slug" element={<InsightDetail />} />
-          <Route path="/talos" element={<TalosLanding />} />
+          <Route path="/case-studies/:slug" element={<CaseStudyDetail />} />
           <Route path="/team" element={<Team />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          {/* Products hidden for now — routes redirect home */}
+          <Route path="/products/*" element={<Navigate to="/" replace />} />
+          <Route path="/talos" element={<Navigate to="/" replace />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

@@ -125,30 +125,30 @@ const InsightDetail = () => {
 
             {/* Optional CTA */}
             {insight.cta && (
-              <div className="mt-14 p-8 sm:p-10 rounded-2xl bg-[hsl(var(--dark-bg))] text-center">
-                <h3 className="text-2xl sm:text-3xl font-semibold text-white mb-3 tracking-tight">
-                  Explore the platform
+              <div className="mt-14 rounded-sm bg-[hsl(var(--dark-bg))] p-8 text-center sm:p-10">
+                <h3 className="font-display mb-3 text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+                  Discuss this with our team
                 </h3>
-                <p className="text-white/60 font-light mb-8 max-w-md mx-auto">
-                  See how it works in practice and experience the product firsthand.
+                <p className="mx-auto mb-8 max-w-md font-light text-white/60">
+                  Share your operating context and we&apos;ll outline a practical path forward.
                 </p>
                 {insight.cta.href.startsWith("/") ? (
                   <Link
                     to={insight.cta.href}
-                    className="group inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-[hsl(220_25%_10%)] font-medium text-sm hover:bg-white/90 transition-all"
+                    className="group inline-flex items-center gap-2 rounded-sm bg-white px-6 py-3 text-sm font-medium text-[hsl(220_25%_10%)] transition-all hover:bg-white/90"
                   >
                     {insight.cta.label}
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </Link>
                 ) : (
                   <a
                     href={insight.cta.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-[hsl(220_25%_10%)] font-medium text-sm hover:bg-white/90 transition-all"
+                    className="group inline-flex items-center gap-2 rounded-sm bg-white px-6 py-3 text-sm font-medium text-[hsl(220_25%_10%)] transition-all hover:bg-white/90"
                   >
                     {insight.cta.label}
-                    <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                    <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </a>
                 )}
               </div>

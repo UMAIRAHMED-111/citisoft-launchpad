@@ -1,204 +1,87 @@
-import { ArrowRight, ArrowUpRight } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { insights } from "@/lib/insights-data";
-import SuretyEmbed, { SURETYOS_URL } from "@/components/landing/SuretyEmbed";
 
-// Reveal-on-scroll wrapper used by the header and the featured embed
-const useReveal = <T extends HTMLElement>(delay = 0) => {
-  const ref = useRef<T>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => setIsVisible(true), delay);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.2 }
-    );
-
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [delay]);
-
-  return { ref, isVisible };
-};
-
-// Live SuretyOS embed with browser chrome and a graceful fallback overlay
-const SuretyShowcase = () => {
-  const { ref, isVisible } = useReveal<HTMLDivElement>();
+const Insights = () => {
+  const [featured, ...rest] = insights;
+  const secondary = rest.slice(0, 4);
 
   return (
-    <div
-      ref={ref}
-      className={`relative rounded-3xl overflow-hidden border border-white/10 bg-[hsl(220_25%_8%)] mb-16 lg:mb-20 transition-all duration-700 ease-out ${
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-      }`}
-    >
-      <div className="grid grid-cols-1 lg:grid-cols-12">
-        {/* Left: copy */}
-        <div className="lg:col-span-5 p-8 sm:p-10 lg:p-12 flex flex-col justify-center">
-          <span className="inline-flex items-center self-start gap-2 px-4 py-2 text-[10px] font-bold tracking-[0.2em] text-white bg-white/10 backdrop-blur-md border border-white/20 uppercase rounded-full mb-6">
-            Featured Platform
-          </span>
-          <h3 className="text-3xl sm:text-4xl font-light text-white leading-tight mb-4">
-            SuretyOS
-          </h3>
-          <p className="text-white/60 text-base sm:text-lg font-light leading-relaxed mb-8">
-            The operating system for digital surety — bond intake, underwriting,
-            approvals, and compliance unified on a single platform. Explore the
-            live product below.
-          </p>
-          <div className="flex flex-wrap gap-4">
-            <a
-              href={SURETYOS_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-[hsl(220_25%_10%)] font-medium text-sm hover:bg-white/90 transition-all"
-            >
-              Visit SuretyOS
-              <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-            </a>
+    <section id="insights" className="bg-background py-16 sm:py-28 lg:py-32">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div className="max-w-3xl">
+            <h2 className="font-display text-[clamp(2rem,4vw,3.5rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-foreground">
+              Insights
+            </h2>
+            <p className="mt-5 text-lg font-light leading-relaxed text-muted-foreground sm:text-xl">
+              Perspectives on regulated operations, industrial automation, and
+              building systems that hold up under real constraints.
+            </p>
           </div>
         </div>
 
-        {/* Right: live browser embed */}
-        <div className="lg:col-span-7 p-4 sm:p-6 lg:p-8 lg:pl-0">
-          <SuretyEmbed />
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// Individual insight/blog card with staggered reveal
-const InsightCard = ({
-  insight,
-  index,
-  featured = false,
-}: {
-  insight: typeof insights[0];
-  index: number;
-  featured?: boolean;
-}) => {
-  const cardRef = useRef<HTMLAnchorElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => setIsVisible(true), (index % 3) * 100);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.15 }
-    );
-
-    if (cardRef.current) observer.observe(cardRef.current);
-    return () => observer.disconnect();
-  }, [index]);
-
-  return (
-    <Link
-      ref={cardRef}
-      to={`/insights/${insight.slug}`}
-      className={`group relative flex flex-col overflow-hidden rounded-2xl bg-[hsl(220_22%_11%)] transition-all duration-700 ease-out hover:-translate-y-1.5 ${
-        featured
-          ? "border border-[hsl(var(--citisoft-light))]/50 ring-1 ring-[hsl(var(--citisoft-light))]/30 shadow-lg shadow-[hsl(var(--citisoft-dark))]/20"
-          : "border border-white/5 hover:border-white/20"
-      } ${
-        isVisible
-          ? "opacity-100 translate-y-0 scale-100"
-          : "opacity-0 translate-y-16 scale-95"
-      }`}
-    >
-      {/* Image */}
-      <div className="relative h-48 overflow-hidden">
-        <img
-          src={insight.image}
-          alt={insight.title}
-          loading="lazy"
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-[hsl(220_22%_11%)] via-transparent to-transparent" />
-        {/* Category badge */}
-        <span className="absolute top-4 left-4 px-3 py-1.5 text-[10px] font-bold tracking-[0.15em] text-white bg-black/40 backdrop-blur-md border border-white/20 uppercase rounded-full">
-          {insight.category}
-        </span>
-        {/* Featured / New marker */}
         {featured && (
-          <span className="absolute top-4 right-4 px-3 py-1.5 text-[10px] font-bold tracking-[0.15em] text-white bg-gradient-to-r from-[hsl(var(--citisoft-light))] to-[hsl(var(--citisoft-dark))] uppercase rounded-full shadow-md">
-            New
-          </span>
+          <Link
+            to={`/insights/${featured.slug}`}
+            className="group mt-12 grid overflow-hidden border border-border bg-card transition-shadow duration-300 hover:shadow-[0_16px_48px_hsl(220_28%_12%/0.08)] lg:mt-16 lg:grid-cols-2"
+          >
+            <div className="relative min-h-[240px] overflow-hidden lg:min-h-[360px]">
+              <img
+                src={featured.image}
+                alt=""
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+              />
+            </div>
+            <div className="flex flex-col justify-center p-8 sm:p-10 lg:p-12">
+              <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+                <span className="font-semibold uppercase tracking-[0.12em] text-primary">
+                  {featured.category}
+                </span>
+                <span aria-hidden="true">·</span>
+                <span>{featured.date}</span>
+                <span aria-hidden="true">·</span>
+                <span>{featured.readTime}</span>
+              </div>
+              <h3 className="font-display mt-4 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl lg:text-4xl">
+                {featured.title}
+              </h3>
+              <p className="mt-4 text-base font-light leading-relaxed text-muted-foreground">
+                {featured.excerpt}
+              </p>
+              <span className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-primary">
+                Read article
+                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </span>
+            </div>
+          </Link>
         )}
-      </div>
 
-      {/* Body */}
-      <div className="flex flex-col flex-1 p-6 lg:p-7">
-        <div className="flex items-center gap-2 text-xs text-white/40 mb-3">
-          <span>{insight.date}</span>
-          <span className="w-1 h-1 rounded-full bg-white/30" />
-          <span>{insight.readTime}</span>
-        </div>
-
-        <h3 className="text-lg sm:text-xl font-light text-white leading-snug mb-3 group-hover:text-white transition-colors">
-          {insight.title}
-        </h3>
-
-        <p className="text-white/55 text-sm leading-relaxed font-light mb-6 flex-1">
-          {insight.excerpt}
-        </p>
-
-        <div className="flex items-center gap-2 text-sm font-medium text-white/70 group-hover:text-white transition-colors">
-          Read more
-          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-        </div>
-      </div>
-    </Link>
-  );
-};
-
-const Insights = () => {
-  const { ref, isVisible } = useReveal<HTMLDivElement>();
-
-  return (
-    <section
-      id="insights"
-      className="py-24 lg:py-32 bg-[hsl(var(--dark-bg))] overflow-hidden"
-    >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-10">
-        {/* Section Header */}
-        <div
-          ref={ref}
-          className={`text-center mb-12 lg:mb-16 transition-all duration-700 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
-          <h2 className="text-3xl xs:text-4xl sm:text-5xl lg:text-6xl font-light text-white tracking-tight mb-4 sm:mb-6">
-            Updates & Insights
-          </h2>
-          <p className="text-base sm:text-lg lg:text-xl text-white/60 font-light max-w-2xl mx-auto">
-            Perspectives on digital surety, automation, and the platforms shaping
-            modern operations
-          </p>
-        </div>
-
-        {/* Featured SuretyOS live embed */}
-        <SuretyShowcase />
-
-        {/* Insights grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          {insights.map((insight, index) => (
-            <InsightCard
-              key={insight.title}
-              insight={insight}
-              index={index}
-              featured={index === 0 && insight.category === "Announcement"}
-            />
+        <div className="mt-8 grid gap-6 md:grid-cols-2">
+          {secondary.map((insight) => (
+            <Link
+              key={insight.slug}
+              to={`/insights/${insight.slug}`}
+              className="group flex flex-col border border-border bg-card p-6 transition-shadow duration-300 hover:shadow-[0_12px_40px_hsl(220_28%_12%/0.07)] sm:p-8"
+            >
+              <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+                <span className="font-semibold uppercase tracking-[0.12em] text-primary">
+                  {insight.category}
+                </span>
+                <span aria-hidden="true">·</span>
+                <span>{insight.date}</span>
+              </div>
+              <h3 className="font-display mt-3 text-lg font-semibold tracking-tight text-foreground sm:text-xl">
+                {insight.title}
+              </h3>
+              <p className="mt-3 flex-1 text-sm font-light leading-relaxed text-muted-foreground">
+                {insight.excerpt}
+              </p>
+              <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary">
+                Read more
+                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </span>
+            </Link>
           ))}
         </div>
       </div>

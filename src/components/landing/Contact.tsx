@@ -63,53 +63,18 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="relative py-20 lg:py-32 overflow-hidden bg-white">
-      {/* Modern gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-slate-100" />
-      
-      {/* Animated gradient orbs - hidden on mobile, visible on larger screens */}
-      <div className="hidden sm:block absolute top-20 right-[10%] w-[300px] lg:w-[500px] h-[300px] lg:h-[500px] bg-gradient-to-br from-[hsl(var(--citisoft-light))]/20 via-[hsl(var(--citisoft-dark))]/10 to-transparent rounded-full blur-3xl animate-float" />
-      <div className="hidden sm:block absolute bottom-20 left-[5%] w-[250px] lg:w-[400px] h-[250px] lg:h-[400px] bg-gradient-to-tr from-blue-200/30 via-purple-100/20 to-transparent rounded-full blur-3xl animate-float" style={{ animationDelay: '-2s' }} />
-      <div className="hidden md:block absolute top-1/2 left-1/3 w-[200px] lg:w-[300px] h-[200px] lg:h-[300px] bg-gradient-to-r from-amber-100/20 to-rose-100/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '-4s' }} />
-      
-      {/* Grid pattern overlay */}
-      <div 
-        className="absolute inset-0 opacity-[0.25]"
-        style={{
-          backgroundImage: `linear-gradient(to right, #cbd5e1 1px, transparent 1px), linear-gradient(to bottom, #cbd5e1 1px, transparent 1px)`,
-          backgroundSize: '40px 40px',
-        }}
-      />
-      
-      {/* Radial gradient for depth */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_transparent_0%,_white_70%)]" />
-      
-      {/* Dot pattern accent */}
-      <div 
-        className="absolute top-0 right-0 w-1/3 h-1/2 opacity-[0.15]"
-        style={{
-          backgroundImage: `radial-gradient(circle, hsl(var(--citisoft-dark)) 1px, transparent 1px)`,
-          backgroundSize: '24px 24px',
-        }}
-      />
-      
+    <section id="contact" className="relative overflow-hidden border-t border-border bg-card py-20 lg:py-28">
       <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
-          {/* Left column - Info */}
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-20">
           <div className="flex flex-col justify-center">
-            {/* Label */}
-            <span className="inline-block px-4 py-1.5 text-[10px] sm:text-xs font-semibold tracking-[0.15em] text-[hsl(var(--citisoft-dark))] bg-[hsl(var(--citisoft-light))]/10 border border-[hsl(var(--citisoft-light))]/20 uppercase mb-6 w-fit rounded-full">
-              GET IN TOUCH
-            </span>
-            
-            <h2 className="text-3xl xs:text-4xl sm:text-5xl lg:text-6xl font-light text-slate-900 tracking-tight mb-6 leading-[1.1]">
-              Let's build something{" "}
-              <span className="text-[hsl(var(--citisoft-dark))]">extraordinary</span>
+            <h2 className="font-display mb-6 text-3xl font-semibold leading-[1.1] tracking-tight text-foreground xs:text-4xl sm:text-5xl">
+              Talk to our team
             </h2>
             
-            <p className="text-base sm:text-lg text-slate-600 font-light leading-relaxed mb-10 max-w-lg">
-              Whether you're looking to automate processes, build custom software, 
-              or scale with data and AI—we'd love to hear from you.
+            <p className="mb-10 max-w-lg text-base font-light leading-relaxed text-muted-foreground sm:text-lg">
+              Whether you need software delivery, automation, or a clearer data
+              foundation — tell us about the operation and we&apos;ll respond with
+              a practical next step.
             </p>
             
             {/* Contact info */}
@@ -124,7 +89,9 @@ const Contact = () => {
                 </div>
                 <div>
                   <p className="text-xs sm:text-sm text-slate-500 mb-0.5">Email us</p>
-                  <p className="text-sm sm:text-base font-medium">info@citisoftsolutions.com</p>
+                  <p className="break-all text-sm font-medium sm:break-normal sm:text-base">
+                    info@citisoftsolutions.com
+                  </p>
                 </div>
               </a>
               
@@ -148,10 +115,10 @@ const Contact = () => {
           {/* Right column - Form */}
           <div className="relative">
             {/* Form card */}
-            <div className="relative bg-white/80 backdrop-blur-xl border border-slate-200/80 shadow-2xl shadow-slate-300/30 rounded-3xl p-6 sm:p-8 lg:p-10 ring-1 ring-white/50 ring-inset">
+            <div className="relative rounded-sm border border-border bg-background p-6 sm:p-8 lg:p-10 card-shadow">
               {/* Success message */}
               {isSubmitted && (
-                <div className="absolute inset-0 bg-gradient-to-br from-slate-50 to-white backdrop-blur-xl rounded-3xl flex items-center justify-center z-10 p-8">
+                <div className="absolute inset-0 z-10 flex items-center justify-center rounded-sm bg-background p-8">
                   <div className="text-center max-w-md">
                     {/* Success icon with elegant animation */}
                     <div className="relative w-24 h-24 mx-auto mb-8">
@@ -199,7 +166,7 @@ const Contact = () => {
 
               {/* Error message */}
               {error && (
-                <div className="absolute inset-0 bg-white/98 backdrop-blur-md rounded-3xl flex items-center justify-center z-10">
+                <div className="absolute inset-0 z-10 flex items-center justify-center rounded-sm bg-background">
                   <div className="text-center px-6">
                     <div className="relative w-20 h-20 mx-auto mb-6">
                       <div className="absolute inset-0 rounded-full bg-gradient-to-br from-red-400 to-rose-500 opacity-20 animate-ping" />
@@ -288,35 +255,27 @@ const Contact = () => {
                   type="submit"
                   size="lg"
                   disabled={isSubmitting}
-                  className="group relative w-full rounded-xl bg-gradient-to-r from-[hsl(var(--citisoft-light))] to-[hsl(var(--citisoft-dark))] text-white font-medium h-14 overflow-hidden shadow-lg shadow-[hsl(var(--citisoft-dark))]/20 hover:shadow-xl hover:shadow-[hsl(var(--citisoft-dark))]/30 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="group h-12 w-full rounded-sm bg-primary font-semibold text-primary-foreground transition-colors hover:bg-[hsl(var(--citisoft-dark))] disabled:cursor-not-allowed disabled:opacity-50"
                 >
-                  <span className="relative z-10 flex items-center justify-center gap-2">
+                  <span className="flex items-center justify-center gap-2">
                     {isSubmitting ? (
                       <>
-                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        <div className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
                         Sending...
                       </>
                     ) : (
                       <>
-                        Send Message
-                        <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                        Send message
+                        <Send className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                       </>
                     )}
                   </span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-[hsl(var(--citisoft-dark))] to-[hsl(var(--citisoft-light))] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </Button>
               </form>
             </div>
-            
-            {/* Decorative gradient blurs */}
-            <div className="absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-br from-[hsl(var(--citisoft-light))]/30 to-[hsl(var(--citisoft-dark))]/10 rounded-full blur-2xl pointer-events-none" />
-            <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-gradient-to-tr from-blue-200/40 to-purple-200/20 rounded-full blur-2xl pointer-events-none" />
           </div>
         </div>
       </div>
-      
-      {/* Bottom gradient fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
     </section>
   );
 };
