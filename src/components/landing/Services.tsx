@@ -12,8 +12,8 @@ const Services = () => {
             Capabilities
           </h2>
           <p className="mt-4 text-base font-light leading-relaxed text-muted-foreground sm:text-lg">
-            End-to-end delivery across software, automation, data, and advisory —
-            structured for measurable operational outcomes.
+            End-to-end delivery across software, automation, data, growth, and
+            advisory — structured for measurable operational outcomes.
           </p>
         </Reveal>
 

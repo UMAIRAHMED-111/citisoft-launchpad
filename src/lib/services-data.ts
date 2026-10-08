@@ -199,6 +199,52 @@ export const services: Service[] = [
       "Review and continuous improvement",
     ],
   },
+  {
+    slug: "growth-marketing",
+    shortTitle: "Growth & Marketing",
+    title: "Growth & Marketing",
+    tagline: "Demand systems that turn positioning into pipeline",
+    description:
+      "Positioning, pipeline, and go-to-market systems for complex buyers — so growth is measurable, not a pile of disconnected campaigns.",
+    image:
+      "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1200&q=80",
+    extendedDescription:
+      "Most ops companies don't have a marketing problem — they have a systems problem. Messaging lives in decks, outreach lives in inboxes, and nobody can say what created the last ten deals. We build the growth motion the same way we build software: clear positioning, a pipeline you can see, and AI-native workflows that turn content and outreach into demand you can measure.",
+    keyFeatures: [
+      {
+        title: "Positioning & Narrative",
+        description: "A sharp story for complex buyers — who you serve, why now, and why you — that sales, site, and outreach can all run on.",
+      },
+      {
+        title: "Pipeline & CRM Systems",
+        description: "HubSpot and CRM setups that match how you actually sell. Stages, routing, and reporting so you can see first touch through expansion.",
+      },
+      {
+        title: "Content & Outbound Motions",
+        description: "Campaigns, sequences, and assets built around real ops problems — not generic thought leadership that never reaches a buyer.",
+      },
+      {
+        title: "AI-Native Demand Ops",
+        description: "Research, personalization, and follow-up that agents can run, with humans on the conversations that matter.",
+      },
+    ],
+    benefits: [
+      "A single narrative your whole team can sell from",
+      "Pipeline visibility from first touch to expansion",
+      "Outbound that sounds like your buyers, not a blast",
+      "Less time spent on research and follow-up busywork",
+      "Growth motions you can measure and improve",
+      "Marketing that plugs into the systems you already run",
+    ],
+    process: [
+      "Audience, offer, and current-motion review",
+      "Positioning and pipeline design",
+      "Channel and sequence build",
+      "CRM and reporting setup",
+      "Launch with live coaching",
+      "Weekly tuning against real pipeline",
+    ],
+  },
 ];
 
 export function getServiceBySlug(slug: string): Service | undefined {

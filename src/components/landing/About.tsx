@@ -23,7 +23,7 @@ const About = () => {
               startup that helps businesses design, build, and scale digital systems.
             </p>
             <p className="text-lg text-muted-foreground font-light mb-10 leading-relaxed">
-              We deliver custom software, automation, data, and AI solutions, while 
+              We deliver custom software, automation, data, AI, and growth solutions, while 
               also developing internally built products and reusable platforms to solve 
               real operational problems. Our approach combines deep technical expertise 
               with business acumen.

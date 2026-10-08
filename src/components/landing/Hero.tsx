@@ -10,6 +10,7 @@ const feed = [
   { time: "09:44", text: "Bond #B-1180 routed for underwriter sign-off", tag: "Surety" },
   { time: "09:46", text: "Supplier price change synced to 80 locations", tag: "Ops" },
   { time: "09:47", text: "Exception flagged: duplicate vendor payment", tag: "Controls" },
+  { time: "09:49", text: "3 inbound demos booked from outbound sequence", tag: "Growth" },
 ];
 
 const LiveFeed = () => {
@@ -98,7 +99,7 @@ const Hero = () => {
               team
             </h1>
             <p className="mt-6 max-w-md text-base leading-relaxed text-cream-soft/80 sm:text-lg">
-              Custom software, automation, and AI agents for operations that
+              Custom software, automation, AI, and growth for operations that
               can&apos;t afford to break.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">

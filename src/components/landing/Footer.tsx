@@ -18,6 +18,7 @@ const columns: { title: string; links: { label: string; href: string; external?:
       { label: "Automation & AI", href: "/services/automation-ai" },
       { label: "Data & Analytics", href: "/services/data-analytics" },
       { label: "Technology Consulting", href: "/services/technology-consulting" },
+      { label: "Growth & Marketing", href: "/services/growth-marketing" },
     ],
   },
   {
@@ -55,7 +56,7 @@ const Footer = () => {
           <div className="col-span-2 lg:col-span-1">
             <img src={citisoftLogo} alt="Citisoft Solutions" className="h-8 w-auto" />
             <p className="mt-4 max-w-[16rem] text-sm leading-relaxed text-muted-foreground">
-              Your ops systems team — software, automation, data, and AI delivery.
+              Your ops systems team — software, automation, data, AI, and growth.
             </p>
           </div>
           {columns.map((col) => (

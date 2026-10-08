@@ -150,6 +150,38 @@ export const AgentCard = ({ className }: CardProps) => (
   </Shell>
 );
 
+export const GrowthCard = ({ className }: CardProps) => (
+  <Shell className={className}>
+    <Header
+      title="Growth pipeline"
+      sub="This week · HubSpot"
+      badge={<Badge>Live</Badge>}
+    />
+    <div className="space-y-1.5">
+      {[
+        ["Qualified inbound", "14", "Now"],
+        ["Demos booked", "6", "Next"],
+        ["Closed-won", "2", "Won"],
+      ].map(([label, value, phase]) => (
+        <div
+          key={label}
+          className="glass-row flex items-center justify-between gap-3 rounded-lg px-3 py-2"
+        >
+          <span className="truncate text-[12px] text-[#3b342c]">{label}</span>
+          <div className="flex items-center gap-2">
+            <span className="text-[12px] font-semibold tabular-nums text-foreground">
+              {value}
+            </span>
+            <Badge tone={phase === "Won" ? "green" : phase === "Now" ? "deep" : "plain"}>
+              {phase}
+            </Badge>
+          </div>
+        </div>
+      ))}
+    </div>
+  </Shell>
+);
+
 export const DiscoverCard = ({ className }: CardProps) => (
   <Shell className={className}>
     <Header

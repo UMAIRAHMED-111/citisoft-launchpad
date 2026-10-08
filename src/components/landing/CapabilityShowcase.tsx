@@ -1,7 +1,7 @@
 import { useState, type ComponentType } from "react";
 import { ArrowUpRight, Check } from "lucide-react";
 import Reveal from "@/components/landing/Reveal";
-import { AgentCard, AuditCard, WorkshopCard } from "@/components/landing/GlassCards";
+import { AgentCard, AuditCard, GrowthCard, WorkshopCard } from "@/components/landing/GlassCards";
 import { cn } from "@/lib/utils";
 
 type Capability = {
@@ -44,6 +44,15 @@ const capabilities: Capability[] = [
     points: ["Agents & automations", "Plugs into your stack", "Built for scale"],
     image: photo("1444723121867-7a241cacace9"),
     Card: AgentCard,
+  },
+  {
+    number: "04",
+    tab: "Growth & Marketing",
+    title: "Demand that compounds, not campaigns that vanish.",
+    body: "Positioning, pipeline, and AI-native outreach for complex ops buyers — first touch through expansion as one system.",
+    points: ["Positioning & narrative", "Pipeline you can see", "AI-native motions"],
+    image: photo("1556761175-5973dc0f32e7"),
+    Card: GrowthCard,
   },
 ];
 
@@ -88,7 +97,7 @@ const DesktopPanels = () => {
             }}
             className={cn(
               "relative min-w-0 cursor-pointer overflow-hidden rounded-2xl outline-none transition-[flex-grow] duration-700 ease-out focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
-              open ? "flex-[3.4]" : "flex-[1]"
+              open ? "flex-[3.1]" : "flex-[1]"
             )}
           >
             <PanelImage src={cap.image} />
@@ -204,7 +213,8 @@ const CapabilityShowcase = () => {
           <p className="max-w-xl text-base leading-relaxed text-muted-foreground sm:text-[17px]">
             Most companies know software and AI can help somewhere, but few know
             where to start, what to build, or how to keep it running. We pair
-            strategy, custom software, and hands-on enablement to close that gap.
+            strategy, custom software, growth, and hands-on enablement to close
+            that gap.
           </p>
         </Reveal>
 
