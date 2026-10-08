@@ -1,65 +1,48 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { industries } from "@/lib/industries-data";
 import Reveal from "@/components/landing/Reveal";
 
 const Industries = () => {
   return (
-    <section id="industries" className="border-b border-border bg-background py-16 sm:py-28 lg:py-32">
+    <section id="industries" className="bg-background py-20 sm:py-28">
       <div className="container mx-auto px-4 sm:px-6 lg:px-10">
-        <Reveal className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-3xl">
-            <h2 className="font-display text-[clamp(2rem,4vw,3.5rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-foreground">
-              Industry depth that shapes delivery
+        <Reveal className="grid gap-6 lg:grid-cols-2 lg:items-end lg:gap-16">
+          <div>
+            <h2 className="text-[clamp(2.4rem,5.4vw,4rem)] leading-[1.02] tracking-[-0.015em] text-foreground">
+              Industry depth that <span className="accent-word">shapes</span> delivery
             </h2>
-            <p className="mt-5 max-w-2xl text-lg font-light leading-relaxed text-muted-foreground sm:text-xl">
-              We work where domain judgment meets systems — hospitality,
-              restaurants, insurance, finance ops, and industrial workflows.
-            </p>
           </div>
-          <a
-            href="#case-studies"
-            className="inline-flex shrink-0 items-center gap-2 text-sm font-semibold text-primary"
-          >
-            Explore the work
-            <ArrowRight className="h-4 w-4" />
-          </a>
+          <p className="max-w-xl text-base leading-relaxed text-muted-foreground sm:text-[17px]">
+            We work where domain judgment meets systems — hospitality,
+            restaurants, insurance, finance ops, and industrial workflows.
+          </p>
         </Reveal>
 
-        <div className="mt-14 grid gap-px bg-border sm:grid-cols-2 sm:mt-16 lg:grid-cols-3">
+        <ul className="mt-12 border-t border-foreground/15 lg:mt-14">
           {industries.map((industry, index) => (
-            <Reveal key={industry.slug} delay={index * 70} as="article">
-              <div className="flex h-full flex-col bg-background p-8 transition-colors duration-300 hover:bg-card sm:p-10">
-                <span className="font-display text-xs font-semibold tracking-[0.16em] text-primary">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <h3 className="font-display mt-4 text-2xl font-semibold tracking-tight text-foreground sm:text-[1.65rem]">
+            <Reveal key={industry.slug} as="li" delay={index * 50} className="border-b border-foreground/15">
+              <Link
+                to={
+                  industry.caseStudySlug
+                    ? `/case-studies/${industry.caseStudySlug}`
+                    : "/#case-studies"
+                }
+                className="group grid grid-cols-[1fr_auto] items-start gap-x-4 gap-y-2 py-6 transition-colors sm:py-7 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)_auto] lg:items-center lg:gap-x-10"
+              >
+                <h3 className="text-[clamp(1.6rem,3vw,2.25rem)] leading-tight text-foreground transition-colors group-hover:text-primary">
                   {industry.name}
                 </h3>
-                <p className="mt-4 flex-1 text-base font-light leading-relaxed text-muted-foreground sm:text-lg">
+                <p className="col-span-2 row-start-2 text-[15px] leading-relaxed text-muted-foreground lg:col-span-1 lg:col-start-2 lg:row-start-1">
                   {industry.description}
                 </p>
-                {industry.caseStudySlug ? (
-                  <Link
-                    to={`/case-studies/${industry.caseStudySlug}`}
-                    className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-primary transition-colors hover:text-[hsl(var(--citisoft-dark))]"
-                  >
-                    View case study
-                    <ArrowRight className="h-4 w-4" />
-                  </Link>
-                ) : (
-                  <Link
-                    to="/#case-studies"
-                    className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-primary transition-colors hover:text-[hsl(var(--citisoft-dark))]"
-                  >
-                    See related work
-                    <ArrowRight className="h-4 w-4" />
-                  </Link>
-                )}
-              </div>
+                <span className="col-start-2 row-start-1 flex h-10 w-10 items-center justify-center rounded-full border border-foreground/15 text-foreground transition-all duration-300 group-hover:border-primary group-hover:bg-primary group-hover:text-cream-soft lg:col-start-3">
+                  <ArrowUpRight className="h-4 w-4" />
+                </span>
+              </Link>
             </Reveal>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );

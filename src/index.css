@@ -1,65 +1,65 @@
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&family=Martian+Mono:wght@400;500&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Citisoft Solutions Design System
-   Consulting Theme — restrained blue, quiet authority
-   Primary: Citisoft Blue | Background: Cool off-white | Text: Deep ink
-*/
+/* Citisoft Solutions — ink, warm cream, deep harbor blue */
 
 @layer base {
   :root {
-    --background: 210 25% 98%;
-    --foreground: 220 28% 12%;
-    
+    --background: 0 0% 100%;
+    --foreground: 0 0% 9%;
+
     --card: 0 0% 100%;
-    --card-foreground: 220 28% 12%;
-    
+    --card-foreground: 0 0% 9%;
+
     --popover: 0 0% 100%;
-    --popover-foreground: 220 28% 12%;
-    
-    /* Primary Blue Palette */
-    --primary: 211 62% 38%;
-    --primary-foreground: 0 0% 100%;
-    
-    --secondary: 210 22% 95%;
-    --secondary-foreground: 220 28% 12%;
-    
-    --muted: 210 18% 94%;
-    --muted-foreground: 220 12% 38%;
-    
-    --accent: 211 45% 94%;
-    --accent-foreground: 211 62% 32%;
-    
+    --popover-foreground: 0 0% 9%;
+
+    --primary: 203 70% 42%;
+    --primary-foreground: 30 100% 98%;
+
+    --secondary: 36 33% 95%;
+    --secondary-foreground: 0 0% 9%;
+
+    --muted: 36 33% 91%;
+    --muted-foreground: 69 5% 26%;
+
+    --accent: 203 75% 95%;
+    --accent-foreground: 206 65% 20%;
+
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    
-    --border: 215 18% 88%;
-    --input: 215 18% 88%;
-    --ring: 211 62% 38%;
-    
-    --radius: 0.25rem;
-    
-    --citisoft-light: 202 68% 48%;
-    --citisoft-medium: 208 62% 42%;
-    --citisoft-dark: 211 62% 32%;
-    
-    --dark-bg: 220 28% 10%;
-    --dark-card: 220 24% 14%;
-    --dark-foreground: 0 0% 98%;
-    --dark-muted: 220 12% 62%;
-    --dark-border: 220 16% 22%;
-    
-    --sidebar-background: 210 22% 98%;
-    --sidebar-foreground: 220 28% 12%;
-    --sidebar-primary: 211 62% 38%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 210 18% 94%;
-    --sidebar-accent-foreground: 220 28% 12%;
-    --sidebar-border: 215 18% 88%;
-    --sidebar-ring: 211 62% 38%;
+
+    --border: 35 31% 89%;
+    --input: 35 31% 86%;
+    --ring: 203 70% 42%;
+
+    --radius: 1rem;
+
+    --cream: 36 33% 91%;
+    --cream-soft: 30 100% 98%;
+    --deep: 206 65% 17%;
+
+    --citisoft-light: 201 80% 64%;
+    --citisoft-medium: 203 66% 48%;
+    --citisoft-dark: 206 65% 17%;
+
+    --dark-bg: 206 45% 13%;
+    --dark-card: 206 38% 18%;
+    --dark-foreground: 30 100% 98%;
+    --dark-muted: 205 15% 68%;
+    --dark-border: 206 28% 25%;
+
+    --sidebar-background: 36 33% 97%;
+    --sidebar-foreground: 0 0% 9%;
+    --sidebar-primary: 203 70% 42%;
+    --sidebar-primary-foreground: 30 100% 98%;
+    --sidebar-accent: 36 33% 91%;
+    --sidebar-accent-foreground: 0 0% 9%;
+    --sidebar-border: 35 31% 89%;
+    --sidebar-ring: 203 70% 42%;
   }
 }
 
@@ -74,11 +74,13 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Source Sans 3', system-ui, sans-serif;
+    font-family: 'Schibsted Grotesk', system-ui, sans-serif;
   }
 
   h1, h2, h3 {
-    font-family: 'Sora', 'Source Sans 3', system-ui, sans-serif;
+    font-family: 'Archivo', system-ui, sans-serif;
+    font-weight: 500;
+    font-stretch: 80%;
     text-wrap: balance;
   }
 
@@ -103,7 +105,105 @@
 
 @layer utilities {
   .font-display {
-    font-family: 'Sora', 'Source Sans 3', system-ui, sans-serif;
+    font-family: 'Archivo', system-ui, sans-serif;
+    font-stretch: 80%;
+  }
+
+  .accent-word {
+    font-family: 'Archivo', system-ui, sans-serif;
+    font-stretch: 125%;
+    font-weight: 300;
+    letter-spacing: -0.03em;
+    color: hsl(var(--primary));
+  }
+
+  .section-deep .accent-word {
+    color: hsl(var(--citisoft-light));
+  }
+
+  .font-label {
+    font-family: 'Martian Mono', ui-monospace, monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.02em;
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.68);
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    box-shadow: 0 12px 40px rgba(16, 24, 32, 0.18);
+    backdrop-filter: blur(16px) saturate(1.2);
+    -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  }
+
+  .glass-row {
+    background: rgba(255, 255, 255, 0.42);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+  }
+
+  .soft-card {
+    border: 1px solid rgba(24, 24, 24, 0.04);
+    box-shadow: 0 1px 2px rgba(24, 24, 24, 0.04), 0 12px 32px rgba(24, 24, 24, 0.05);
+  }
+
+  .hero-grain {
+    opacity: 0.28;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .hero-underscore {
+    animation: underscore-draw 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
+  }
+
+  @keyframes underscore-draw {
+    from { transform: scaleX(0); opacity: 0.4; }
+    to { transform: scaleX(1); opacity: 1; }
+  }
+
+  .lattice-glass-pill {
+    border-radius: 44px;
+  }
+
+  .lattice-glass-blur {
+    border-radius: 44px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  .lattice-glass-shadow {
+    border-radius: 44px;
+    box-shadow:
+      0 4px 4px rgba(0, 0, 0, 0.15),
+      0 0 12px rgba(0, 0, 0, 0.08),
+      0 0 24px rgba(255, 255, 255, 0.1);
+  }
+
+  .lattice-glass-inset {
+    border-radius: 44px;
+    box-shadow:
+      inset 2px 2px 2px 0 rgba(255, 255, 255, 0.35),
+      inset -2px -2px 2px 0 rgba(255, 255, 255, 0.35);
+  }
+
+  .lattice-glass-fill {
+    border-radius: 44px;
+    background: rgba(40, 40, 36, 0.34);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+  }
+
+  .lattice-cta-glass {
+    background: rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow:
+      inset 1px 1px 1px rgba(255, 255, 255, 0.25),
+      0 4px 12px rgba(0, 0, 0, 0.12);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .lattice-dot-grid {
+    background-image: radial-gradient(rgba(20, 70, 110, 0.13) 1px, transparent 1px);
+    background-size: 22px 22px;
   }
 
   .bg-gradient-citisoft {
@@ -136,13 +236,13 @@
   }
   
   .card-shadow {
-    box-shadow: 0 1px 2px hsl(220 28% 12% / 0.04), 
-                0 8px 24px hsl(220 28% 12% / 0.04);
+    box-shadow: 0 1px 2px hsl(0 0% 9% / 0.04), 
+                0 8px 24px hsl(0 0% 9% / 0.04);
   }
   
   .card-shadow-hover:hover {
-    box-shadow: 0 2px 8px hsl(220 28% 12% / 0.08), 
-                0 12px 32px hsl(220 28% 12% / 0.06);
+    box-shadow: 0 2px 8px hsl(0 0% 9% / 0.08), 
+                0 12px 32px hsl(0 0% 9% / 0.06);
   }
 
   @keyframes fade-in-up {
@@ -214,5 +314,45 @@
 
   .animate-slide-in-right {
     animation: slideInRight 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  @keyframes step-panel-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .step-panel {
+    animation: step-panel-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .artifact-in {
+    animation: step-panel-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .step-panel,
+    .artifact-in,
+    .hero-underscore {
+      animation: none !important;
+    }
+
+    .hero-underscore {
+      transform: scaleX(1);
+      opacity: 1;
+    }
   }
 }

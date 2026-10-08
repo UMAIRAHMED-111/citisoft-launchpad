@@ -1,40 +1,34 @@
-import { useState, useEffect } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { ArrowUpRight, X } from "lucide-react";
 import citisoftLogo from "@/assets/citisoft-logo.png";
+import { cn } from "@/lib/utils";
 
 const navLinks: { label: string; hash?: string; path?: string }[] = [
-  { hash: "services", label: "Services" },
+  { hash: "capabilities-live", label: "What We Do" },
+  { hash: "delivery", label: "How We Work" },
   { hash: "industries", label: "Industries" },
-  { hash: "case-studies", label: "Case Studies" },
-  { hash: "insights", label: "Insights" },
+  { hash: "case-studies", label: "Work" },
   { path: "/team", label: "Team" },
   { hash: "contact", label: "Contact" },
 ];
 
-const Navbar = () => {
+type NavbarProps = {
+  /** Kept for call-site compat — nav is always fixed now */
+  overlapHero?: boolean;
+};
+
+const Navbar = ({ overlapHero: _overlapHero = false }: NavbarProps) => {
   const { pathname } = useLocation();
-  const [scrollY, setScrollY] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeHash, setActiveHash] = useState("");
+  const [scrolled, setScrolled] = useState(false);
+  const [indicator, setIndicator] = useState({ left: 0, width: 0, opacity: 0 });
+  const linkRefs = useRef<(HTMLAnchorElement | null)[]>([]);
+  const navRowRef = useRef<HTMLDivElement>(null);
 
   const isHome = pathname === "/";
-  const hasDarkHero =
-    isHome ||
-    pathname.startsWith("/services/") ||
-    pathname.startsWith("/insights/") ||
-    pathname.startsWith("/case-studies/");
-
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    setScrollY(window.scrollY);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
-    setScrollY(window.scrollY);
-  }, [pathname]);
+  const closeMenu = useCallback(() => setIsMobileMenuOpen(false), []);
 
   useEffect(() => {
     if (isMobileMenuOpen) document.body.style.overflow = "hidden";
@@ -44,122 +38,252 @@ const Navbar = () => {
     };
   }, [isMobileMenuOpen]);
 
-  const showWhiteNavbar = scrollY > 10 || !hasDarkHero;
+  useEffect(() => {
+    const onHash = () => setActiveHash(window.location.hash.replace("#", ""));
+    onHash();
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
+  }, [pathname]);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const moveIndicator = (el: HTMLElement | null) => {
+    const row = navRowRef.current;
+    if (!el || !row) return;
+    const rowBox = row.getBoundingClientRect();
+    const box = el.getBoundingClientRect();
+    setIndicator({
+      left: box.left - rowBox.left,
+      width: box.width,
+      opacity: 1,
+    });
+  };
+
   const linkTo = (hash: string) => (isHome ? `#${hash}` : `/#${hash}`);
   const destFor = (link: { hash?: string; path?: string }) =>
     link.path ?? linkTo(link.hash as string);
 
   return (
     <header
-      style={{
-        backgroundColor: showWhiteNavbar ? "rgba(255, 255, 255, 0.97)" : "transparent",
-        borderBottom: showWhiteNavbar ? "1px solid hsl(215 18% 88%)" : "none",
-        boxShadow: showWhiteNavbar ? "0 1px 2px rgba(0, 0, 0, 0.04)" : "none",
-      }}
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+      className={cn(
+        "fixed top-0 left-0 right-0 z-50 flex justify-center px-3 transition-all duration-300",
+        scrolled ? "py-2 lg:py-2.5" : "py-3 lg:py-4"
+      )}
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-10">
-        <div className="flex h-16 items-center justify-between lg:h-[4.25rem]">
-          <Link to="/" className="flex shrink-0 items-center" aria-label="Citisoft Solutions home">
+      <div className="lattice-glass-pill relative w-[calc(100vw-1.5rem)] max-w-[960px] lg:w-auto lg:max-w-none">
+        <div className="lattice-glass-blur absolute inset-0 z-0" aria-hidden="true" />
+        <div className="lattice-glass-shadow absolute inset-0 z-10" aria-hidden="true" />
+        <div className="lattice-glass-inset absolute inset-0 z-20" aria-hidden="true" />
+        <div className="lattice-glass-fill absolute inset-0 z-[5]" aria-hidden="true" />
+
+        <nav className="relative z-30 flex w-full flex-wrap items-center justify-center gap-0 p-1.5 lg:w-auto lg:flex-nowrap">
+          <Link
+            to="/"
+            className="mr-1 hidden shrink-0 items-center px-2 py-1.5 sm:flex lg:mr-2"
+            aria-label="Citisoft Solutions home"
+          >
             <img
               src={citisoftLogo}
-              alt="Citisoft Solutions"
-              className="h-8 w-auto transition-all duration-300 lg:h-9"
-              style={{
-                filter: showWhiteNavbar ? "none" : "brightness(0) invert(1)",
-              }}
+              alt=""
+              className="h-6 w-auto brightness-0 invert lg:h-7"
             />
           </Link>
 
-          <nav className="hidden items-center gap-8 xl:gap-10 lg:flex">
-            {navLinks.map((link) => (
-              <Link
-                key={link.label}
-                to={destFor(link)}
-                className="text-[15px] font-medium transition-colors"
-                style={{
-                  color: showWhiteNavbar
-                    ? "hsl(220, 28%, 12%)"
-                    : "rgba(255, 255, 255, 0.92)",
-                }}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
+          <div
+            ref={navRowRef}
+            className="relative hidden items-center sm:flex"
+            onMouseLeave={() => setIndicator((s) => ({ ...s, opacity: 0 }))}
+          >
+            <div
+              className="pointer-events-none absolute top-0 h-full rounded-full bg-white/15 transition-all duration-200"
+              style={{
+                left: indicator.left,
+                width: indicator.width,
+                opacity: indicator.opacity,
+                border: "1px solid rgba(255,255,255,0.22)",
+              }}
+              aria-hidden="true"
+            />
 
-          <div className="hidden shrink-0 lg:block">
-            {showWhiteNavbar ? (
-              <Button asChild size="default" className="rounded-sm px-6 font-semibold">
-                <Link to={linkTo("contact")}>Talk to our team</Link>
-              </Button>
-            ) : (
-              <Button
-                asChild
-                variant="outline"
-                size="default"
-                className="rounded-sm border-white/70 px-6 font-semibold text-white hover:bg-white/10 hover:text-white hover:border-white"
-              >
-                <Link to={linkTo("contact")}>Talk to our team</Link>
-              </Button>
-            )}
+            {navLinks.map((link, i) => {
+              const active =
+                (link.hash && activeHash === link.hash) ||
+                (link.path && pathname === link.path);
+              return (
+                <Link
+                  key={link.label}
+                  ref={(el) => {
+                    linkRefs.current[i] = el;
+                  }}
+                  to={destFor(link)}
+                  onMouseEnter={(e) => moveIndicator(e.currentTarget)}
+                  onFocus={(e) => moveIndicator(e.currentTarget)}
+                  className={cn(
+                    "relative z-10 rounded-full px-3 py-2 text-center text-[13px] whitespace-nowrap transition-colors duration-200 sm:px-4 lg:px-5 lg:py-2.5 lg:text-[15px] xl:px-6",
+                    active ? "text-white" : "text-white/90"
+                  )}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
           </div>
 
-          <button
-            type="button"
-            className="-mr-2 p-2 transition-colors lg:hidden"
-            style={{
-              color: showWhiteNavbar ? "hsl(220, 28%, 12%)" : "white",
-            }}
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
-            aria-expanded={isMobileMenuOpen}
+          <Link
+            to={linkTo("contact")}
+            className="ml-1 hidden rounded-full bg-white/15 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/25 lg:ml-2 lg:inline-flex lg:px-5 lg:py-2.5"
           >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
+            Get Started
+          </Link>
+
+          <div className="flex w-full items-center justify-between gap-2 pl-3 sm:hidden">
+            <Link to="/" className="flex items-center py-1" aria-label="Citisoft Solutions home">
+              <img src={citisoftLogo} alt="" className="h-6 w-auto brightness-0 invert" />
+            </Link>
+            <button
+              type="button"
+              className="flex h-10 items-center gap-2.5 rounded-full bg-white/10 pl-4 pr-3.5 text-[13px] font-medium text-white"
+              onClick={() => setIsMobileMenuOpen(true)}
+              aria-label="Open menu"
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-menu"
+            >
+              Menu
+              <span className="flex w-4 flex-col gap-[5px]" aria-hidden="true">
+                <span className="h-[1.5px] w-full rounded-full bg-current" />
+                <span className="h-[1.5px] w-2/3 self-end rounded-full bg-current" />
+              </span>
+            </button>
+          </div>
+        </nav>
       </div>
 
-      {isMobileMenuOpen && (
-        <>
-          <div
-            className="fixed inset-0 top-16 z-40 bg-black/50 lg:hidden"
-            onClick={() => setIsMobileMenuOpen(false)}
-            aria-hidden="true"
-          />
-
-          <div className="fixed right-0 top-16 bottom-0 z-50 w-[min(85%,20rem)] bg-[hsl(var(--dark-bg))] pb-[env(safe-area-inset-bottom)] shadow-2xl animate-slide-in-right lg:hidden">
-            <nav className="flex h-full flex-col overflow-y-auto px-5 py-6 sm:px-6 sm:py-8">
-              <div className="flex-1 space-y-1">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.label}
-                    to={destFor(link)}
-                    className="block border-b border-white/5 px-3 py-3.5 text-white/90 transition-colors last:border-0 hover:bg-white/5 hover:text-white sm:px-4 sm:py-4"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    <span className="text-base font-medium tracking-wide sm:text-lg">{link.label}</span>
-                  </Link>
-                ))}
-              </div>
-
-              <div className="border-t border-white/10 pt-5 sm:pt-6">
-                <Button
-                  asChild
-                  variant="outline"
-                  size="lg"
-                  className="w-full rounded-sm border-white/60 font-semibold tracking-wide text-white hover:bg-white/10 hover:text-white hover:border-white"
-                >
-                  <Link to={linkTo("contact")} onClick={() => setIsMobileMenuOpen(false)}>
-                    Talk to our team
-                  </Link>
-                </Button>
-              </div>
-            </nav>
-          </div>
-        </>
-      )}
+      <MobileMenu
+        open={isMobileMenuOpen}
+        onClose={closeMenu}
+        links={navLinks.map((link) => ({
+          label: link.label,
+          to: destFor(link),
+          active: Boolean(
+            (link.hash && activeHash === link.hash) || (link.path && pathname === link.path)
+          ),
+        }))}
+        contactTo={linkTo("contact")}
+      />
     </header>
+  );
+};
+
+type MobileMenuProps = {
+  open: boolean;
+  onClose: () => void;
+  links: { label: string; to: string; active: boolean }[];
+  contactTo: string;
+};
+
+const MobileMenu = ({ open, onClose, links, contactTo }: MobileMenuProps) => {
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const sheetRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    sheetRef.current?.toggleAttribute("inert", !open);
+    if (!open) return;
+    closeRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open, onClose]);
+
+  return (
+    <div
+      ref={sheetRef}
+      id="mobile-menu"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Site menu"
+      aria-hidden={!open}
+      className={cn(
+        "fixed inset-0 z-[60] flex flex-col bg-deep text-cream-soft transition-[opacity,visibility] duration-300 sm:hidden",
+        open ? "visible opacity-100" : "invisible opacity-0"
+      )}
+    >
+      <div
+        className="pointer-events-none absolute -right-32 -top-32 h-80 w-80 rounded-full bg-[hsl(var(--citisoft-light)/0.22)] blur-3xl"
+        aria-hidden="true"
+      />
+
+      <div className="relative flex items-center justify-between px-6 pb-2 pt-5">
+        <Link to="/" onClick={onClose} aria-label="Citisoft Solutions home">
+          <img src={citisoftLogo} alt="" className="h-6 w-auto brightness-0 invert" />
+        </Link>
+        <button
+          ref={closeRef}
+          type="button"
+          onClick={onClose}
+          aria-label="Close menu"
+          className="flex h-10 items-center gap-2 rounded-full border border-white/15 pl-4 pr-3 text-[13px] font-medium"
+        >
+          Close
+          <X className="h-4 w-4" />
+        </button>
+      </div>
+
+      <nav className="relative flex-1 overflow-y-auto px-6 pt-8" aria-label="Mobile">
+        <ul className="border-t border-white/10">
+          {links.map((link, i) => (
+            <li
+              key={link.label}
+              className={cn(
+                "border-b border-white/10 transition-all duration-500 ease-out",
+                open ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
+              )}
+              style={{ transitionDelay: open ? `${80 + i * 45}ms` : "0ms" }}
+            >
+              <Link
+                to={link.to}
+                onClick={onClose}
+                className="flex items-center gap-4 py-4"
+              >
+                <span
+                  className={cn(
+                    "font-display flex-1 text-[2rem] font-medium leading-none tracking-[-0.02em]",
+                    link.active ? "text-[#b8e2f8]" : "text-cream-soft"
+                  )}
+                >
+                  {link.label}
+                </span>
+                <ArrowUpRight className="h-5 w-5 text-cream-soft/40" />
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <div
+        className={cn(
+          "relative space-y-5 px-6 pb-8 pt-6 transition-all duration-500 ease-out",
+          open ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
+        )}
+        style={{ transitionDelay: open ? "380ms" : "0ms" }}
+      >
+        <Link
+          to={contactTo}
+          onClick={onClose}
+          className="flex items-center justify-center rounded-full bg-cream-soft py-4 text-[15px] font-medium text-deep"
+        >
+          Book a discovery call
+        </Link>
+        <div className="flex items-center justify-between text-[13px] text-cream-soft/60">
+          <a href="mailto:info@citisoftsolutions.com">info@citisoftsolutions.com</a>
+          <span>Houston, TX</span>
+        </div>
+      </div>
+    </div>
   );
 };
 

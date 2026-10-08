@@ -8,10 +8,12 @@ type VideoBackdropProps = {
   poster?: string;
   className?: string;
   treatment?: "hero" | "ambient" | "closing";
+  /** Lattice plays muted hero video on mobile too */
+  playOnMobile?: boolean;
 };
 
 const treatmentClass: Record<NonNullable<VideoBackdropProps["treatment"]>, string> = {
-  hero: "grayscale contrast-[1.12] brightness-[0.78]",
+  hero: "object-center contrast-[1.05] brightness-[0.92]",
   ambient: "grayscale contrast-[1.05] brightness-[0.35] opacity-40",
   closing: "grayscale contrast-125 brightness-[0.42]",
 };
@@ -21,12 +23,13 @@ const VideoBackdrop = ({
   poster,
   className,
   treatment = "hero",
+  playOnMobile = false,
 }: VideoBackdropProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const isMobile = useIsMobile();
   const reduced = useReducedMotion();
-  // Only play once we know we're on desktop — never during unknown/hydration
-  const playVideo = isMobile === false && !reduced;
+  // Desktop by default; Lattice-style heroes also play muted video on mobile
+  const playVideo = !reduced && (playOnMobile || isMobile === false);
 
   useEffect(() => {
     const video = videoRef.current;

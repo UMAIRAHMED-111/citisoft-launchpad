@@ -1,130 +1,124 @@
-import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
 import cityscapeImage from "@/assets/hero-cityscape.jpg";
 import aerialVideo from "@/assets/mixkit-aerial-panorama-over-the-buildings-of-a-big-city-41541-hd-ready.mp4";
 import VideoBackdrop from "@/components/landing/VideoBackdrop";
-import AnimatedStat from "@/components/landing/AnimatedStat";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
-const stats = [
-  { value: "400+", label: "Hotel properties automated", shortLabel: "Hotel properties" },
-  { value: "80+", label: "Restaurant locations unified", shortLabel: "Restaurant locations" },
-  { value: "10K+", label: "Surety transactions / day", shortLabel: "Surety txns / day" },
-  { value: "110", label: "Manual CRM tasks eliminated / day", shortLabel: "CRM tasks cut / day" },
+const feed = [
+  { time: "09:41", text: "Invoice #4821 matched to PO-058", tag: "AP agent" },
+  { time: "09:42", text: "212 card transactions reconciled", tag: "Finance" },
+  { time: "09:44", text: "Bond #B-1180 routed for underwriter sign-off", tag: "Surety" },
+  { time: "09:46", text: "Supplier price change synced to 80 locations", tag: "Ops" },
+  { time: "09:47", text: "Exception flagged: duplicate vendor payment", tag: "Controls" },
 ];
 
-const Hero = () => {
-  const isMobile = useIsMobile();
+const LiveFeed = () => {
   const reduced = useReducedMotion();
-  const showVideo = isMobile === false && !reduced;
-  const enableKen = isMobile === false && !reduced && !showVideo;
+  const [head, setHead] = useState(0);
+
+  useEffect(() => {
+    if (reduced) return;
+    const id = window.setInterval(() => setHead((h) => (h + 1) % feed.length), 2800);
+    return () => window.clearInterval(id);
+  }, [reduced]);
+
+  const rows = [0, 1, 2].map((offset) => feed[(head + offset) % feed.length]);
 
   return (
-    <section className="relative min-h-[100svh] w-full overflow-hidden bg-[hsl(var(--dark-bg))]">
-      <img
-        src={cityscapeImage}
-        alt=""
-        aria-hidden="true"
-        className={`absolute inset-0 h-full w-full object-cover object-center grayscale contrast-[1.15] brightness-[0.85] ${
-          enableKen ? "hero-ken" : ""
-        }`}
-      />
+    <div className="w-full max-w-[360px] rounded-2xl border border-white/15 bg-black/30 p-4 text-left backdrop-blur-xl">
+      <div className="mb-3 flex items-center justify-between">
+        <p className="text-[13px] font-medium text-cream-soft/85">
+          Live ops feed
+        </p>
+        <span className="flex items-center gap-1.5 text-[11px] text-[#a8d4b4]">
+          <span className="relative flex h-1.5 w-1.5">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#a8d4b4] opacity-70" />
+            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#a8d4b4]" />
+          </span>
+          Running
+        </span>
+      </div>
+      <ul className="space-y-1.5">
+        {rows.map((row, i) => (
+          <li
+            key={`${row.time}-${head}-${i}`}
+            className={`flex items-start gap-3 rounded-lg bg-white/[0.07] px-3 py-2 ${i === 0 ? "step-panel" : ""}`}
+          >
+            <span className="font-label mt-px shrink-0 text-cream-soft/50">{row.time}</span>
+            <span className="min-w-0 flex-1 text-[13px] leading-snug text-cream-soft">
+              {row.text}
+            </span>
+            <span className="shrink-0 rounded-full bg-white/10 px-2 py-0.5 text-[10px] text-cream-soft/75">
+              {row.tag}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
 
-      {showVideo && (
-        <VideoBackdrop
-          src={aerialVideo}
-          poster={cityscapeImage}
-          treatment="hero"
-          className="z-[1]"
+const Hero = () => {
+  const reduced = useReducedMotion();
+
+  return (
+    <section className="relative flex min-h-[100dvh] w-full flex-col overflow-hidden">
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <img
+          src={cityscapeImage}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 h-full w-full object-cover object-center"
         />
-      )}
-
-      <div
-        className="absolute inset-0 z-10 bg-gradient-to-b from-[hsl(var(--dark-bg))]/70 via-[hsl(var(--dark-bg))]/55 to-[hsl(var(--dark-bg))]/90 sm:bg-gradient-to-r sm:from-[hsl(var(--dark-bg))] sm:via-[hsl(var(--dark-bg))]/88 sm:to-[hsl(var(--dark-bg))]/35"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute inset-0 z-10 hidden bg-gradient-to-t from-[hsl(var(--dark-bg))] via-transparent to-[hsl(var(--dark-bg))]/40 sm:block"
-        aria-hidden="true"
-      />
-
-      {/* Film grain — desktop only */}
-      {isMobile === false && (
+        {!reduced && (
+          <VideoBackdrop
+            src={aerialVideo}
+            poster={cityscapeImage}
+            treatment="hero"
+            playOnMobile
+            className="z-[1]"
+          />
+        )}
+        <div className="absolute inset-0 z-[2] bg-black/25" aria-hidden="true" />
         <div
-          className="pointer-events-none absolute inset-0 z-[11] opacity-[0.07] mix-blend-overlay"
-          style={{
-            backgroundImage:
-              "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
-          }}
+          className="absolute inset-0 z-[2] bg-gradient-to-t from-black/70 via-black/10 to-black/40"
           aria-hidden="true"
         />
-      )}
+      </div>
 
-      <div className="relative z-20 flex min-h-[100svh] flex-col">
-        <div className="flex flex-1 flex-col justify-center px-0 pt-24 pb-10 sm:pt-32 sm:pb-16 lg:pb-20">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-10">
-            <div className="max-w-5xl">
-              <p className="font-display mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-white/75 animate-fade-in sm:mb-8 sm:text-sm sm:tracking-[0.18em] md:text-base">
-                Citisoft Solutions
-              </p>
-
-              <h1 className="font-display text-[clamp(2.35rem,9vw,6rem)] font-semibold leading-[1.02] tracking-[-0.03em] text-white sm:leading-[0.98] sm:tracking-[-0.035em]">
-                <span className="block animate-fade-in-up">Systems that run</span>
-                <span
-                  className="block animate-fade-in-up"
-                  style={{ animationDelay: "0.1s" }}
-                >
-                  the operation.
-                </span>
-              </h1>
-
-              <p
-                className="mt-5 max-w-2xl text-base font-light leading-relaxed text-white/80 animate-fade-in sm:mt-9 sm:text-xl lg:text-2xl"
-                style={{ animationDelay: "0.2s" }}
+      <div className="container relative z-10 mx-auto flex flex-1 flex-col justify-end px-4 pb-10 pt-32 sm:px-6 sm:pb-14 lg:px-10">
+        <div className="grid items-end gap-10 lg:grid-cols-[1fr_auto] lg:gap-16">
+          <div className="animate-fade-in-up">
+            <h1
+              className="max-w-[14ch] font-medium leading-[0.92] tracking-[-0.015em] text-cream-soft"
+              style={{ fontSize: "clamp(2.7rem, 8.8vw, 8.5rem)" }}
+            >
+              We&apos;re your{" "}
+              <span className="accent-word !text-[#b8e2f8]">ops systems</span>{" "}
+              team
+            </h1>
+            <p className="mt-6 max-w-md text-base leading-relaxed text-cream-soft/80 sm:text-lg">
+              Custom software, automation, and AI agents for operations that
+              can&apos;t afford to break.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a
+                href="#contact"
+                className="inline-flex h-12 items-center rounded-full bg-cream-soft px-6 text-sm font-medium text-deep transition-colors hover:bg-white"
               >
-                Technology consulting for hospitality, restaurants, insurance,
-                and finance ops — where precision, compliance, and daily
-                throughput are non-negotiable.
-              </p>
-
-              <div
-                className="mt-8 flex w-full flex-col gap-3 animate-fade-in xs:flex-row xs:flex-wrap sm:mt-12 sm:gap-4"
-                style={{ animationDelay: "0.3s" }}
+                Book a discovery call
+              </a>
+              <a
+                href="#delivery"
+                className="lattice-cta-glass inline-flex h-12 items-center rounded-full px-6 text-sm font-medium text-cream-soft"
               >
-                <Button
-                  asChild
-                  size="lg"
-                  className="h-12 w-full rounded-sm bg-white px-8 text-sm font-semibold tracking-wide text-[hsl(var(--dark-bg))] hover:bg-white/90 xs:w-auto sm:h-14 sm:px-12 sm:text-base"
-                >
-                  <a href="#contact">Talk to our team</a>
-                </Button>
-                <Button
-                  asChild
-                  variant="outline"
-                  size="lg"
-                  className="h-12 w-full rounded-sm border-white/55 bg-transparent px-8 text-sm font-semibold tracking-wide text-white hover:bg-white/10 hover:text-white xs:w-auto sm:h-14 sm:px-12 sm:text-base"
-                >
-                  <a href="#case-studies">See the work</a>
-                </Button>
-              </div>
+                See how we work
+              </a>
             </div>
           </div>
-        </div>
 
-        <div
-          className="border-t border-white/10 bg-[hsl(var(--dark-bg))]/75 animate-fade-in sm:bg-[hsl(var(--dark-bg))]/60"
-          style={{ animationDelay: "0.4s" }}
-        >
-          <div className="container mx-auto grid grid-cols-2 gap-x-4 gap-y-6 px-4 py-6 sm:gap-8 sm:px-6 sm:py-9 lg:grid-cols-4 lg:px-10">
-            {stats.map((stat, i) => (
-              <AnimatedStat
-                key={stat.label}
-                value={stat.value}
-                label={stat.label}
-                shortLabel={stat.shortLabel}
-                delay={i * 80}
-              />
-            ))}
+          <div className="hidden animate-fade-in sm:block">
+            <LiveFeed />
           </div>
         </div>
       </div>

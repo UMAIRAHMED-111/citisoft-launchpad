@@ -1,122 +1,97 @@
 import { Link } from "react-router-dom";
 import citisoftLogo from "@/assets/citisoft-logo.png";
-import { Linkedin, ArrowUp, Mail } from "lucide-react";
+
+const columns: { title: string; links: { label: string; href: string; external?: boolean }[] }[] = [
+  {
+    title: "Company",
+    links: [
+      { label: "What We Do", href: "/#capabilities-live" },
+      { label: "How We Work", href: "/#delivery" },
+      { label: "Team", href: "/team" },
+      { label: "Contact", href: "/#contact" },
+    ],
+  },
+  {
+    title: "Capabilities",
+    links: [
+      { label: "Custom Software", href: "/services/custom-software" },
+      { label: "Automation & AI", href: "/services/automation-ai" },
+      { label: "Data & Analytics", href: "/services/data-analytics" },
+      { label: "Technology Consulting", href: "/services/technology-consulting" },
+    ],
+  },
+  {
+    title: "Resources",
+    links: [
+      { label: "Industries", href: "/#industries" },
+      { label: "Case Studies", href: "/#case-studies" },
+      { label: "Insights", href: "/#insights" },
+    ],
+  },
+  {
+    title: "Connect",
+    links: [
+      {
+        label: "LinkedIn",
+        href: "https://www.linkedin.com/company/citisoft-solutions/",
+        external: true,
+      },
+      { label: "info@citisoftsolutions.com", href: "mailto:info@citisoftsolutions.com", external: true },
+      { label: "Houston, Texas", href: "/#contact" },
+    ],
+  },
+];
+
+const linkClass = "text-sm text-foreground/80 transition-colors hover:text-primary";
 
 const Footer = () => {
-  const currentYear = new Date().getFullYear();
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
   return (
-    <footer className="bg-[hsl(220_28%_10%)] text-white">
-      <div className="container mx-auto px-4 py-12 sm:px-6 sm:py-16 md:px-8 lg:px-12">
-        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">
-          <div className="sm:col-span-2 lg:col-span-5">
-            <img
-              src={citisoftLogo}
-              alt="Citisoft Solutions"
-              className="mb-4 h-10 w-auto brightness-0 invert"
-            />
-            <p className="mb-6 max-w-sm text-base font-light text-[hsl(220_10%_70%)]">
-              Technology consulting for complex operations — software, automation,
-              data, and AI delivery.
+    <footer className="overflow-hidden bg-cream">
+      <div className="container mx-auto px-4 pb-10 pt-14 sm:px-6 sm:pt-20 lg:px-10">
+        <p className="font-display border-b border-foreground/10 pb-10 text-[clamp(3.25rem,10vw,8.5rem)] leading-[0.95] tracking-[-0.02em] text-deep sm:pb-14">
+          Your ops, <span className="accent-word">running.</span>
+        </p>
+        <div className="mt-12 grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-5">
+          <div className="col-span-2 lg:col-span-1">
+            <img src={citisoftLogo} alt="Citisoft Solutions" className="h-8 w-auto" />
+            <p className="mt-4 max-w-[16rem] text-sm leading-relaxed text-muted-foreground">
+              Your ops systems team — software, automation, data, and AI delivery.
             </p>
-
-            <a
-              href="mailto:info@citisoftsolutions.com"
-              className="inline-flex items-center gap-3 text-[hsl(220_10%_70%)] transition-colors hover:text-white"
-            >
-              <Mail className="h-4 w-4" />
-              info@citisoftsolutions.com
-            </a>
           </div>
-
-          <div className="lg:col-span-3">
-            <h4 className="mb-5 font-medium text-white">Explore</h4>
-            <ul className="space-y-3">
-              {[
-                { label: "Services", href: "/#services" },
-                { label: "Industries", href: "/#industries" },
-                { label: "Case Studies", href: "/#case-studies" },
-                { label: "Insights", href: "/#insights" },
-                { label: "Team", href: "/team" },
-                { label: "Contact", href: "/#contact" },
-              ].map((item) => (
-                <li key={item.label}>
-                  {item.href.startsWith("/#") || item.href.startsWith("#") ? (
-                    <a
-                      href={item.href}
-                      className="text-sm text-[hsl(220_10%_70%)] transition-colors hover:text-white"
-                    >
-                      {item.label}
-                    </a>
-                  ) : (
-                    <Link
-                      to={item.href}
-                      className="text-sm text-[hsl(220_10%_70%)] transition-colors hover:text-white"
-                    >
-                      {item.label}
-                    </Link>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="lg:col-span-3">
-            <h4 className="mb-5 font-medium text-white">Capabilities</h4>
-            <ul className="space-y-3">
-              {[
-                { label: "Custom Software", href: "/services/custom-software" },
-                { label: "Automation & AI", href: "/services/automation-ai" },
-                { label: "Data & Analytics", href: "/services/data-analytics" },
-                { label: "Technology Consulting", href: "/services/technology-consulting" },
-              ].map((item) => (
-                <li key={item.label}>
-                  <Link
-                    to={item.href}
-                    className="text-sm text-[hsl(220_10%_70%)] transition-colors hover:text-white"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="lg:col-span-1">
-            <h4 className="mb-5 font-medium text-white">Connect</h4>
-            <a
-              href="https://www.linkedin.com/company/citisoft-solutions/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex h-10 w-10 items-center justify-center rounded-sm border border-[hsl(220_15%_25%)] text-[hsl(220_10%_70%)] transition-colors hover:border-white hover:text-white"
-              aria-label="LinkedIn"
-            >
-              <Linkedin className="h-4 w-4" />
-            </a>
-          </div>
+          {columns.map((col) => (
+            <div key={col.title}>
+              <h3 className="mb-5 font-sans text-sm font-semibold text-foreground">
+                {col.title}
+              </h3>
+              <ul className="space-y-3">
+                {col.links.map((link) => (
+                  <li key={link.label}>
+                    {link.external ? (
+                      <a
+                        href={link.href}
+                        target={link.href.startsWith("http") ? "_blank" : undefined}
+                        rel="noopener noreferrer"
+                        className={`${linkClass} break-all sm:break-normal`}
+                      >
+                        {link.label}
+                      </a>
+                    ) : (
+                      <Link to={link.href} className={linkClass}>
+                        {link.label}
+                      </Link>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
+
+        <p className="mt-14 text-[13px] text-muted-foreground">
+          © {new Date().getFullYear()} Citisoft Solutions. All rights reserved.
+        </p>
       </div>
 
-      <div className="border-t border-[hsl(220_15%_18%)]">
-        <div className="container mx-auto flex flex-col items-center justify-between gap-4 px-6 py-6 sm:flex-row lg:px-12">
-          <p className="text-sm text-[hsl(220_10%_50%)]">
-            © {currentYear} Citisoft Solutions. All rights reserved.
-          </p>
-
-          <button
-            type="button"
-            onClick={scrollToTop}
-            className="flex h-9 w-9 items-center justify-center rounded-sm border border-[hsl(220_15%_25%)] text-[hsl(220_10%_70%)] transition-colors hover:border-white hover:text-white"
-            aria-label="Back to top"
-          >
-            <ArrowUp className="h-4 w-4" />
-          </button>
-        </div>
-      </div>
     </footer>
   );
 };

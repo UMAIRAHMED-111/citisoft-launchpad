@@ -17,8 +17,9 @@ export default {
         xs: '475px',
       },
       fontFamily: {
-        sans: ['"Source Sans 3"', 'system-ui', 'sans-serif'],
-        display: ['Sora', '"Source Sans 3"', 'system-ui', 'sans-serif'],
+        sans: ['"Schibsted Grotesk"', 'system-ui', 'sans-serif'],
+        display: ['Archivo', 'system-ui', 'sans-serif'],
+        mono: ['"Martian Mono"', 'ui-monospace', 'monospace'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -69,6 +70,11 @@ export default {
           medium: "hsl(var(--citisoft-medium))",
           dark: "hsl(var(--citisoft-dark))",
         },
+        cream: {
+          DEFAULT: "hsl(var(--cream))",
+          soft: "hsl(var(--cream-soft))",
+        },
+        deep: "hsl(var(--deep))",
       },
       borderRadius: {
         lg: "var(--radius)",
