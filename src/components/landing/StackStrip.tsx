@@ -1,18 +1,30 @@
+import sapLogo from "@/assets/logos/sap.svg";
+import quickbooksLogo from "@/assets/logos/quickbooks.svg";
+import sageLogo from "@/assets/logos/sage.svg";
+import salesforceLogo from "@/assets/logos/salesforce.svg";
+import hubspotLogo from "@/assets/logos/hubspot.svg";
+import slackLogo from "@/assets/logos/slack.svg";
+import azureLogo from "@/assets/logos/azure.svg";
+import awsLogo from "@/assets/logos/aws.svg";
+import snowflakeLogo from "@/assets/logos/snowflake.svg";
+import sqlserverLogo from "@/assets/logos/sqlserver.svg";
+import uipathLogo from "@/assets/logos/uipath.svg";
+import claudeLogo from "@/assets/logos/claude.svg";
 import Reveal from "@/components/landing/Reveal";
 
 const tools = [
-  { name: "SAP", kind: "ERP" },
-  { name: "NetSuite", kind: "ERP" },
-  { name: "QuickBooks", kind: "Accounting" },
-  { name: "Salesforce", kind: "CRM" },
-  { name: "HubSpot", kind: "CRM" },
-  { name: "Slack", kind: "Chat" },
-  { name: "Microsoft Teams", kind: "Chat" },
-  { name: "Azure", kind: "Cloud" },
-  { name: "AWS", kind: "Cloud" },
-  { name: "Power Automate", kind: "Workflow" },
-  { name: "UiPath", kind: "RPA" },
-  { name: "SQL Server", kind: "Data" },
+  { name: "SAP", kind: "ERP", logo: sapLogo },
+  { name: "QuickBooks", kind: "Accounting", logo: quickbooksLogo },
+  { name: "Sage", kind: "Accounting", logo: sageLogo },
+  { name: "Salesforce", kind: "CRM", logo: salesforceLogo },
+  { name: "HubSpot", kind: "CRM", logo: hubspotLogo },
+  { name: "Slack", kind: "Chat", logo: slackLogo },
+  { name: "Azure", kind: "Cloud", logo: azureLogo },
+  { name: "AWS", kind: "Cloud", logo: awsLogo },
+  { name: "Snowflake", kind: "Data", logo: snowflakeLogo },
+  { name: "SQL Server", kind: "Data", logo: sqlserverLogo },
+  { name: "UiPath", kind: "RPA", logo: uipathLogo },
+  { name: "Claude", kind: "AI", logo: claudeLogo },
 ];
 
 const StackStrip = () => {
@@ -35,9 +47,12 @@ const StackStrip = () => {
             {tools.map((tool) => (
               <li
                 key={tool.name}
-                className="soft-card flex items-center justify-between gap-2 rounded-xl bg-white px-4 py-3.5"
+                className="soft-card flex items-center gap-3 rounded-xl bg-white px-3.5 py-3 sm:px-4"
               >
-                <span className="min-w-0">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#f6f3ee]">
+                  <img src={tool.logo} alt="" className="h-6 w-6 object-contain" loading="lazy" />
+                </span>
+                <span className="min-w-0 flex-1">
                   <span className="block truncate text-[15px] font-medium text-foreground">
                     {tool.name}
                   </span>
@@ -45,10 +60,6 @@ const StackStrip = () => {
                     {tool.kind}
                   </span>
                 </span>
-                <span
-                  className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#22a55a]"
-                  aria-hidden="true"
-                />
               </li>
             ))}
           </ul>
