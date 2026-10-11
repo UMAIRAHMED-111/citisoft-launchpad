@@ -12,18 +12,18 @@ const quotes = [
     result: "400+ properties · exceptions-only review",
   },
   {
-    company: "Multi-brand Restaurant Group",
-    role: "Operations",
-    quote:
-      "Citisoft built the systems that keep locations, suppliers, and HQ in sync — without ripping out what already worked.",
-    result: "80+ locations · one source of truth",
-  },
-  {
     company: "Surety & Insurance Carrier",
     role: "Bond Operations",
     quote:
       "True delivery leadership for regulated ops — agents and automations that hold up under real volume and controls.",
     result: "10K+ transactions a day · fully auditable",
+  },
+  {
+    company: "Mid-market Finance Team",
+    role: "AP / AR",
+    quote:
+      "Finance reviews mismatches with a reason attached rather than hunting them down at month end.",
+    result: "Daily exceptions · two systems of record",
   },
 ];
 

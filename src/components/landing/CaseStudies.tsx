@@ -16,8 +16,8 @@ const CaseStudies = () => {
             Work at <span className="accent-word">operating</span> scale
           </h2>
           <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-[17px]">
-            Selected engagements across hospitality, restaurants, insurance, and
-            finance. Client names withheld under NDA — described by sector and scale.
+            Selected engagements across hospitality, insurance, and finance.
+            Client names withheld under NDA — described by sector and scale.
           </p>
         </Reveal>
 

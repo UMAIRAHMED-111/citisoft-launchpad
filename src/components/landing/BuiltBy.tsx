@@ -2,9 +2,9 @@ import Reveal from "@/components/landing/Reveal";
 
 const stats = [
   { value: "400+", label: "Hotel properties on one payment lifecycle" },
-  { value: "80+", label: "Restaurant locations kept in sync" },
   { value: "10K+", label: "Surety transactions processed daily" },
-  { value: "~110", label: "Manual tasks eliminated every day" },
+  { value: "Same day", label: "Proposals instead of a day or two" },
+  { value: "Daily", label: "Exceptions instead of month-end surprises" },
 ];
 
 const BuiltBy = () => {

@@ -14,13 +14,6 @@ export const industries: Industry[] = [
     caseStudySlug: "hotel-finance-payments-automation",
   },
   {
-    slug: "restaurants",
-    name: "Restaurants & Multi-location Ops",
-    description:
-      "Unified data platforms, AI agents, catering extraction, and CRM automation for high-volume restaurant chains.",
-    caseStudySlug: "restaurant-data-platform-ai-agent",
-  },
-  {
     slug: "insurance-surety",
     name: "Insurance & Surety",
     description:

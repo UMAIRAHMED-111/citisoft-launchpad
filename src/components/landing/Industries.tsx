@@ -15,7 +15,7 @@ const Industries = () => {
           </div>
           <p className="max-w-xl text-base leading-relaxed text-muted-foreground sm:text-[17px]">
             We work where domain judgment meets systems — hospitality,
-            restaurants, insurance, finance ops, and industrial workflows.
+            insurance, finance ops, and industrial workflows.
           </p>
         </Reveal>
 

@@ -8,8 +8,8 @@ import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 const highlights = [
   "Finance ops across 400+ hotel properties",
-  "Data platforms and AI agents for 80+ restaurant locations",
   "Surety platforms processing 10K+ transactions a day",
+  "AP/AR reconciliation that surfaces exceptions daily",
 ];
 
 const ImmersiveBand = () => {

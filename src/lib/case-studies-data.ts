@@ -181,92 +181,6 @@ export const caseStudies: CaseStudy[] = [
     ],
   },
   {
-    slug: "restaurant-data-platform-ai-agent",
-    title: "A single warehouse and AI agent for an 80+ location chain",
-    sector: "Restaurants · Data + AI",
-    region: "United States · Multi-location",
-    clientSummary:
-      "US restaurant chain with 80+ locations, multiple ordering and POS systems, and an operations team that needed daily answers — not more reports.",
-    summary:
-      "A unified AWS data warehouse with a Claude agent in Discord, evaluation guardrails, and daily automations — reducing manual reporting time and incorrect agent answers.",
-    challenge:
-      "Ordering and POS data lived across systems (including Olo) with inconsistent definitions. Leadership and ops needed one place for figures, plus an AI interface the team would actually use day to day.",
-    approach: [
-      "Ingestion from every ordering and POS system into a single AWS warehouse — including webhooks, APIs, and browser automation where APIs fell short",
-      "A check-level data model so customer, item, and order mean the same thing regardless of source",
-      "Power BI on tuned SQL, plus a Claude agent in Discord returning figures alongside plain-English answers",
-      "An evaluation suite and guardrails before the agent reached operators, plus daily ops automations",
-    ],
-    outcome:
-      "The agent is in daily use by the operations team. Manual reporting time dropped, incorrect answers fell by a measured 35%, and the platform became a reference case for other chains.",
-    metrics: [
-      { value: "40%", label: "Reduction in manual reporting time" },
-      { value: "35%", label: "Reduction in incorrect agent answers" },
-      { value: "80+", label: "Locations on one warehouse" },
-    ],
-    stack: ["AWS", "SQL", "Power BI", "Claude", "Discord", "Olo", "Python"],
-    industrySlug: "restaurants",
-    image:
-      "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1600&auto=format&fit=crop",
-    sections: [
-      {
-        heading: "The situation",
-        body: [
-          "Data was fragmented across ordering and POS systems. Olo alone required multiple approaches — webhooks for live orders, export APIs for history, and browser automation for reports the API does not expose.",
-        ],
-      },
-      {
-        heading: "What we delivered",
-        body: [
-          "A production warehouse and agent stack with evaluation-driven quality work as a first-class deliverable — not an afterthought. Automations for 86'd items, morning ops reports, and overnight complaint triage sit on the same layer.",
-        ],
-      },
-    ],
-  },
-  {
-    slug: "restaurant-catering-crm-automation",
-    title: "Catering order extraction and CRM automation",
-    sector: "Restaurants · Operations",
-    region: "United States · Multi-location",
-    clientSummary:
-      "Same US restaurant chain — catering, kitchen, and marketing teams running HubSpot re-engagement across 12,592 contacts.",
-    summary:
-      "Partner-portal and email catering extraction into the warehouse, kitchen prep automation, and a HubSpot re-engagement rebuild that eliminated ~110 manual tasks a day.",
-    challenge:
-      "Catering orders arrived through partner portals and email and were re-keyed by hand. HubSpot re-engagement was generating around 110 tasks a day, leaving no time for actual outreach.",
-    approach: [
-      "Scheduled portal extraction on Playwright and AWS Fargate into the warehouse",
-      "Email routing so catering orders enter the ordering workflow automatically",
-      "Catering calculator and prep-sheet automation for kitchen quantities",
-      "Automated HubSpot re-engagement and lifecycle segmentation across 12,592 contacts",
-    ],
-    outcome:
-      "Orders flow into the warehouse and kitchen without re-keying. The 110-task daily HubSpot burden was replaced with an automated re-engagement flow.",
-    metrics: [
-      { value: "110", label: "Daily manual CRM tasks eliminated" },
-      { value: "12,592", label: "Contacts re-segmented by lifecycle" },
-      { value: "0", label: "Orders re-keyed by hand" },
-    ],
-    stack: ["Python", "Playwright", "AWS Fargate", "HubSpot API", "Claude", "SQL"],
-    industrySlug: "restaurants",
-    image:
-      "https://images.unsplash.com/photo-1555244162-803834f70033?w=1600&auto=format&fit=crop",
-    sections: [
-      {
-        heading: "The situation",
-        body: [
-          "Catering was the fastest-growing revenue line and the most manual. CRM re-engagement had become a task factory rather than a growth process.",
-        ],
-      },
-      {
-        heading: "What we delivered",
-        body: [
-          "End-to-end catering intake and kitchen prep automation, plus a HubSpot lifecycle rebuild informed by real platform constraints (search caps, index lag) discovered during delivery.",
-        ],
-      },
-    ],
-  },
-  {
     slug: "surety-bond-platforms",
     title: "Surety bond platforms processing 10K+ transactions per day",
     sector: "Insurance · SaaS",
@@ -399,7 +313,7 @@ export const caseStudies: CaseStudy[] = [
       {
         heading: "What we delivered",
         body: [
-          "Practical RPA and workflow automation with an emphasis on handover, documentation, and client ownership — the same delivery posture we bring to US hospitality and restaurant work.",
+          "Practical RPA and workflow automation with an emphasis on handover, documentation, and client ownership — the same delivery posture we bring to US hospitality work.",
         ],
       },
     ],
